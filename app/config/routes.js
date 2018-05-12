@@ -11,7 +11,7 @@ import CompleteProfile from '../modules/auth/scenes/CompleteProfile';
 import Login from '../modules/auth/scenes/Login';
 import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
 import Home from '../modules/home/scenes/Home';
-
+import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus } from "../modules/auth/actions";
@@ -49,6 +49,7 @@ export default class extends React.Component {
                         <Scene key="Register" component={Register} title="Register" back/>
                         <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
                         <Scene key="Login" component={Login} title="Login"/>
+                        <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
                     </Stack>
 

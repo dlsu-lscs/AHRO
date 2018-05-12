@@ -24,12 +24,17 @@ export function createUser(user, successCB, errorCB) {
     };
 }
 
-export function login(data, successCB, errorCB) {
+export function login(data, successCB, errorCB, verifyCB) {
     return (dispatch) => {
-        api.login(data, function (success, data, error) {
+        api.login(data, function (success, data, error, verified) {
             if (success) {
-                if (data.exists) dispatch({type: t.LOGGED_IN, data: data.user});
-                successCB(data);
+                if(verified){
+                    if (data.exists) dispatch({type: t.LOGGED_IN, data: data.user});
+                    successCB(data);
+                }
+                else{
+                    verifyCB(data.user);
+                }
             }else if (error) errorCB(error)
         });
     };
@@ -51,6 +56,19 @@ export function signOut(successCB, errorCB) {
                 dispatch({type: t.LOGGED_OUT});
                 successCB();
             }else if (error) errorCB(error)
+        });
+    };
+}
+
+export function checkVerify(user, successCB, errorCB){
+    return (dispatch) => {
+        api.checkVerify(user, function(user, success){
+            if(success){
+                successCB(user);
+            }
+            else{
+                errorCB(user);
+            }
         });
     };
 }

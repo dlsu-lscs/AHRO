@@ -46,6 +46,7 @@ class Login extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
+        this.needVerify = this.needVerify.bind(this);
     }
 
     onForgotPassword() {
@@ -55,14 +56,16 @@ class Login extends React.Component {
     onSubmit(data) {
         this.setState({error: error}); //clear out error messages
 
-        this.props.login(data, this.onSuccess, this.onError)
+        this.props.login(data, this.onSuccess, this.onError, this.needVerify)
     }
 
     onSuccess({exists, user}) {
         if (exists) Actions.Main()
         else Actions.CompleteProfile({user})
     }
-
+    needVerify(user){
+        Actions.VerifyEmail({user});
+    }
     onError(error) {
         let errObj = this.state.error;
 

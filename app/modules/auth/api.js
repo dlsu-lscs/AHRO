@@ -3,9 +3,17 @@ import { auth, database, provider } from "../../config/firebase";
 //Register the user using email and password
 export function register(data, callback) {
     const { email, password } = data;
+    
     auth.createUserWithEmailAndPassword(email, password)
-        .then((user) => callback(true, user, null))
+        .then(function(user){ 
+            user.sendEmailVerification().then(function() {
+                callback(true, user, null);
+            }, function(error) {
+                callback(false, null, error);
+            });
+        })
         .catch((error) => callback(false, null, error));
+
 }
 
 //Create the user object in realtime database
@@ -19,8 +27,15 @@ export function createUser (user, callback) {
 export function login(data, callback) {
     const { email, password } = data;
     auth.signInWithEmailAndPassword(email, password)
-        .then((user) => getUser(user, callback))
-        .catch((error) => callback(false, null, error));
+        .then(function(user){
+            if(user.emailVerified){
+                getUser(user, callback);
+            }
+            else{
+                callback(true,user, null, false);
+            }
+        })
+        .catch((error) => callback(false, null, error, false));
 }
 
 //Get the user object from the realtime database
@@ -34,9 +49,9 @@ export function getUser(user, callback) {
             if (exists) user = snapshot.val();
 
             const data = { exists, user }
-            callback(true, data, null);
+            callback(true, data, null, true);
         })
-        .catch(error => callback(false, null, error));
+        .catch(error => callback(false, null, error, false));
 }
 
 //Send Password Reset Email
@@ -55,4 +70,8 @@ export function signOut (callback) {
         .catch((error) => {
             if (callback) callback(false, null, error)
         });
+}
+
+export function checkVerify(user, callback){
+    callback(user, user.emailVerified);
 }
