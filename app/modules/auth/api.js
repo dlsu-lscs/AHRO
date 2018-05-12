@@ -17,6 +17,7 @@ export function register(data, callback) {
 }
 
 //Create the user object in realtime database
+//Currently does not check if username already exists
 export function createUser (user, callback) {
     database.ref('users').child(user.uid).update({ ...user })
         .then(() => callback(true, null, null))

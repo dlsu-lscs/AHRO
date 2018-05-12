@@ -16,12 +16,43 @@ const fields = [
         secureTextEntry: false,
         value: "",
         type: "text"
-    }
+    },
+    {
+        key: 'fname',
+        label: "First Name",
+        placeholder: "First Name",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+    {
+        key: 'lname',
+        label: "Last Name",
+        placeholder: "Last Name",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+    {
+        key: 'idnumber',
+        label: "I.D. number",
+        placeholder: "I.D. number",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+
 ];
 
 const error = {
     general: "",
-    username: ""
+    username: "",
+    fname: "",
+    lname: "",
+    idnumber: ""
 }
 
 class CompleteProfile extends React.Component {
