@@ -12,6 +12,9 @@ const { signOut } = auth;
 
 const { color } = theme;
 
+//Components
+import ScanQR from "../../components/ScanQR"
+
 class Home extends React.Component {
     constructor(){
         super();
@@ -35,6 +38,7 @@ class Home extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <ScanQR />
                 <Button
                     raised
                     borderRadius={4}

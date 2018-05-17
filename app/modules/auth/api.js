@@ -19,9 +19,21 @@ export function register(data, callback) {
 //Create the user object in realtime database
 //Currently does not check if username already exists
 export function createUser (user, callback) {
-    database.ref('users').child(user.uid).update({ ...user })
-        .then(() => callback(true, null, null))
-        .catch((error) => callback(false, null, {message: error}));
+    user.username;
+    database.ref('users').orderByChild("username").equalTo(user.username).once('value').then(
+        function(snapshot){
+            const exists = (snapshot.val() !== null);
+
+            if(!exists ){
+                database.ref('users').child(user.uid).update({ ...user })
+                .then(() => callback(true, null, null))
+                .catch((error) => callback(false, null, {message: error}));
+            }
+            else{
+                callback(false, null, {username: "Username already exists, please choose another one"});
+            }
+        }
+    )
 }
 
 //Sign the user in with their email and password
