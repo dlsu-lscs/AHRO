@@ -1,5 +1,5 @@
 import React from 'react';
-var { View, StyleSheet, Alert } = require('react-native');
+var { View, StyleSheet, Alert, Text } = require('react-native');
 
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -9,17 +9,16 @@ import styles from "./styles"
 
 import { actions as auth, theme } from "../../../auth/index"
 const { signOut } = auth;
-
+import {actions as homeauth} from "../../index"
 const { color } = theme;
 
 //Components
 import ScanQR from "../../components/ScanQR"
 
 class Home extends React.Component {
-    constructor(){
-        super();
-        this.state = { }
-        
+    constructor(props){
+        super(props);
+
         this.onSignOut = this.onSignOut.bind(this);
     }
 
@@ -51,5 +50,9 @@ class Home extends React.Component {
         );
     }
 }
-
+/*
+const mapStateToProps = state => {
+  return { count: state.homeReducer.count };
+};
+*/
 export default connect(null, { signOut })(Home);

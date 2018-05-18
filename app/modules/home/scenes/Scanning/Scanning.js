@@ -14,7 +14,7 @@ const { color } = theme;
 
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
-class Home extends React.Component {
+class Scanning extends React.Component {
     constructor(props){
         super(props);
         /*
@@ -26,6 +26,7 @@ class Home extends React.Component {
     state = {
         hasCameraPermission: null,
         qrValue: '',
+        response: 'Scan a QR code'
     };
 
     componentDidMount() {
@@ -39,15 +40,24 @@ class Home extends React.Component {
     };
 
     _handleBarCodeRead = data => {
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
         this.setState({
           qrValue: data,
         })
+        Object.keys(this.props.rewards).map((key) => {
+            if(key === data.data){
+                //Handle scan events here
+                this.setState({response: 'Got em'});
+                console.log(this.props.rewards[key]);
+            }
+        })
+
     };
 
 
 
     render() {
+        let responseText = this.state.qrValue.data ==  null ? this.state.response: this.state.response;
         return (
             <View style={styles.container}>
                 <View style = {styles.mainbackground}>
@@ -71,14 +81,19 @@ class Home extends React.Component {
                         </View>
                     }
                     <View style ={styles.bottomBox}>
-                            {this.state.qrValue.data == null ?
+                            <Text style = {styles.textStyle}> 
+                                {responseText}
+                            </Text>
+
+                            {
+                            /*this.state.qrValue.data == null ?
                                 <Text style = {styles.textStyle}> 
                                     Scan a QR code
                                 </Text>:
                                 <Text style = {styles.textStyle}> 
                                     {`${this.state.qrValue.data}`}
                                 </Text>
-                                
+                            */
                             }
                     </View>
                 </View>
@@ -86,5 +101,8 @@ class Home extends React.Component {
         );
     }
 }
+const mapStateToProps = state => {
+  return { rewards: state.homeReducer.rewards };
+};
+export default connect(mapStateToProps, null)(Scanning);
 
-export default Home;

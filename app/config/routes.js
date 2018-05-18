@@ -16,6 +16,7 @@ import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus } from "../modules/auth/actions";
+import { getRewards, getQuizes } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -24,19 +25,45 @@ export default class extends React.Component {
         super();
         this.state = {
             isReady: false,
+            rewardsReady: false,
+            quizesReady: false,
             isLoggedIn: false
         }
+        this.readyRewards = this.readyRewards.bind(this);
+        this.readyQuizes = this.readyQuizes.bind(this);
     }
 
     componentDidMount() {
         let _this = this;
         store.dispatch(checkLoginStatus((isLoggedIn) => {
             _this.setState({isReady: true, isLoggedIn});
+            
         }));
+        store.dispatch(getRewards(() => {
+            _this.setState({rewardsReady: true});
+            
+        }, this.readyRewards));
+        store.dispatch(getQuizes(() => {
+            _this.setState({quizesReady: true});
+            
+        }, this.readyQuizes));
+        
+        
     }
-
+    readyRewards(){
+        store.dispatch(getRewards(() => {
+            _this.setState({rewardsReady: true});
+            
+        }, this.readyRewards));
+    }
+    readyQuizes(){
+        store.dispatch(getQuizes(() => {
+            _this.setState({quizesReady: true});
+            
+        }, this.readyQuizes));
+    }
     render() {
-        if (!this.state.isReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady)
             return <Splash/>
 
         return (
