@@ -49,13 +49,22 @@ class Scanning extends React.Component {
         Object.keys(this.props.rewards).map((key) => {
             if(key === data.data){
                 //Handle scan events here
-                const newReward = {key: key, points: this.props.rewards[key].points};
-                this.props.updatePoints(this.props.user, newReward);
-                this.setState({response: 'Got em'});
+                //const newReward = {key: key, points: this.props.rewards[key].points};
+                //this.props.updatePoints(this.props.user, newReward);
+                //this.setState({response: 'Got em'});
+                if(this.props.rewards[key].type === "multiplechoice"){
+                    Actions.multipleChoice({reward: this.props.rewards[key], rewardkey: key});
+                }
+                else{
+                    const newReward = {key: key, points: this.props.rewards[key].points};
+                    this.props.updatePoints(this.props.user, newReward);
+                }
             }
         })
 
     };
+
+    
 
 
 

@@ -12,6 +12,7 @@ import Login from '../modules/auth/scenes/Login';
 import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
+import multipleChoice from '../modules/home/scenes/multipleChoice';
 import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 //Import Store, actions
 import store from '../redux/store'
@@ -84,6 +85,7 @@ export default class extends React.Component {
                     <Stack key="Main" initial={this.state.isLoggedIn}>
                         <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" />
                     </Stack>
                 </Scene>
             </Router>
