@@ -1,66 +1,151 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 
 import {Button, Divider} from 'react-native-elements';
+import { LinearGradient } from 'expo';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {actions as auth} from "../../index"
-const {} = auth;
+import Form from "../../components/Form"
+
+// const {} = auth;
 
 import styles from "./styles"
 
+const { register } = auth;
+
+const fields = [
+    
+    {
+        key: 'email',
+        label: "Email Address",
+        placeholder: "Email Address",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "email"
+    },
+    {
+        key: 'password',
+        label: "Password",
+        placeholder: "Password",
+        autoFocus: false,
+        secureTextEntry: true,
+        value: "",
+        type: "password"
+    },
+    {
+        key: 'confirm_password',
+        label: "Confirm Password",
+        placeholder: "Confirm Password",
+        autoFocus: false,
+        secureTextEntry: true,
+        value: "",
+        type: "confirm_password"
+    }
+];
+
+const error = {
+    general: "",
+    email: "",
+    password: "",
+    confirm_password: ""
+}
+
 class Welcome extends React.Component {
     constructor() {
+        // super();
+        // this.state = {}
         super();
-        this.state = {}
+        this.state = {
+            error: error
+        }
+
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onSuccess = this.onSuccess.bind(this);
+        this.onError = this.onError.bind(this);
+    }
+
+    onSubmit(data) {
+        this.setState({error: error}); //clear out error messages
+
+        this.props.register(data, this.onSuccess, this.onError)
+    }
+
+    onSuccess(user) {
+        Actions.VerifyEmail({user});
+        //Actions.CompleteProfile({ user })
+    }
+
+
+    onError(error) {
+        let errObj = this.state.error;
+
+        if (error.hasOwnProperty("message")) {
+            errObj['general'] = error.message;
+        } else {
+            let keys = Object.keys(error);
+            keys.map((key, index) => {
+                errObj[key] = error[key];
+            })
+        }
+        this.setState({error: errObj});
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.topContainer}>
-                    
-                    <Text style={styles.title}>Quotes</Text>
-                </View>
+            <ImageBackground 
+                source={ require('../../../../assets/images/compass.jpg')}
+                style={styles.container}
+                blurRadius={1}>
+                <LinearGradient
+                    colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
+                    style={styles.linearGradient}>
 
-                <View style={styles.bottomContainer}>
-                    <View style={[styles.buttonContainer]}>
-                        
+                    <View style={styles.logoContainer}>
+                        <Image 
+                            source={ require('../../../../assets/images/ahro-logo.png') }
+                            style={styles.logo} />
+                    </View>
+                    <View style={styles.bottomContainer}>
+                        <View style={[styles.buttonContainer]}>
 
-                        <View style={styles.orContainer}>
-                            <Divider style={styles.divider}/>
-                            <Text style={styles.orText}>
-                                Or
-                            </Text>
+                            <View style={[styles.titleContainer]}>
+                                <Text style={[styles.title]}>University Vision-Mission Week 2018</Text>
+                                <Text style={[styles.subTitle]}>Ascent: Unlocking potential, unleashing ambition</Text>
+                            </View>
+                            <Form fields={fields}
+                                showLabel={false}
+                                onSubmit={this.onSubmit}
+                                buttonTitle={"SIGN ME UP!"}
+                                error={this.state.error}/>
+
+                            {/* <Button
+                                raised
+                                borderRadius={4}
+                                title={'SIGN UP WITH E-MAIL'}
+                                containerViewStyle={[styles.containerView]}
+                                buttonStyle={[styles.button]}
+                                textStyle={styles.buttonText}
+                                onPress={Actions.Register}/> */}
                         </View>
-
-                        <Button
-                            raised
-                            borderRadius={4}
-                            title={'SIGN UP WITH E-MAIL'}
-                            containerViewStyle={[styles.containerView]}
-                            buttonStyle={[styles.button]}
-                            textStyle={styles.buttonText}
-                            onPress={Actions.Register}/>
+                        <View style={styles.bottom}>
+                            <TouchableOpacity onPress={Actions.Login}>
+                                <Text style={styles.bottomText}>
+                                    Already have an account?
+                                </Text>
+                                {/* <Text style={styles.signInText}>
+                                    Sign in
+                                </Text> */}
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.bottom}>
-                        <Text style={styles.bottomText}>
-                            Already have an account?
-                        </Text>
-
-                        <TouchableOpacity onPress={Actions.Login}>
-                            <Text style={styles.signInText}>
-                                Sign in
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-            </View>
+                </LinearGradient>
+            </ImageBackground>
         );
     }
 }
 
 
-export default connect(null, {})(Welcome);
+export default connect(null, { register })(Welcome);

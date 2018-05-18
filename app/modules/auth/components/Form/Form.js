@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import {Text, View} from 'react-native';
 import {Button} from 'react-native-elements'
+import { LinearGradient } from 'expo';
 
 import {isEmpty, validate} from '../../utils/validate'
 
@@ -66,7 +67,7 @@ class Form extends React.Component {
         const { fields, showLabel, buttonTitle, onForgotPassword} = this.props;
 
         return (
-            <View style={styles.container}>
+            // <View style={styles.container}>
                 <View style={styles.wrapper}>
                     {
                         (!isEmpty(this.state.error['general'])) &&
@@ -77,7 +78,8 @@ class Form extends React.Component {
                         fields.map((data, idx) => {
                             let {key, label, placeholder, autoFocus, secureTextEntry} = data;
                             return (
-                                <AuthTextInput key={key}
+                                <AuthTextInput
+                                               key={key}
                                                label={label}
                                                showLabel={showLabel}
                                                placeholder={placeholder}
@@ -90,23 +92,26 @@ class Form extends React.Component {
                         })
                     }
 
-
-                    <Button
-                        raised
-                        title={buttonTitle}
-                        borderRadius={4}
-                        containerViewStyle={styles.containerView}
-                        buttonStyle={styles.button}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSubmit}/>
-                    {
-                        this.props.onForgotPassword !== null &&
-                        <Text style={styles.forgotText} onPress={onForgotPassword}>
-                            Forgot password?</Text>
-                    }
+                    {/* <LinearGradient
+                    colors={['rgba(6,200,128,1.0)', 'rgba(59,174,105,1.0)']} > */}
+                        <Button
+                            raised
+                            title={buttonTitle}
+                            borderRadius={4}
+                            containerViewStyle={styles.containerView}
+                            buttonStyle={styles.button}
+                            textStyle={styles.buttonText}
+                            onPress={this.onSubmit}/>
+                    {/* </LinearGradient> */}
+                        {
+                            this.props.onForgotPassword !== null &&
+                            <Text style={styles.forgotText} onPress={onForgotPassword}>
+                                Forgot password?</Text>
+                        }
+                    
 
                 </View>
-            </View>
+            // </View>
         );
     }
 }

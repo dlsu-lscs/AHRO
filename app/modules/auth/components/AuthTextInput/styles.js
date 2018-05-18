@@ -6,15 +6,20 @@ const { windowWidth, fontSize, fontFamily, normalize } = theme;
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom: 10
+        marginBottom: 15
     },
 
     inputContainer:{
-        width: windowWidth - 40,
-        height: normalize(65),
+        width: windowWidth - 80,
+        // width: "100%",
+        height: normalize(45),
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.bold,
-        borderBottomColor: "#A5A7A9"
+        fontFamily: fontFamily.regular,
+        paddingLeft: 20,
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: "#fff",
+        color: "#fff",
     }
 });
 

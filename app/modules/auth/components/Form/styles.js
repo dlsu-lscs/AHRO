@@ -4,13 +4,16 @@ import { theme } from "../../index"
 const  { color, padding, windowWidth, normalize, fontSize, fontFamily } = theme;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: color.white,
-    },
+    // container: {
+    //     flex: 1,
+    //     // backgroundColor: color.white,
+    // },
 
     wrapper:{
-        justifyContent:"center",
+        // width: "100%",
+        // backgroundColor: "palegoldenrod",
+        paddingHorizontal: padding,
+        justifyContent:"flex-start",
         alignItems:"center"
     },
 
@@ -21,8 +24,8 @@ const styles = StyleSheet.create({
     },
 
     containerView:{
-        marginVertical: padding * 3,
-        width: windowWidth - 40
+        width: windowWidth - 80,
+        marginVertical: padding,
     },
 
     socialButton:{
@@ -33,21 +36,25 @@ const styles = StyleSheet.create({
     },
 
     button:{
-        backgroundColor: "#FF553F",
-        height: normalize(55)
+        // backgroundColor: "#FF553F",
+        backgroundColor: "rgba(6,200,128,1.0)",
+        height: normalize(55),
+        paddingHorizontal: 20,
     },
 
     buttonText:{
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.medium,
     },
 
     forgotText:{
         textAlign:"center",
-        color:color.black,
+        color: color.white,
         marginBottom: padding,
-        fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
+        fontSize: fontSize.regular + 1,
+        fontFamily: fontFamily.regular,
+        textDecorationLine: "underline",
+        marginTop: padding,
     }
 });
 

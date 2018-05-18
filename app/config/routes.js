@@ -47,7 +47,7 @@ export default class extends React.Component {
                        backButtonTintColor={color.black}>
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
-                        <Scene key="Register" component={Register} title="Register" back/>
+                        <Scene key="Register" component={Register} title="Register" hideNavBar/>
                         <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
                         <Scene key="Login" component={Login} title="Login"/>
                         <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>

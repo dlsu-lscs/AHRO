@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { theme } from "../../index"
 const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
@@ -7,16 +7,31 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor: color.white
+        alignItems: 'center',
+        justifyContent: 'center',
+        // paddingTop: (Platform.OS) === 'ios' ? 0 : 20,
+        // paddingTop: (Platform.OS) === 'ios' ? 20 : 0,
+        // paddingTop: (Platform.OS) === 'ios' ? 0 : 22,
+    },
+
+    linearGradient:{
+        flex: 1,
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     topContainer:{
+        marginTop: 12,
+        paddingHorizontal: 12,
         flex:1,
-        paddingHorizontal:15,
-        paddingBottom: padding * 2,
         justifyContent:"center",
-        alignItems:"center",
-        backgroundColor: "#FF553F",
+        alignItems:"flex-start",
+        // backgroundColor: "#FF553F",
+        width: windowWidth - 60,
     },
 
     image:{
@@ -27,10 +42,29 @@ const styles = StyleSheet.create({
         resizeMode
     },
 
+    titleContainer:{
+        width: "100%",
+        paddingHorizontal: 12,
+        // backgroundColor: "powderblue",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        marginBottom: padding + 18,
+    },
+
     title:{
-        fontSize: fontSize.large + 2,
-        lineHeight: fontSize.large + 4,
-        fontFamily: fontFamily.bold,
+        // fontSize: fontSize.large + 2,
+        fontSize: fontSize.larger,
+        lineHeight: fontSize.larger + 5,
+        fontFamily: fontFamily.heavy,
+        color:color.white,
+        marginBottom: 5,
+    },
+
+    subTitle:{
+        // fontSize: fontSize.large + 2,
+        fontSize: fontSize.regular + 2,
+        lineHeight: fontSize.regular + 4,
+        fontFamily: fontFamily.regular,
         color:color.white,
         letterSpacing: 1
     },
@@ -44,25 +78,47 @@ const styles = StyleSheet.create({
 
     //===============================
 
+    logoContainer:{
+        flex: 2,
+        backgroundColor: "powderblue",
+        width: windowWidth - 60,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    logo:{
+        width: "55%",
+        resizeMode: "contain",
+    },
+
+    //===============================
+
     bottomContainer:{
-        backgroundColor:"white",
-        paddingVertical: padding * 3,
-        shadowColor: "#000000",
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 1,
-            width: 0
-        }
+        // backgroundColor:"green",
+        flex: 10,
+        paddingVertical: padding,
+        width: windowWidth,
+        // paddingHorizontal: padding * 3,
+        // shadowColor: "#000000",
+        // shadowOpacity: 0.8,
+        // shadowRadius: 2,
+        // shadowOffset: {
+        //     height: 1,
+        //     width: 0
+        // },
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     buttonContainer:{
+        // backgroundColor: "pink",
+        width: windowWidth - 60,
         justifyContent:"center",
         alignItems:"center"
     },
 
     containerView:{
-        width: windowWidth - 40
+        // width: windowWidth - 40
     },
 
     socialButton:{
@@ -79,27 +135,28 @@ const styles = StyleSheet.create({
 
     buttonText:{
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.regular
     },
 
     bottom:{
         flexDirection: "row",
         justifyContent:"center",
         alignItems:"center",
-        marginTop: padding * 2
+        marginTop: padding * 2,
     },
 
     bottomText:{
-        fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
+        fontSize: fontSize.regular + 1,
+        fontFamily: fontFamily.regular,
         marginRight: 5,
-        color: "#414141"
+        color: "#fff",
+        textDecorationLine: "underline",
     },
 
     signInText:{
         fontSize: fontSize.regular,
         color: "#FF553F",
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.regular
     },
 
     orContainer:{
@@ -120,7 +177,7 @@ const styles = StyleSheet.create({
     orText:{
         backgroundColor: color.white,
         fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
+        fontFamily: fontFamily.regular,
         color: "#414141",
         paddingHorizontal: padding
     }
