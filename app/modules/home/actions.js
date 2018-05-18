@@ -6,7 +6,6 @@ import { AsyncStorage } from 'react-native';
 export function getRewards(callback, errorCB) {
     return (dispatch) => {
     	api.getRewards((rewards) => {
-            console.log("NAH");
     		dispatch({type:t.GET_REWARDS, data: rewards});
     		callback();
     	}, errorCB);
@@ -20,4 +19,10 @@ export function getQuizes(callback, errorCB) {
     		callback();
     	}, errorCB);
     };
+}
+
+export function updatePoints(user, reward){
+    return (dispatch) => {
+        api.updatePoints(user, reward, () => {});
+    }
 }

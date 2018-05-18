@@ -9,6 +9,8 @@ import styles from "./styles"
 
 import { actions as auth, theme } from "../../../auth/index"
 
+import { actions as homeauth } from "../../index";
+const { updatePoints } = homeauth;
 
 const { color } = theme;
 
@@ -47,8 +49,9 @@ class Scanning extends React.Component {
         Object.keys(this.props.rewards).map((key) => {
             if(key === data.data){
                 //Handle scan events here
+                const newReward = {key: key, points: this.props.rewards[key].points};
+                this.props.updatePoints(this.props.user, newReward);
                 this.setState({response: 'Got em'});
-                console.log(this.props.rewards[key]);
             }
         })
 
@@ -102,7 +105,8 @@ class Scanning extends React.Component {
     }
 }
 const mapStateToProps = state => {
-  return { rewards: state.homeReducer.rewards };
+  return { rewards: state.homeReducer.rewards, user: state.authReducer.user };
+
 };
-export default connect(mapStateToProps, null)(Scanning);
+export default connect(mapStateToProps, { updatePoints })(Scanning);
 
