@@ -93,3 +93,9 @@ export function checkLoginStatus(callback) {
         });
     };
 }
+
+export function testquery(){
+    return (dispatch) => {
+        api.testquery();
+    }
+}

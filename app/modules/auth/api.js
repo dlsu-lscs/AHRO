@@ -88,3 +88,23 @@ export function signOut (callback) {
 export function checkVerify(user, callback){
     callback(user, user.emailVerified);
 }
+
+export function testquery(){
+    console.log("test");
+    /*
+    database.ref('teams').orderByChild("users/"+"EC5pNaKIEzWjV5TAMvENQw1hcVw1"+"/member").equalTo(true).once('value').then(
+        (snapshot) => {
+            const val = snapshot.val();
+            //console.log(val[Object.keys(val)[0]]);
+            //console.log(Object.keys(val)[0]);
+        }
+    );
+    const newteam = {idk: 'lol'};
+    const pushref = database.ref('teams').push(); //gets new value in db
+    const newKey = pushref.key; //gets key of the push reference
+
+    pushref.set(newteam); //sets the value of push reference in db
+    console.log("added:" +newKey);
+    */
+}
+

@@ -16,7 +16,7 @@ import multipleChoice from '../modules/home/scenes/multipleChoice';
 import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 //Import Store, actions
 import store from '../redux/store'
-import { checkLoginStatus } from "../modules/auth/actions";
+import { checkLoginStatus, testquery } from "../modules/auth/actions";
 import { getRewards, getQuizes } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
@@ -36,6 +36,7 @@ export default class extends React.Component {
 
     componentDidMount() {
         let _this = this;
+        store.dispatch(testquery());
         store.dispatch(checkLoginStatus((isLoggedIn) => {
             _this.setState({isReady: true, isLoggedIn});
             
