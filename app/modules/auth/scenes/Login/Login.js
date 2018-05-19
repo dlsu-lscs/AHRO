@@ -117,6 +117,12 @@ class Login extends React.Component {
                         </TouchableOpacity>
                     </View>
 
+                    <View style={styles.logoContainer}>
+                        <Image 
+                            source={ require('../../../../assets/images/ahro-logo.png') }
+                            style={styles.logo} />
+                    </View>
+
                     <View style={styles.bottomContainer}>
                         <View style={[styles.buttonContainer]}>
                             <View style={[styles.titleContainer]}>

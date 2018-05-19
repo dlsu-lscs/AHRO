@@ -96,14 +96,12 @@ class Welcome extends React.Component {
     render() {
         return (
             <ImageBackground 
-                source={ require('../../../../assets/images/compass.jpg')}
-                style={styles.container}
-                blurRadius={1}>
-                <LinearGradient
+                source={ require('../../../../assets/images/theme-bg.png')}
+                style={styles.container}>
+                {/* <LinearGradient
                     colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
-                    style={styles.linearGradient}>
-
-                    <View style={styles.logoContainer}>
+                    style={styles.linearGradient}> */}
+                    <View style={styles.logoContainerLeft}>
                         <Image 
                             source={ require('../../../../assets/images/ahro-logo.png') }
                             style={styles.logo} />
@@ -120,15 +118,6 @@ class Welcome extends React.Component {
                                 onSubmit={this.onSubmit}
                                 buttonTitle={"SIGN ME UP!"}
                                 error={this.state.error}/>
-
-                            {/* <Button
-                                raised
-                                borderRadius={4}
-                                title={'SIGN UP WITH E-MAIL'}
-                                containerViewStyle={[styles.containerView]}
-                                buttonStyle={[styles.button]}
-                                textStyle={styles.buttonText}
-                                onPress={Actions.Register}/> */}
                         </View>
                         <View style={styles.bottom}>
                             <TouchableOpacity onPress={Actions.Login}>
@@ -141,7 +130,7 @@ class Welcome extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </LinearGradient>
+                {/* </LinearGradient> */}
             </ImageBackground>
         );
     }

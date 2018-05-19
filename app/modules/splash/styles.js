@@ -48,7 +48,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 80
-    }
+    },
+    
+    logo:{
+        width: "55%",
+        resizeMode: "contain",
+    },
 });
 
 

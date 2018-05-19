@@ -67,7 +67,6 @@ class Form extends React.Component {
         const { fields, showLabel, buttonTitle, onForgotPassword} = this.props;
 
         return (
-            // <View style={styles.container}>
                 <View style={styles.wrapper}>
                     {
                         (!isEmpty(this.state.error['general'])) &&
@@ -111,7 +110,6 @@ class Form extends React.Component {
                     
 
                 </View>
-            // </View>
         );
     }
 }

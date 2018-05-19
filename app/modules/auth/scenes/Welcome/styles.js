@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     topContainer:{
         marginTop: 12,
         paddingHorizontal: 12,
-        flex:1,
+        // flex:1,
+        height: 50,
         justifyContent:"center",
         alignItems:"flex-start",
         // backgroundColor: "#FF553F",
@@ -78,10 +79,20 @@ const styles = StyleSheet.create({
 
     //===============================
 
-    logoContainer:{
-        flex: 2,
-        backgroundColor: "powderblue",
+    logoContainerLeft:{
+        flex: 3,
+        paddingTop: padding * 3,
+        // backgroundColor: "powderblue",
         width: windowWidth - 60,
+        justifyContent: "center",
+        alignItems: "flex-start",
+    },
+
+    logoContainer:{
+        flex: 3,
+        paddingTop: padding * 3,
+        // backgroundColor: "powderblue",
+        width: windowWidth,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -106,7 +117,7 @@ const styles = StyleSheet.create({
         //     height: 1,
         //     width: 0
         // },
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
 

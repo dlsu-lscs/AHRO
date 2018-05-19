@@ -10,9 +10,13 @@ import Register from '../modules/auth/scenes/Register';
 import CompleteProfile from '../modules/auth/scenes/CompleteProfile';
 import Login from '../modules/auth/scenes/Login';
 import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
+import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
+
+//Authenticated Scenes
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
-import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
+import TeamProfile from '../modules/home/scenes/TeamProfile';
+
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus } from "../modules/auth/actions";
@@ -49,14 +53,15 @@ export default class extends React.Component {
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
                         <Scene key="Register" component={Register} title="Register" hideNavBar/>
                         <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
-                        <Scene key="Login" component={Login} title="Login"/>
+                        <Scene key="Login" component={Login} title="Login" hideNavBar/>
                         <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
                     </Stack>
 
                     <Stack key="Main" initial={this.state.isLoggedIn}>
-                        <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
+                        <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
+                        <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" back={false} hideNavBar/>
                     </Stack>
                 </Scene>
             </Router>
