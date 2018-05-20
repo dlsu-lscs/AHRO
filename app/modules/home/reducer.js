@@ -1,7 +1,7 @@
 import * as t from './actionTypes';
 import { NET_INFO_CHANGED } from 'react-native-redux-listener';
 
-let initialState = { isConnected: false, data: [], rewards:[], quizes: [] };
+let initialState = { isConnected: false, data: [], rewards:[], quizes: {}, notifs: {}};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,7 +17,16 @@ const authReducer = (state = initialState, action) => {
             return {...state, rewards: action.data};
 
         case t.GET_QUIZES:
-            return {...state, quizes: action.data};
+            let statequizes = initialState.quizes;
+            statequizes[action.key] = action.data;
+            console.log(statequizes);
+            return {...state, quizes: statequizes};
+
+        case t.GET_NOTIFS:
+            let statenotifs = initialState.notifs;
+            statenotifs[action.key] = action.data;
+            return {...state, notifs: statenotifs};
+
         default:
             return state;
     }

@@ -14,13 +14,31 @@ export function getRewards(callback, errorCB){
 }
 
 export function getQuizes(callback, errorCB){
-	database.ref('quizes').on('value', (snapshot) => {
+	database.ref('quizes').on('child_added', (snapshot) => {
 		try{
 			let quizes = [];
 			quizes = snapshot.val();
-			callback(quizes);
+			const key = snapshot.key;
+			callback(key,quizes);
 		}
 		catch(error){
+			errorCB();
+		}
+    })
+}
+
+export function getInvitations(callback, errorCB){
+	database.ref('teams/invitations').on('child_added', (snapshot) => {
+		try{
+			let val = snapshot.val();
+			const key = snapshot.key;
+			callback(key,val);
+			//console.log(key);
+			//console.log(val);
+
+		}
+		catch(error){
+			console.log(error);
 			errorCB();
 		}
     })

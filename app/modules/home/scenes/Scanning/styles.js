@@ -49,7 +49,10 @@ const styles = StyleSheet.create({
     },
     barCode:{
     	flex: 1, 
-    	alignSelf: 'stretch'
+    	alignSelf: 'stretch',
+        height: "100%",
+        width: "100%",
+
     }
 
 });

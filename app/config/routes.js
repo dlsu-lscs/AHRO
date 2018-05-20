@@ -13,11 +13,12 @@ import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
+import Identification from '../modules/home/scenes/Identification';
 import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -44,11 +45,17 @@ export default class extends React.Component {
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
             
-        }, this.readyRewards));
+        }, () => {}));
+
         store.dispatch(getQuizes(() => {
             _this.setState({quizesReady: true});
             
-        }, this.readyQuizes));
+        }, () => {}));
+
+        store.dispatch(getInvitations(() => {
+            _this.setState({quizesReady: true});
+            
+        }, () => {}));
         
         
     }
@@ -64,6 +71,8 @@ export default class extends React.Component {
             
         }, this.readyQuizes));
     }
+
+
     render() {
         if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady)
             return <Splash/>
@@ -86,8 +95,11 @@ export default class extends React.Component {
                     <Stack key="Main" initial={this.state.isLoggedIn}>
                         <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
-                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" />
+                        
                     </Stack>
+                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
+                    <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
+                    
                 </Scene>
             </Router>
         )

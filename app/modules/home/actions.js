@@ -14,10 +14,19 @@ export function getRewards(callback, errorCB) {
 
 export function getQuizes(callback, errorCB) {
     return (dispatch) => {
-    	api.getQuizes((quizes) => {
-    		dispatch({type:t.GET_QUIZES, data: quizes});
+    	api.getQuizes((newkey, quizes) => {
+    		dispatch({type:t.GET_QUIZES, data: quizes, key: newkey});
     		callback();
     	}, errorCB);
+    };
+}
+
+export function getInvitations(callback, errorCB) {
+    return (dispatch) => {
+        api.getInvitations((newkey, newinvite) => {
+            dispatch({type:t.GET_NOTIFS, data: newinvite, key: newkey});
+            callback();
+        }, errorCB);
     };
 }
 

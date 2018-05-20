@@ -25,6 +25,7 @@ export function createUser (user, callback) {
             const exists = (snapshot.val() !== null);
 
             if(!exists ){
+                //dont forget to make resend verification in case this chain task fails
                 database.ref('users').child(user.uid).update({ ...user })
                 .then(() => callback(true, null, null))
                 .catch((error) => callback(false, null, {message: error}));
@@ -105,6 +106,13 @@ export function testquery(){
 
     pushref.set(newteam); //sets the value of push reference in db
     console.log("added:" +newKey);
+    */
+    /*
+    delete with .update XD
+    const team = { sad:"", xd: "" }
+    team.sad = null;
+    team.xd = null;
+    database.ref('cool').update( { ...team } );
     */
 }
 

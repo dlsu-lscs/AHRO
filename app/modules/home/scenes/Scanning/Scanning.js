@@ -55,6 +55,9 @@ class Scanning extends React.Component {
                 if(this.props.rewards[key].type === "multiplechoice"){
                     Actions.multipleChoice({reward: this.props.rewards[key], rewardkey: key});
                 }
+                else if(this.props.rewards[key].type === "Identification" ){
+                    Actions.Identification({reward: this.props.rewards[key], rewardkey: key});
+                }
                 else{
                     const newReward = {key: key, points: this.props.rewards[key].points};
                     this.props.updatePoints(this.props.user, newReward);
@@ -81,6 +84,7 @@ class Scanning extends React.Component {
                             <BarCodeScanner
                               onBarCodeRead={this._handleBarCodeRead}
                               style={styles.barCode}
+                              //torchMode = {"on"}
                               //type = 'front'
                             />
                             <Image 
