@@ -45,6 +45,7 @@ export function getTime(callback){
     api.getTime((time) => {
         callback();
     });
+}
 
 export function createTeam(data, successCB, errorCB) {
     return (dispatch) => {

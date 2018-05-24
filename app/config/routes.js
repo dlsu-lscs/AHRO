@@ -103,11 +103,8 @@ export default class extends React.Component {
                     <Stack key="Main" initial={this.state.isLoggedIn}>
                         <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
-<<<<<<< HEAD
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
-=======
                         <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" back={false} hideNavBar/>
->>>>>>> 5241544f07e6b497b56621fa9f3ba48e32bdc52e
                     </Stack>
                     <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
                     <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
