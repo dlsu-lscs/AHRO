@@ -4,8 +4,6 @@ import { Font, FontAwesome, AppLoading } from 'expo';
 
 import Router from './app/config/routes'
 import store from './app/redux/store';
-<<<<<<< HEAD
-=======
 
 // import FontAwesome  
 // from './node_modules/@expo/vector-icons/fonts/FontAwesome.ttf';
@@ -14,7 +12,6 @@ import store from './app/redux/store';
 // import Ionicons  
 // from './node_modules/@expo/vector-icons/fonts/Ionicons.ttf';
 
->>>>>>> 5241544f07e6b497b56621fa9f3ba48e32bdc52e
 function cacheFonts(fonts) {
     return fonts.map(font => Font.loadAsync(font));
 }
