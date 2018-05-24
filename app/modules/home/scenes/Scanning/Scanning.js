@@ -46,24 +46,18 @@ class Scanning extends React.Component {
         this.setState({
           qrValue: data,
         })
-        Object.keys(this.props.rewards).map((key) => {
-            if(key === data.data){
-                //Handle scan events here
-                //const newReward = {key: key, points: this.props.rewards[key].points};
-                //this.props.updatePoints(this.props.user, newReward);
-                //this.setState({response: 'Got em'});
-                if(this.props.rewards[key].type === "multiplechoice"){
-                    Actions.multipleChoice({reward: this.props.rewards[key], rewardkey: key});
-                }
-                else if(this.props.rewards[key].type === "Identification" ){
-                    Actions.Identification({reward: this.props.rewards[key], rewardkey: key});
-                }
-                else{
-                    const newReward = {key: key, points: this.props.rewards[key].points};
-                    this.props.updatePoints(this.props.user, newReward);
-                }
+        if(this.props.rewards[data.data] != null){
+            if(this.props.rewards[data.data].type === "multiplechoice"){
+                Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data});
             }
-        })
+            else if(this.props.rewards[data.data].type === "Identification" ){
+                Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data});
+            }
+            else{
+                const newReward = {key: data.data, points: this.props.rewards[data.data].points};
+                this.props.updatePoints( newReward , () => {},() => {},() => {});
+            }
+        }
 
     };
 
@@ -100,17 +94,6 @@ class Scanning extends React.Component {
                             <Text style = {styles.textStyle}> 
                                 {responseText}
                             </Text>
-
-                            {
-                            /*this.state.qrValue.data == null ?
-                                <Text style = {styles.textStyle}> 
-                                    Scan a QR code
-                                </Text>:
-                                <Text style = {styles.textStyle}> 
-                                    {`${this.state.qrValue.data}`}
-                                </Text>
-                            */
-                            }
                     </View>
                 </View>
             </View>

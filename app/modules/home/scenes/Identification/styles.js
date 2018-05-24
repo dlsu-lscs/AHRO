@@ -29,22 +29,25 @@ const styles = StyleSheet.create({
         alignItems:"center",
         height: "100%",
         width: "100%",
+        backgroundColor: '#000000',
 
     },
 
     bottomview:{
         flex:1,
         //flexDirection: 'row',
-        backgroundColor: '#000000',
+        //backgroundColor: '#000000',
         width: "100%",
         height: "100%",
+        margin: 10,
+        marginBottom: 25,
     },
     inputstyle:{
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: '#FFFF00',
+        //backgroundColor: '#FFFF00',
         height: "80%",
-        width: windowWidth,
+        width: (windowWidth-90),
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
     },
     submitbutton:{
         flex: 1,
-        backgroundColor: '#FF0000',
+        //backgroundColor: '#FF0000',
         alignItems: "center", 
         width: "100%",
         height: "100%",
@@ -65,9 +68,9 @@ const styles = StyleSheet.create({
     submitbutton2:{
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: '#FF00FF',
-        height: "80%",
-        width: windowWidth,
+        backgroundColor: '#00d080',
+        height: "70%",
+        width: (windowWidth-90),
         justifyContent: 'center',
         alignItems: 'center',
 

@@ -26,16 +26,14 @@ class Identification extends React.Component {
         //so people can press choices alot of times before it redirects
         const answer = this.state.text;
         if(!this.state.answered){
+            var newReward = {};
             if(answer == this.props.reward.answer){
-                const newReward = {key: this.props.rewardkey, points: this.props.reward.points};
-                this.props.updatePoints(this.props.user, newReward);
+                newReward = {key: this.props.rewardkey, points: this.props.reward.points};
             }
             else{
-                
-                const newReward = {key: this.props.rewardkey, points: 0};
-                this.props.updatePoints(this.props.user, newReward);
-                
+                newReward = {key: this.props.rewardkey, points: 0};
             }
+            this.props.updatePoints(newReward, () => {},() => {},() => {});
         }
         this.setState({answered: true});
         Actions.Main();

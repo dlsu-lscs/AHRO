@@ -1,6 +1,26 @@
-import { auth, database, provider } from "../../config/firebase";
+import { auth, database, provider, startTime} from "../../config/firebase";
+
+import * as helpers from './helpers';
 
 export function getRewards(callback, errorCB){
+		/*
+		var x = new Date();
+        var y = new Date("2018-05-20T05:30:01.958Z");
+        console.log(x);
+        console.log(y);
+
+        console.log(x-y);
+        console.log((x-y)/1000);
+        */
+    /*
+    fetch('http://worldclockapi.com/api/json/est/now').then((response) => {
+    	data = response.json();
+		console.log(data.currentDateTime);
+		syncTime();
+    }, (error) =>{
+		console.log(error);
+    });
+	*/
 	database.ref('rewards').on('value', (snapshot) => {
 		try{
 			let rewards = [];
@@ -44,118 +64,92 @@ export function getInvitations(callback, errorCB){
     })
 }
 
-export function updatePoints(user, reward, hasrewardCB){
-	//hmmm so should i assume everything asyncs here? nope haha idk gg
-	database.ref('teams').orderByChild("users/"+user.uid+"/member").equalTo(true).limitToFirst(1).once('value').then(
-        (snapshot) => {
-        	const teamsnap = snapshot.val(); //returns list of 1 team where the user is in
-            
-            if(teamsnap !== null){
-	            const teamkey = Object.keys(teamsnap)[0]; //gets the key of the first team
-				const teamval = teamsnap[teamkey]; //Gets the first object of teams using the first key
-	            	
-            	//User has team
-            	if(teamval.rewards == null){
-            		//team has no reward yet yuck
-            		teamval.rewards = {};
-            		teamval.rewards[reward.key] = rewards.points;
-            		database.ref('teams').child(teamkey).update({ ...teamval });
-            	}
-            	else if(teamval.rewards[reward.key] == null){
-            		teamval.rewards[reward.key] = reward.points;
-            		console.log(teamval);
-            		database.ref('teams').child(teamkey).update({ ...teamval });
-            	}
-            	else{
-            		hasrewardCB();
-            	}
-            }
-            else{
-            	//User has no teamm
-            	//Creates a soloteam in teams table
-            	let newteam = {
-            		team: false,
-            		rewards: {},
-            		users: {}
-            	}
-            	newteam.users[user.uid] = {
-            		fname: user.fname,
-            		lname: user.lname,
-            		member: true
-            	}
-            	newteam.rewards[reward.key] = reward.points;
-            	const pushref = database.ref('teams').push();
-            	const newKey = pushref.key;
-            	pushref.set(newteam);
+export function getTime(callback){
+	loadJSON();
+}
 
-            }
-        }
-    )
-	.catch((error) => {
-		console.log(error);
+export function getLeaderBoard(){
+	var solos = {}
+	var AllTeams = {}
+	helpers.getAllUserDetailsPromise().then((users) => {
+		Objects.keys(users).map(function(key){
+			if(users[key].team == null){
+				//has no team
+				solos[key] = users[key];
+			}
+		});
+		return helpers.getAllTeamDetailsPromise();
+	}, function(error){
+		console.error(error);
+	}).then(function(teams){
+		AllTeams = teams;
+		//callback;
+	}, function(error){
+		console.error(error);
 	});
-	
-	/*
-	database.ref('users').child(user.uid).once('value').then(
-		snapshot => {
-			const val = snapshot.val();
-			if(val !== null){
-				//user exists
-				if(val.team == null){
-					//has no team
-					if(val.rewards == null){
-						// has no reward yet
-						val.rewards = {};
-						val.rewards[reward.key] = reward.points; 
-						database.ref('users').child(user.uid).update({ ...val });
-					}
-					else if(val.rewards[reward.key] == null){
-						//has rewards but not this specific reward
-						val.rewards[reward.key] = reward.points; 
-						database.ref('users').child(user.uid).update({ ...val });
-					}
-					else{
-						//has reward
-						hasrewardCB();
-					}
+}
+export function updatePoints(reward, hasrewardCB){ //needs callback
+
+	helpers.getUserDetailsPromise().then(function(user){
+		return database.ref("points").orderByChild(reward.key+"/solved").equalTo(true).once('value').then(function(snapshot){
+			return ({pointsval: snapshot.val(), user: user});
+			
+		});
+	}, function(error){
+		//no user
+		console.error(error);
+	}).then(function(data){
+		var solved = false;
+		console.log(data.pointsval);
+		if(data.pointsval != null){
+			Object.keys(data.pointsval).map(function(key){
+				if(data.pointsval[key].user == data.user.uid || data.pointsval[key].team == data.user.team){
+					solved = true;
 				}
-				else{
-					//has team, finds team
-					database.ref('teams').child(val.team).once('value').then(
-						teamsnap => {
-							const teamval = teamsnap.val();
-							if(teamval !== null){
-								if(teamval.rewards == null){
-									//team has no rewards yet
-									teamval.rewards = {};
-									teamval.rewards[reward.key] = reward.points; 
-									database.ref('teams').child(val.team).update({ ...teamval });
-									
-								}
-								else if(teamval.rewards[reward.key] == null){
-									//team does not have specific rewards
-									teamval.rewards[reward.key] = reward.points; 
-									database.ref('teams').child(val.team).update({ ...teamval });
-								}
-								else{
-									hasrewardCB();
-								}
-							}
-
-							else{
-								//user db says he has team but team not found in teams table
-							}
-
-						}
-					)
-					//User has a team
-
-				}
-			}
-			else{
-				//somehow magically the user doesnt exist in db
-			}
+			});
 		}
-	)
+		if(!solved){
+			var newPointKey = database.ref('points').push().key;
+			const rewardkey = reward.key;
+			var point = {
+				user: user.uid
+			}
+			point[rewardkey] = {solved: true, points: reward.points};
+			if(user.team != null){
+				point.team = user.team;
+			}
+			return database.ref('points/'+newPointKey).update( { ...point } );
+		}
+	}, function(error){
+		//something went wrong with getting the points
+		console.error(error);
+	}).then(function() {
+		//only if table was updated
+
+	}, function (error){
+		//failed to update
+		console.error(error);
+	})
+
+	/*
+	var solved = false;
+			Object.keys(val).map(function(key){
+				if(val[key].user == user.uid || val[key].team == user.team){
+					solved = true;
+				}
+			});
+			if(!solved){
+				var newPointKey = database.ref('points').push().key;
+				const rewardkey = reward.key;
+				var point = {
+					rewardkey: {solved: true, points: reward.points},
+					user: user.uid
+				}
+				if(user.team != null){
+					point.team = user.team;
+				}
+				return database.ref('points').child(newPointKey).update({ ...point });
+			}
 	*/
+
 }

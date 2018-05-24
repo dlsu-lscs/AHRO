@@ -30,8 +30,19 @@ export function getInvitations(callback, errorCB) {
     };
 }
 
-export function updatePoints(user, reward){
-    return (dispatch) => {
-        api.updatePoints(user, reward, () => {});
+export function getLeaderBoard(){
+    return (dispatch) =>{
+        api.getLeaderBoard();
     }
+}
+
+export function updatePoints(reward, hasrewardCB, alreadywonCB, errorCB){
+    return (dispatch) => {
+        api.updatePoints(reward, () => {}, () => {}, () => {});
+    }
+}
+export function getTime(callback){
+    api.getTime((time) => {
+        callback();
+    });
 }

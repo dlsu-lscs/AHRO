@@ -6,7 +6,10 @@ const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
+        height: "100%",
+        width: "100%",
+
     },
   
     
@@ -14,33 +17,48 @@ const styles = StyleSheet.create({
     mainbackground:{
         backgroundColor: '#000000',
         alignItems:"center",
-        flex: 1
+        flex: 1,
+        height: "100%",
+        width: "100%",
 
     },
 
     topview:{
         flex:2,
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        height: "100%",
+        width: "100%",
+        backgroundColor: '#000000',
     },
 
     bottomview:{
         flex:1,
         flexDirection: 'row',
-        backgroundColor: '#000000',
+        height: "100%",
+        width: "100%",
     },
 
     leftview:{
-        flex: 1
+        flex: 1,
+        height: "100%",
+        width: "100%",
 
     },
 
-    rightview:{
-        flex: 1
-    },
+    somethingview:{
+        flex:1,
+        height: "100%",
+        width: "100%",
+        alignSelf: 'stretch',
+        margin: 2,
 
+    },
     choices:{
-        margin: 10
+        height: "100%",
+        width: "100%",
+        borderColor: '#d6d7da',
+        backgroundColor: '#00d080',
     },
     title: {
         fontSize:fontSize.large + 5,

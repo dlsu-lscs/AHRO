@@ -10,11 +10,13 @@ import Register from '../modules/auth/scenes/Register';
 import CompleteProfile from '../modules/auth/scenes/CompleteProfile';
 import Login from '../modules/auth/scenes/Login';
 import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
+import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
+
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
 import Identification from '../modules/home/scenes/Identification';
-import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
+import ConfirmedScan from '../modules/home/scenes/ConfirmedScan';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
@@ -36,6 +38,8 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        
+
         let _this = this;
         store.dispatch(testquery());
         store.dispatch(checkLoginStatus((isLoggedIn) => {
@@ -90,12 +94,13 @@ export default class extends React.Component {
                         <Scene key="Login" component={Login} title="Login"/>
                         <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
+
                     </Stack>
 
                     <Stack key="Main" initial={this.state.isLoggedIn}>
                         <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
-                        
+                        <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
                     </Stack>
                     <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
                     <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
