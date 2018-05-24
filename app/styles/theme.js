@@ -11,21 +11,33 @@ const color = {
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    mainGreen: "#00d080"
+    mainGreen: "#00d080",
+
+    // custom
+    rainbowBlueGreen: "#00f260",
+    rainbowBlueBlue: "#057536"
 }
 
 const fontSize = {
     small: normalize(12),
     regular: normalize(14),
-    large: normalize(21)
+    large: normalize(21),
+    larger: normalize(24),
+    title: normalize(34),
 }
 
 const fontFamily = {
-    extrabold: "RobotoExtraBold",
-    bold: "RobotoBold",
-    medium: "RobotoMedium",
-    regular: "RobotoRegular",
-    light: "RobotoLight"
+    // extrabold: "RobotoExtraBold",
+    // bold: "RobotoBold",
+    // medium: "RobotoMedium",
+    // regular: "RobotoRegular",
+    // light: "RobotoLight",
+    extrabold: "FuturaPTExtraBold",
+    bold: "FuturaPTBold",
+    medium: "FuturaPTMedium",
+    regular: "FuturaPTBook",
+    light: "FuturaPTLight",
+    heavy: "FuturaPTHeavy",
 }
 
 const padding = 8;

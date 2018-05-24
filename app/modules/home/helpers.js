@@ -12,7 +12,6 @@ export function getUserDetailsPromise () {
     });
 
 }
-
 export function getAllUserDetailsPromise() {
 	return database.ref('users/').once('value').then(function(snapshot){
 		return snapshot.val();

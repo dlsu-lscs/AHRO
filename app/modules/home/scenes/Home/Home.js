@@ -1,5 +1,5 @@
 import React from 'react';
-var { View, StyleSheet, Alert, Text } = require('react-native');
+var { View, TouchableOpacity, Text, StyleSheet, Alert } = require('react-native');
 
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -14,6 +14,7 @@ const { color } = theme;
 
 //Components
 import ScanQR from "../../components/ScanQR"
+import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 class Home extends React.Component {
     constructor(props){
@@ -37,15 +38,18 @@ class Home extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScanQR />
-                <Button
-                    raised
-                    borderRadius={4}
-                    title={'LOG OUT'}
-                    containerViewStyle={[styles.containerView]}
-                    buttonStyle={[styles.button]}
-                    textStyle={styles.buttonText}
-                    onPress={this.onSignOut}/>
+                <View style={styles.content}>
+                    <ScanQR />
+                    <Button
+                        raised
+                        borderRadius={4}
+                        title={'LOG OUT'}
+                        containerViewStyle={[styles.containerView]}
+                        buttonStyle={[styles.button]}
+                        textStyle={styles.buttonText}
+                        onPress={this.onSignOut}/>
+                </View>
+                <NavigationBar />
             </View>
         );
     }

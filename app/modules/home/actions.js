@@ -45,4 +45,21 @@ export function getTime(callback){
     api.getTime((time) => {
         callback();
     });
+
+export function createTeam(data, successCB, errorCB) {
+    return (dispatch) => {
+        api.createTeam(data, function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function getTeam(data, successCB, errorCB) {
+    return (dispatch) => {
+        api.getTeam(data, function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
 }

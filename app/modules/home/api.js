@@ -1,26 +1,8 @@
 import { auth, database, provider, startTime} from "../../config/firebase";
-
+import axios from 'axios';
 import * as helpers from './helpers';
 
 export function getRewards(callback, errorCB){
-		/*
-		var x = new Date();
-        var y = new Date("2018-05-20T05:30:01.958Z");
-        console.log(x);
-        console.log(y);
-
-        console.log(x-y);
-        console.log((x-y)/1000);
-        */
-    /*
-    fetch('http://worldclockapi.com/api/json/est/now').then((response) => {
-    	data = response.json();
-		console.log(data.currentDateTime);
-		syncTime();
-    }, (error) =>{
-		console.log(error);
-    });
-	*/
 	database.ref('rewards').on('value', (snapshot) => {
 		try{
 			let rewards = [];
@@ -131,25 +113,72 @@ export function updatePoints(reward, hasrewardCB){ //needs callback
 		console.error(error);
 	})
 
-	/*
-	var solved = false;
-			Object.keys(val).map(function(key){
-				if(val[key].user == user.uid || val[key].team == user.team){
-					solved = true;
-				}
-			});
-			if(!solved){
-				var newPointKey = database.ref('points').push().key;
-				const rewardkey = reward.key;
-				var point = {
-					rewardkey: {solved: true, points: reward.points},
-					user: user.uid
-				}
-				if(user.team != null){
-					point.team = user.team;
-				}
-				return database.ref('points').child(newPointKey).update({ ...point });
-			}
-	*/
-
 }
+
+// Create team then add current authenticated user to the team
+export function createTeam (data, callback) {
+    // TODO: Check for unique team name
+    helpers.getUserDetailsPromise().then(function(user) {
+        if (user) {
+            // Get a key for the new team.
+            var newTeamKey = database.ref().child('teams').push().key;
+            
+            // Team data
+            var teamData = {
+                team: true,
+                teamName: 'Fabulous <3',
+                users: {
+                    [user.uid]: {
+                        fname: user.fname,
+                        lname: user.lname,
+                        member: true,
+                    },
+                },
+            };
+
+            // Update user data with new team
+            user['team'] = newTeamKey;
+
+            var updates = {};
+            updates['/teams/' + newTeamKey] = teamData;
+            updates['/users/' + user.uid] = user;
+
+            return database.ref().update(updates);
+        } else {
+            console.error("User cannot be found.");
+            callback(false, null, {message: 'User cannot be found.'});
+        }
+    }).then(function() {
+        console.log("Success.");
+        callback(true, null, null);
+    }, function(error) {
+        console.error("Error in executing get user details promise.");
+        callback(false, null, {message: error});
+    });
+}
+
+// Get team and members
+export function getTeam (data, callback) {
+    helpers.getUserDetailsPromise().then(function(user) {
+        if (user) {
+            return database.ref().child("/teams/" + user.team).once("value").then(function(snapshot) { 
+                return snapshot.val();
+            });
+        } else {
+            console.error("User cannot be found.");
+            callback(false, null, {message: 'User cannot be found.'});
+        }
+    }).then(function(team) {
+        if(team) {
+            console.log("Success.");
+            callback(true, team, null);
+        } else {
+            callback(false, null, {message: "User currently has no team."});
+        }
+    }, function(error) {
+        callback(false, null, {message: error});
+    });
+}
+
+// Add user to team
+

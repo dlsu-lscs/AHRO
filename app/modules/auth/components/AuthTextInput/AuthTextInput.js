@@ -20,8 +20,9 @@ class AuthTextInput extends Component {
                 <FormInput
                     autoCapitalize='none'
                     clearButtonMode='while-editing'
-                    underlineColorAndroid={"#fff"}
+                    underlineColorAndroid={"#ffffff00"}
                     placeholder={placeholder}
+                    placeholderTextColor={"#ededed"}
                     autoFocus={autoFocus}
                     onChangeText={onChangeText}
                     secureTextEntry={secureTextEntry}

@@ -12,11 +12,14 @@ import Login from '../modules/auth/scenes/Login';
 import ForgotPassword from '../modules/auth/scenes/ForgotPassword';
 import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 
+//Authenticated Scenes
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
+import TeamProfile from '../modules/home/scenes/TeamProfile';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
 import Identification from '../modules/home/scenes/Identification';
 import ConfirmedScan from '../modules/home/scenes/ConfirmedScan';
+
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
@@ -89,18 +92,22 @@ export default class extends React.Component {
                        backButtonTintColor={color.black}>
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
-                        <Scene key="Register" component={Register} title="Register" back/>
+                        <Scene key="Register" component={Register} title="Register" hideNavBar/>
                         <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
-                        <Scene key="Login" component={Login} title="Login"/>
+                        <Scene key="Login" component={Login} title="Login" hideNavBar/>
                         <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
 
                     </Stack>
 
                     <Stack key="Main" initial={this.state.isLoggedIn}>
-                        <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
+                        <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
+<<<<<<< HEAD
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
+=======
+                        <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" back={false} hideNavBar/>
+>>>>>>> 5241544f07e6b497b56621fa9f3ba48e32bdc52e
                     </Stack>
                     <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
                     <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
