@@ -5,10 +5,11 @@ export function getUserDetailsPromise () {
     var userAuthDetails = auth.currentUser;
 
     return database.ref('users/' + userAuthDetails.uid).once("value").then(function(snapshot) {
-        // var user = snapshot.val();
         return snapshot.val();
     }, function(error) {
         console.error(error);
     });
 
 }
+
+

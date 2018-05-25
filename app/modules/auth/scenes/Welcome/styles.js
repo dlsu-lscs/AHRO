@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
 
     subTitle:{
         // fontSize: fontSize.large + 2,
-        fontSize: fontSize.regular + 2,
-        lineHeight: fontSize.regular + 4,
+        fontSize: fontSize.regular,
+        // lineHeight: fontSize.regular + 4,
         fontFamily: fontFamily.regular,
         color:color.white,
         letterSpacing: 1
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     },
 
     buttonText:{
-        fontSize: fontSize.regular + 2,
+        fontSize: fontSize.regular,
         fontFamily: fontFamily.regular
     },
 
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
 
     bottomText:{
-        fontSize: fontSize.regular + 1,
+        fontSize: fontSize.regular,
         fontFamily: fontFamily.regular,
         marginRight: 5,
         color: "#fff",

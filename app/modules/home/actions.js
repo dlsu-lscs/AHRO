@@ -14,9 +14,19 @@ export function createTeam(data, successCB, errorCB) {
     };
 }
 
-export function getTeam(data, successCB, errorCB) {
+export function getTeam(successCB, errorCB) {
     return (dispatch) => {
-        api.getTeam(data, function (success, data, error) {
+        api.getTeam(function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function sendInvite(data, successCB, errorCB) {
+    console.log("@sendInvite actions");
+    return (dispatch) => {
+        api.sendInvite(function (success, data, error) {
             if (success) successCB(data);
             else if (error) errorCB(error)
         });

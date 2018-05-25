@@ -32,6 +32,44 @@ const styles = StyleSheet.create({
         color: color.white,
         fontSize: fontSize.large,
         fontFamily: fontFamily.regular,
+    },
+
+    button:{
+        backgroundColor: color.mainGreen,
+    },
+
+    liTitle:{
+        color: color.white,
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+    },
+
+    modalContainer:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#00000060",
+    },
+
+    modalFormContainer:{
+        width: windowWidth - 50,
+        borderRadius: 4,
+        backgroundColor: color.white,
+        paddingVertical: padding * 4,
+        paddingHorizontal: padding * 3,
+    },
+
+    modalLowerContainer:{
+
+    },
+
+    modalButtonContainer:{
+
+    },
+
+    modalText:{
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
     }
 });
 

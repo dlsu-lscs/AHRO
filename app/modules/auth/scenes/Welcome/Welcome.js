@@ -103,7 +103,7 @@ class Welcome extends React.Component {
                     style={styles.linearGradient}> */}
                     <View style={styles.logoContainerLeft}>
                         <Image 
-                            source={ require('../../../../assets/images/ahro-logo.png') }
+                            source={ require('../../../../assets/images/ahro-logo-white.png') }
                             style={styles.logo} />
                     </View>
                     <View style={styles.bottomContainer}>
