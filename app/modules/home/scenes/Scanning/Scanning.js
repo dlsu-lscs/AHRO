@@ -19,6 +19,7 @@ import { Constants, BarCodeScanner, Permissions } from 'expo';
 class Scanning extends React.Component {
     constructor(props){
         super(props);
+        this.onPointSubmit = this.onPointSubmit.bind(this);
         /*
         setInterval(() => {
           this.setState({qrValue: ''});
@@ -55,14 +56,16 @@ class Scanning extends React.Component {
             }
             else{
                 const newReward = {key: data.data, points: this.props.rewards[data.data].points};
-                this.props.updatePoints( newReward , () => {},() => {},() => {});
+                this.props.updatePoints( newReward , this.onPointSubmit);
             }
         }
 
     };
 
     
-
+    onPointSubmit(result, rewardKey){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    }
 
 
     render() {

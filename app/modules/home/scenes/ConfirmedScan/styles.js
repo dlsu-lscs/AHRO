@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor: '#000000',
-        color: color.white,
 
     },
     content:{
@@ -21,20 +20,29 @@ const styles = StyleSheet.create({
     	fontWeight: 'bold',
     	color: color.mainGreen,
     },
+    doneText:{
+        marginTop: 40,
+        fontWeight: 'bold',
+        color: color.warning,
+    },
+    errorText:{
+        marginTop: 40,
+        fontWeight: 'bold',
+        color: color.red,
+    },
     nextText: {
     	marginTop: 40,
     },
     IconView: {
-    	height: '40%',
-    	width: '100%',
-    	backgroundColor: color.white,
+        width:"100%",
     	justifyContent:"center",
         alignItems:"center",
     },
     IconImage: {
-    	backgroundColor: '#000000',
-    	width: 200,
-    	height: 200,
+    	width: 220,
+    	height: 220,
+        justifyContent:"center",
+        alignItems:"center",
     },
     generalText:{
     	color: color.white,

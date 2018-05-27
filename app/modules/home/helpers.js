@@ -28,3 +28,11 @@ export function getAllTeamDetailsPromise(){
         console.error(error);
     })
 }
+
+export function getAllPoints(){
+    return database.ref('points/').once('value').then(function(snapshot){
+            return snapshot.val();
+    }, function(error){
+        console.error(error);
+    })
+}

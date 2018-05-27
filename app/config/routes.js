@@ -17,10 +17,11 @@ import Scanning from '../modules/home/scenes/Scanning';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
 import Identification from '../modules/home/scenes/Identification';
 import ConfirmedScan from '../modules/home/scenes/ConfirmedScan';
+import Leaderboard from '../modules/home/scenes/Leaderboard';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes, getInvitations } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations, getServerTime } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -33,8 +34,6 @@ export default class extends React.Component {
             quizesReady: false,
             isLoggedIn: false
         }
-        this.readyRewards = this.readyRewards.bind(this);
-        this.readyQuizes = this.readyQuizes.bind(this);
     }
 
     componentDidMount() {
@@ -49,31 +48,15 @@ export default class extends React.Component {
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
             
-        }, () => {}));
+        }));
 
         store.dispatch(getQuizes(() => {
             _this.setState({quizesReady: true});
             
-        }, () => {}));
+        }));
+        store.dispatch(getServerTime());
 
-        store.dispatch(getInvitations(() => {
-            _this.setState({quizesReady: true});
-            
-        }, () => {}));
         
-        
-    }
-    readyRewards(){
-        store.dispatch(getRewards(() => {
-            _this.setState({rewardsReady: true});
-            
-        }, this.readyRewards));
-    }
-    readyQuizes(){
-        store.dispatch(getQuizes(() => {
-            _this.setState({quizesReady: true});
-            
-        }, this.readyQuizes));
     }
 
 
@@ -101,6 +84,7 @@ export default class extends React.Component {
                         <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
+                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" />
                     </Stack>
                     <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
                     <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>

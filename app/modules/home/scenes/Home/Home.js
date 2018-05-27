@@ -18,8 +18,8 @@ import ScanQR from "../../components/ScanQR"
 class Home extends React.Component {
     constructor(props){
         super(props);
-
         this.onSignOut = this.onSignOut.bind(this);
+        this.onLeaderboard = this.onLeaderboard.bind(this);
     }
 
     onSignOut() {
@@ -32,6 +32,9 @@ class Home extends React.Component {
 
     onError(error) {
         Alert.alert('Oops!', error.message);
+    }
+    onLeaderboard(){
+        Actions.Leaderboard();
     }
 
     render() {
@@ -46,6 +49,14 @@ class Home extends React.Component {
                     buttonStyle={[styles.button]}
                     textStyle={styles.buttonText}
                     onPress={this.onSignOut}/>
+                <Button
+                    raised
+                    borderRadius={4}
+                    title={'Leaderboard'}
+                    containerViewStyle={[styles.containerView]}
+                    buttonStyle={[styles.button]}
+                    textStyle={styles.buttonText}
+                    onPress={this.onLeaderboard}/>
             </View>
         );
     }

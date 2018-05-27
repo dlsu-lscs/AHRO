@@ -1,7 +1,7 @@
 import * as t from './actionTypes';
 import { NET_INFO_CHANGED } from 'react-native-redux-listener';
 
-let initialState = { isConnected: false, data: [], rewards:[], quizes: {}, notifs: {}};
+let initialState = { isConnected: false, data: [], rewards:{}, quizes: [], offset: 0, currQuiz: null};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -14,19 +14,28 @@ const authReducer = (state = initialState, action) => {
             return state;
 
         case t.GET_REWARDS:
-            return {...state, rewards: action.data};
+            let staterewards = initialState.rewards;
+            staterewards[action.key] = action.data;
+            return {...state, rewards: staterewards};
 
         case t.GET_QUIZES:
             let statequizes = initialState.quizes;
-            statequizes[action.key] = action.data;
-            console.log(statequizes);
-            return {...state, quizes: statequizes};
+            action.data.key = action.key;
+            
+            statequizes.push({...action.data});
 
-        case t.GET_NOTIFS:
-            let statenotifs = initialState.notifs;
-            statenotifs[action.key] = action.data;
-            return {...state, notifs: statenotifs};
+            let statecurQuiz = initialState.currQuiz;
+            if(statecurQuiz == null){
+                statecurQuiz = {...action.data};
+            }
+            else if(statecurQuiz.timeend < action.data.timeend){
+                statecurQuiz = {...action.data};
+            }
+            //console.log(statequizes);
+            return {...state, quizes: statequizes, currQuiz: statecurQuiz};
 
+        case t.CHANGE_TIME_OFFSET:
+            return {...state, offset: action.data};
         default:
             return state;
     }

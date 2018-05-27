@@ -19,12 +19,14 @@ class multipleChoice extends React.Component {
         super(props);
         this.state = {answered: false};
         this.onSubmit = this.onSubmit.bind(this);
+        this.onPointSubmit = this.onPointSubmit.bind(this);
     }
 
     onSubmit(answer){
         //yeahhh idk how to synchronoze this yet xd.. 
         //so people can press choices alot of times before it redirects
         if(!this.state.answered){
+            this.setState({answered: true});
             var newReward = {};
             if(answer == this.props.reward.answer){
                 newReward = {key: this.props.rewardkey, points: this.props.reward.points};
@@ -32,13 +34,16 @@ class multipleChoice extends React.Component {
             else{
                 newReward = {key: this.props.rewardkey, points: 0};
             }
-            this.props.updatePoints(newReward, () => {},() => {},() => {});
+            this.props.updatePoints(newReward, this.onPointSubmit);
         }
-        this.setState({answered: true});
-        console.log("GG");
-        Actions.Main();
+       
+        //console.log("GG");
+        //Actions.Main();
    }
 
+    onPointSubmit(result, rewardKey){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    }
     render() {
         let thereward  = this.props.reward;
 

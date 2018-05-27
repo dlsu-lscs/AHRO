@@ -11,7 +11,8 @@ const color = {
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    mainGreen: "#00d080"
+    mainGreen: "#00d080",
+    warning: "#FFC800"
 }
 
 const fontSize = {
