@@ -27,7 +27,9 @@ class TeamCard extends Component {
                     <Text style = {styles.genText}>{points}</Text>
                 </View>
                 <View style = {styles.nameStyle}>
-                    <Text style = {styles.genText}>{title}</Text>
+                    <Text style = {styles.genText}
+                    adjustsFontSizeToFit = {true}
+                    numberOfLines={1}>{title}</Text>
                 </View>
             </View>
         );

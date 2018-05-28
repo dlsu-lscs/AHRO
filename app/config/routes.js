@@ -21,7 +21,7 @@ import Leaderboard from '../modules/home/scenes/Leaderboard';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes, getInvitations, getServerTime } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations, getServerTime, getPoints } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -30,9 +30,11 @@ export default class extends React.Component {
         super();
         this.state = {
             isReady: false,
+            timeReady: false,
             rewardsReady: false,
             quizesReady: false,
-            isLoggedIn: false
+            isLoggedIn: false,
+            pointsReady: false,
         }
     }
 
@@ -41,9 +43,20 @@ export default class extends React.Component {
 
         let _this = this;
         store.dispatch(testquery());
+        store.dispatch(getServerTime(() => {
+            _this.setState({timeReady: true});
+        }));
         store.dispatch(checkLoginStatus((isLoggedIn) => {
             _this.setState({isReady: true, isLoggedIn});
-            
+            if(isLoggedIn){
+                console.log("tite.");
+                store.dispatch(getPoints(() => {
+                    this.setState({pointsReady: true});
+                }));
+            }
+            else{
+                this.setState({pointsReady: true});
+            }
         }));
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
@@ -54,14 +67,11 @@ export default class extends React.Component {
             _this.setState({quizesReady: true});
             
         }));
-        store.dispatch(getServerTime());
-
-        
     }
 
 
     render() {
-        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady || !this.state.pointsReady)
             return <Splash/>
 
         return (

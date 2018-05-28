@@ -52,6 +52,18 @@ const styles = StyleSheet.create({
         padding: 2,
         
     },
+    disabledQuiz:{
+        width: "100%",
+        borderRadius: 10,
+        borderColor: color.white,
+        borderWidth: 2,
+        backgroundColor: color.black,
+        justifyContent:"center",
+        alignItems:"center",
+        padding: 2,
+        opacity: 0.5,
+        
+    },
     quizText:{
         color: color.white,
     }

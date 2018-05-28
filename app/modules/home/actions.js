@@ -23,10 +23,17 @@ export function getQuizes(callback) {
     };
 }
 
-
+export function getPoints(callback){
+    return (dispatch) => {
+        api.getPoints((newKey, valtype) => {
+            dispatch({type: valtype.type, key: newKey});
+        });
+        callback();
+    }
+}
 export function getLeaderBoard(callback){
     return (dispatch) => {
-        api.getLeaderBoard(function(points,teams,users){
+        api.getLeaderBoard(function(teams,users){
             mixedarr = []
             teamsarr = []
             solosarr = []
@@ -34,6 +41,7 @@ export function getLeaderBoard(callback){
             mixedarr.push(title);
             teamsarr.push(title);
             solosarr.push(title);
+            /*
             Object.keys(points).map(function(key){
                 const point = points[key].point;
                 const user = points[key].user;
@@ -51,18 +59,44 @@ export function getLeaderBoard(callback){
                     else teams[team].points += point;
                 }
             })
+            */
             Object.keys(users).map(function(key){
-                if(users[key].points == null){
-                    users[key].points = 0;
-                }
-                //usersarr.push({...users[key]});
-                users[key].title = users[key].fname+" "+users[key].lname;
                 if(users[key].team == null){
-                    solosarr.push({...users[key]});
-                    mixedarr.push({...users[key]});
+                    if(users[key].rewards != null){
+                        Object.keys(users[key].rewards).map(function(key2){
+                            aPoint = users[key].rewards[key2].point;
+                            if(users[key].points == null){
+                                users[key].points = aPoint;
+                            }
+                            else{
+                                users[key].points += aPoint;
+                            }
+                        })
+                    }
+                    if(users[key].points == null){
+                        users[key].points = 0;
+                    }
+                    //usersarr.push({...users[key]});
+                    users[key].title = users[key].fname+" "+users[key].lname;
+                    if(users[key].team == null){
+                        solosarr.push({...users[key]});
+                        mixedarr.push({...users[key]});
+                    }
                 }
             })
             Object.keys(teams).map(function(key){
+                if(teams[key].rewards != null){
+                    Object.keys(teams[key].rewards).map(function(key2){
+                        aPoint = teams[key].rewards[key2].point;
+                        if(teams[key].points == null){
+                            teams[key].points = aPoint;
+                            console.log("GOT 1");
+                        }
+                        else{
+                            teams[key].points += aPoint;
+                        }
+                    })
+                }
                 if(teams[key].points == null){
                     teams[key].points = 0;
                 }
@@ -110,9 +144,8 @@ export function updatePoints(reward, callback){
         api.updatePoints(reward, callback);
     }
 }
-export function getServerTime(){
+export function getServerTime(callback){
     return (dispatch) =>{
-        console.log("I RAN");
         var timePromise = fetch("http://www.convert-unix-time.com/api?timestamp=now");
         timePromise.then(function(responseJson){
             return responseJson.json();
@@ -123,6 +156,32 @@ export function getServerTime(){
             console.log(nowTime);
             var offset = serverTime - nowTime;
             dispatch({type:t.CHANGE_TIME_OFFSET, data: offset});
+            callback();
+        }, function(error){
+            console.log(error);
         });
+    }
+}
+
+export function getTimeInterval(nextQuiz,callback,offset,quizes){
+    if(nextQuiz != null){
+        nowTime = Math.floor(Date.now()/1000)+28800+offset;
+        timeLeft = nextQuiz.timeend - nowTime;
+        if(timeLeft > 0){
+            hoursLeft = Math.floor(timeLeft/3600); //divide per hour (60secs * 60 mins)
+            minsLeft = Math.floor((timeLeft - hoursLeft*3600)/60); //divide per seconds
+            secsLeft = (timeLeft - hoursLeft*3600 - minsLeft*60); 
+            if(hoursLeft <= 9) hoursLeft = "0"+hoursLeft;
+            if(minsLeft <= 9) minsLeft = "0"+minsLeft;
+            if(secsLeft <= 9) secsLeft = "0"+secsLeft;
+            if(quizes[nextQuiz.key].answered != null) callback(hoursLeft, minsLeft, secsLeft, true, false);
+            else callback(hoursLeft, minsLeft, secsLeft, true, true);
+        }
+        else{
+            callback(null, null, null, false, false);
+        }
+    }
+    else{
+        callback(null, null, null, false, false);
     }
 }

@@ -6,41 +6,70 @@ import {Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles";
 import {connect} from 'react-redux';
+import {getTimeInterval} from '../../actions';
+import * as t from '../../actionTypes';
 class QuizComponent extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.syncTime = this.syncTime.bind(this);
         var nextQuiz = props.quiz;
         this.state = {
             quiz: nextQuiz,
-            canAnswer: false,
+            canAnswer: false, //is within timerange
+            playerAnswered: false, //ths user/team already answered
             hrs: "00",
             mins: "00",
             secs: "00",
         }
         
-        setInterval(() => {
-            nowTime = Math.floor(Date.now()/1000)+28800+props.offset;
-            timeLeft = nextQuiz.timeend - nowTime;
-            hoursLeft = Math.floor(timeLeft/3600); //divide per hour (60secs * 60 mins)
-            minsLeft = Math.floor((timeLeft - hoursLeft*3600)/60); //divide per seconds
-            secsLeft = (timeLeft - hoursLeft*3600 - minsLeft*60); 
-            if(hoursLeft <= 9) hoursLeft = "0"+hoursLeft;
-            if(minsLeft <= 9) minsLeft = "0"+minsLeft;
-            if(secsLeft <= 9) secsLeft = "0"+secsLeft;
-            this.setState({hrs: hoursLeft, mins: minsLeft, secs: secsLeft});
+        this.timer = setInterval(() => {
+            getTimeInterval(nextQuiz,this.syncTime,props.offset,props.quizes);
         }, 1000);
-        this.setState({canAnswer: true});
+        
+    }
+    syncTime(hrs,mins,secs,canAnswer, playerAnswered){
+       try{
+            this.setState({canAnswer: canAnswer});
+            if(canAnswer){
+                this.setState({hrs:hrs,mins:mins,secs:secs, playerAnswered: playerAnswered});
+            }
+            return true;
+        }
+        catch(error){
+
+        }
+    }
+    componentWillUnmount(){
+        if(this.timer != null){
+            clearInterval(this.timer);
+        }
     }
     onSubmit(){
-        Actions.Leaderboard();
+        if(this.props.quiz && this.props.quizes[this.props.quiz.key] != null && this.props.quizes[this.props.quiz.key].answred == null){
+            if(this.props.quiz.type === t.POINT_MULTIPLECHOICE){
+                Actions.multipleChoice({reward: this.props.quiz, rewardkey: this.props.quiz.key, rewardType: t.SUBMIT_QUIZ});
+            }
+            else if(this.props.quiz.type === t.POINT_IDENTIFICATION){
+                Actions.Identification({reward: this.props.quiz, rewardkey: this.props.key, rewardType: t.SUBMIT_QUIZ});
+            }
+            else{
+                const newReward = {key: this.props.quiz.key, points: this.props.quiz.points, rewardType: t.SUBMIT_QUIZ};
+                this.props.updatePoints( newReward , this.onPointSubmit);
+            }
+        }
     }
+
     render() {
         const { user } = this.props;
 
         return (
             <View style = {styles.container}>
-                <Text style = {styles.labelText}>ANSWER BEFORE IT EXPIRES IN:</Text>
+                {this.state.canAnswer ? 
+                    <Text style = {styles.labelText}>ANSWER BEFORE IT EXPIRES IN:</Text>:
+                    <Text style = {styles.labelText}>Stay tuned for the next quiz</Text>
+                }
+                {this.state.canAnswer ?
                 <View style = {styles.bottom}>
                     <View style = {styles.timerComponent}>
                         <View style = {styles.timerContainer}>
@@ -65,11 +94,20 @@ class QuizComponent extends Component {
                         </View>
                     </View>
                     <View style = {styles.buttonComponent}>
-                        <TouchableOpacity style = {styles.buttonQuiz}>
-                                <Text style = {styles.quizText}>TAKE THE QUIZ</Text>
-                        </TouchableOpacity>
+                        {this.state.playerAnswered ?
+                            (<TouchableOpacity style = {styles.buttonQuiz} onPress = {this.onSubmit}>
+                                    <Text style = {styles.quizText}>TAKE THE QUIZ</Text>
+                            </TouchableOpacity>):
+                            (<TouchableOpacity style = {styles.disabledQuiz} disabled = {true} activeOpacity = { .5 } >
+                                    <Text style = {styles.quizText}>ALREADY ANSWERED</Text>
+                            </TouchableOpacity>)
+                        }
                     </View>
-                </View>
+                </View>:
+                    <View>
+                        
+                    </View>
+                }
             </View>
         );
     }
@@ -97,7 +135,7 @@ QuizComponent.defaultProps = {
 */
 }
 const mapStateToProps = state => {
-    return { offset: state.homeReducer.offset, quiz: state.homeReducer.currQuiz };
+    return { offset: state.homeReducer.offset, quiz: state.homeReducer.currQuiz, quizes: state.homeReducer.quizes };
   
 };
 export default connect(mapStateToProps, null)(QuizComponent);

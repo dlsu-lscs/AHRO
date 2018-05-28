@@ -29,10 +29,10 @@ class multipleChoice extends React.Component {
             this.setState({answered: true});
             var newReward = {};
             if(answer == this.props.reward.answer){
-                newReward = {key: this.props.rewardkey, points: this.props.reward.points};
+                newReward = {key: this.props.rewardkey, points: this.props.reward.points, rewardType: this.props.rewardType};
             }
             else{
-                newReward = {key: this.props.rewardkey, points: 0};
+                newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType};
             }
             this.props.updatePoints(newReward, this.onPointSubmit);
         }

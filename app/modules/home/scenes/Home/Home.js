@@ -21,7 +21,6 @@ class Home extends React.Component {
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
     }
-
     onSignOut() {
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }

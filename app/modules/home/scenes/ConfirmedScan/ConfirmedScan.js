@@ -11,6 +11,7 @@ import { actions as auth, theme } from "../../../auth/index"
 import { actions as homeauth } from "../../index";
 import { FontAwesome } from "@expo/vector-icons"
 
+import * as t from "../../actionTypes";
 class ConfirmedScan extends React.Component {
     constructor(props){
         super(props);
@@ -29,19 +30,19 @@ class ConfirmedScan extends React.Component {
                 <View style = {styles.IconView}>
                     <View style = {styles.IconImage}>
                         {
-                        this.props.result == "win" ?
+                        this.props.result == t.WIN_TYPE ?
                         <FontAwesome name = "check-circle" size={220} color= "#00d080"  />:
-                        this.props.result == "done" ?
+                        this.props.result == t.DONE_TYPE ?
                         <FontAwesome name = "check-circle" size={220} color= "#FFC800"  />:
                         <FontAwesome name = "error" size={220} color= "red" />
                         }
                     </View>
                 </View>
                 <View style = {styles.content}>
-                    {this.props.result == "win" ?
-                        <Text style = {[styles.generalText, styles.topText]}>QR Code Scanned Successfully </Text>:
-                     this.props.result == "done" ?
-                        <Text style = {[styles.generalText, styles.doneText]}>Points were already rewarded </Text>:
+                    {this.props.result == t.WIN_TYPE ?
+                        <Text style = {[styles.generalText, styles.topText]}>Your account has been rewarded! </Text>:
+                     this.props.result == t.DONE_TYPE  ?
+                        <Text style = {[styles.generalText, styles.doneText]}>You have already finished this task </Text>:
                         <Text style = {[styles.generalText, styles.errorText]}>There was a technical error </Text>
 
                     }

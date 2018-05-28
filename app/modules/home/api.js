@@ -2,6 +2,8 @@ import { auth, database, provider, startTime} from "../../config/firebase";
 
 import * as helpers from './helpers';
 
+import * as t from './actionTypes';
+
 export function getRewards(callback, errorCB){
 	database.ref('rewards').on('child_added', function(snapshot){
 		try{
@@ -12,7 +14,7 @@ export function getRewards(callback, errorCB){
 		catch (error){
 			console.log(error);
 		}
-	})
+	});
 	
 }
 
@@ -30,72 +32,101 @@ export function getQuizes(callback, errorCB){
     
 }
 
-export function getTime(callback){
-	loadJSON();
+export function getPoints(callback){
+	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
+		if(user.team != null){
+			database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
+				try{
+					reward = snapshot.val();
+					const key = snapshot.key;
+					callback(key, reward);
+				}
+				catch(error){
+					console.log(error);
+				}
+			})
+		}
+		else{
+			database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
+				try{
+					reward = snapshot.val();
+					const key = snapshot.key;
+					callback(key, reward);
+				}
+				catch(error){
+					console.log(error);
+				}
+			})
+		}
+		
+	}, function(error){
+		callback(t.ERROR_TYPE, reward.key);
+		console.log(error);
+	})
 }
 
 export function getLeaderBoard(callback){
-	Promise.all([helpers.getAllPoints(),helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
-		callback(results[0],results[1], results[2]);
+	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
+		callback(results[0], results[1]);
 	},function(error){
 		console.error(error);
 	})
 }
 export function updatePoints(reward, callback){ //needs callback
-
 	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
-		return database.ref("points").orderByChild(reward.key+"/solved").equalTo(true).once('value').then(function(snapshot){
-			return ({pointsval: snapshot.val(), user: user});
-			
-		});
+		if(user.team == null){
+			return Promise.resolve({data: user.rewards, user:user});
+		}
+		else{
+			return database.ref('teams/'+user.team).once('value').then(function(snapshot){
+				return {data: snapshot.val().rewards, user: user};
+			});
+		}
 	}, function(error){
-		callback("error", reward.key);
+		callback(t.ERROR_TYPE, reward.key);
 		console.log(error);
 	})
 
 	var updateDBpromise = getDataPromise.then(function(data){
+		rewards = data.data;
+		user = data.user;
 		
-		var solved = false;
-		if(data.pointsval != null){
-			Object.keys(data.pointsval).map(function(key){
-				if(data.pointsval[key].user == data.user.uid || data.pointsval[key].team == data.user.team){
-					solved = true;
-				}
-			});
+		if(rewards != null && rewards[reward.key] != null){
+			return Promise.reject(t.DONE_TYPE);
 		}
-		if(!solved){
-			var newPointKey = database.ref('points').push().key;
+		else{
 			const rewardkey = reward.key;
 			var point = {
 				user: data.user.uid,
-				point: reward.points
+				point: reward.points,
+				type: reward.rewardType,
+				task: rewardkey,
 			}
-			point[rewardkey] = {solved: true};
-			if(data.user.team != null){
-				point.team = data.user.team;
+			var updates = {};
+			if(user.team != null){
+				updates['/teams/'+user.team+'/rewards/'+rewardkey] = point;
 			}
-			return database.ref('points/'+newPointKey).update( { ...point } );
-		}
-		else{
-			//User/team already solved 
-			return Promise.reject("done");
-		}
-	}, function(error){
-		//something went wrong with getting the points
-		callback("error", reward.key);
-		console.log(error);
-	})
+			else{
+				updates['/users/'+user.uid+'/rewards/'+rewardkey] = point;
+			}
 
+			return database.ref().update( updates );
+		}
+
+	}, function(error){
+		callback(t.ERROR_TYPE, reward.key);
+		console.log(error);
+	});
 	updateDBpromise.then(function(data) {
 		//only if table was updated
-		callback("win", reward.key);
+		callback(t.WIN_TYPE, reward.key);
 	}, function (error){
 		//failed to update
-		if(error == "done"){
-			callback("done", reward.key);
+		if(error == t.DONE_TYPE){
+			callback(t.DONE_TYPE, reward.key);
 		}
 		else{
-			callback("error");
+			callback(t.ERROR_TYPE);
 			console.log(error, reward.key);
 		}
 	})

@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.medium,
         color: "#FF553F",
         letterSpacing: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
     },
 });
 

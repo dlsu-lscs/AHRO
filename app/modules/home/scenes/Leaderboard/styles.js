@@ -56,17 +56,14 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent:"center",
         alignItems:"center",
-        color: color.white,
     },
     offButton:{
         backgroundColor: color.black,
         height: 30,
         margin: 0,
-        fontSize: 25,
         width: "100%",
         justifyContent:"center",
         alignItems:"center",
-        color: color.white,
     },
     buttonText:{
         color: color.white,
