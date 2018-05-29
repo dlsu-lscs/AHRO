@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // paddingTop: (Platform.OS) === 'ios' ? 0 : 20,
         // paddingTop: (Platform.OS) === 'ios' ? 20 : 0,
-        // paddingTop: (Platform.OS) === 'ios' ? 0 : 22,
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
     },
 
     linearGradient:{

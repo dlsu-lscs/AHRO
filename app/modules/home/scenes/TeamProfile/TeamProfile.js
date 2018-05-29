@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Alert, TouchableHighlight, FlatList, Modal, ImageBackground } from 'react-native';
 
-import { Button, ListItem } from 'react-native-elements'
+import { Button, ListItem, Card } from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import styles from "./styles"
 
 import { constants, actions as home } from "../../index"
-const { createTeam, getTeam, sendInvite } = home;
+const { createTeam, getTeam, sendInvite, getInvites, acceptInvite } = home;
 
 // import MaterialIcons  
 // from '../../../../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
@@ -62,18 +62,25 @@ class TeamProfile extends React.Component {
         this.state = {
             loading: false,
             members: [],
+            invites: [],
             error: error,
             modalCreateTeamVisible: false,
             modalAddMemberVisible: false,
+            modalInviteVisible: false,
         }
 
-        // this.renderItem = this.renderItem.bind(this);
+        this.getInvites = this.getInvites.bind(this);
+        this.acceptInvite = this.acceptInvite.bind(this);
+
         this.setModalCreateTeamVisible = this.setModalCreateTeamVisible.bind(this);
         this.setModalAddMemberVisible = this.setModalAddMemberVisible.bind(this);
+        this.setModalInviteVisible = this.setModalInviteVisible.bind(this);
+
         this.onSubmitModalCreateTeam = this.onSubmitModalCreateTeam.bind(this);
         this.onSubmitModalAddMember = this.onSubmitModalAddMember.bind(this);
-        // this.pressRow = this.pressRow.bind(this);
+
         this.onSuccess = this.onSuccess.bind(this);
+        this.onSuccessGetInvites = this.onSuccessGetInvites.bind(this);
         this.onError = this.onError.bind(this);
     }
 
@@ -85,12 +92,29 @@ class TeamProfile extends React.Component {
         this.setState({modalAddMemberVisible: visible});
     }
 
+    setModalInviteVisible(visible) {
+        this.setState({modalInviteVisible: visible});
+    }
+
     componentWillMount() {
         this.getItems();
     }
 
     componentDidMount() {
         this.getItems();
+    }
+
+    getInvites(){
+        console.log("GETTING INVITES");
+
+        this.props.getInvites(this.onSuccessGetInvites, this.onError);
+    }
+
+    acceptInvite(invite){
+        console.log("ACCEPT INVITE");
+        console.log(invite);
+
+        this.props.acceptInvite(invite, this.onSuccess, this.onError);
     }
 
     getItems(){
@@ -110,26 +134,12 @@ class TeamProfile extends React.Component {
 
         console.log("Send invite called");
 
-        this.props.sendInvite(null, this.onSuccess, this.onError);
+        this.props.sendInvite(data, this.onSuccess, this.onError);
 
     }
-    // renderItem(item){
-    //     console.log(item);
-    //     console.log(typeof item);
-    //     return (
-    //         <TouchableHighlight onPress={() => {
-    //             this.pressRow(item);
-    //         }}>
-    //             {/* <ListItem item={item} /> */}
-    //             <View style={styles.list}>
-    //                 <Text style={styles.listText}>{item}</Text>
-    //             </View>
-    //         </TouchableHighlight>
-    //     );
-    // }
 
     onSuccess(team) {
-        console.log("@TeamProfile.js : Success");
+        console.log("@TeamProfile.js : Success GetTeam");
 
         var members = [];
         Object.keys(team.users).forEach(function(key) {
@@ -140,7 +150,28 @@ class TeamProfile extends React.Component {
 
         this.setState({members, loading: false, team: constants.STATE_USER_TEAM });
         console.log(this.state);
-        console.log("done success func");
+    }
+
+    onSuccessGetInvites(teamInvites) {
+        console.log("@TeamProfile.js: Success GetInvites");
+
+        console.log(teamInvites);
+
+        var inviteArr = [];
+        Object.keys(teamInvites).forEach(function(key) {
+            console.log(key);
+            console.log(teamInvites[key]);
+            inviteArr.push( {
+                id: key,
+                teamName: teamInvites[key],
+            });
+        });
+
+        inviteArr.push( { id: '101', teamName: 'team sample'});
+
+        console.log(inviteArr);
+        this.setState({ invites: inviteArr });
+        console.log(this.state);
     }
     
     onError(error) {
@@ -161,7 +192,6 @@ class TeamProfile extends React.Component {
                 <Text>Please wait...</Text>
             )
         } else {
-        // }
             return (
                 <ImageBackground
                     source={ require('../../../../assets/images/theme-bg.png')}
@@ -175,26 +205,6 @@ class TeamProfile extends React.Component {
                         setVisible={this.setModalCreateTeamVisible}
                         error={this.state.error}/>
 
-                    {/* <Modal
-                        animationType="fade"
-                        transparent={ false }
-                        visible={this.state.modalCreateTeamVisible}
-                        onRequestClose={() => {
-                            console.log("hide add member modal");
-                        }}>
-                        <View style={styles.modalContainer}>
-                            <View>
-                                <Text>Enter the name of your new team below:</Text>
-                                <TouchableHighlight
-                                    onPress={() => {
-                                        this.setModalCreateTeamVisible(!this.state.modalCreateTeamVisible);
-                                    }}>
-                                    <Text>Hide Modal</Text>
-                                </TouchableHighlight>
-                            </View>
-                        </View>
-                    </Modal> */}
-
                     {/* Add member modal */}
                     <CustomModal fields={addMemberFields}
                         modalText={"Enter the username of the user you want to add to your team:"}
@@ -203,30 +213,115 @@ class TeamProfile extends React.Component {
                         setVisible={this.setModalAddMemberVisible}
                         error={this.state.error}/>
 
+                    {/* View invites modal */}
+                    <Modal
+                        animationType="fade"
+                        transparent={ true }
+                        visible={ this.state.modalInviteVisible }
+                        onRequestClose={() => {
+                            console.log("hide invites modal");
+                        }}>
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalWindowContainer}>
+                                <Text style={styles.modalTitle}>Invitations</Text>
+                                <FlatList data={this.state.invites}
+                                    renderItem={({ item }) => (
+                                        // <ListItem
+                                        //     title={`${item.teamName}`}
+                                        //     titleStyle={[styles.liTitleDark]}
+                                        //     hideChevron={true}
+                                        //     rightElement={
+                                        //         <View>
+                                        //             <Text>To the RIGHT</Text>
+                                        //             {/* <Button title="Accept"
+                                        //                 onPress={() => { console.log( "Tapped accept") }} />
+                                        //             <Button title="Delete"
+                                        //                 onPress={() => { console.log( "Tapped delete") }} /> */}
+                                        //         </View>
+                                        //     }
+                                        // />
+                                        <Card
+                                            containerStyle={[styles.cardContainer]}
+                                            flexDirection="row"
+                                            >
+                                            <Text style={[styles.cardTextLeft]}>{ item.teamName }</Text>
+                                            <View style={[styles.cardRightButtonView]}>
+                                                <View style={[styles.transparentButton]}>
+                                                    <TouchableOpacity style={[styles.toButton]}                                                    
+                                                        onPress={ () => {
+                                                        console.log("DECLINE");
+                                                        
+                                                    }}>
+                                                    
+                                                        <Text style={[styles.transparentButtonText]}>Decline</Text>
+                                                        
+                                                    </TouchableOpacity>
+                                                </View>
+
+                                                <View style={[styles.filledButton]}>
+                                                    <TouchableOpacity style={[styles.toButton]}
+                                                        onPress={ () => {
+                                                        console.log("Accept")
+                                                        this.acceptInvite(item);
+                                                    }}>
+                                                        
+                                                            <Text style={[styles.filledButtonText]}>Accept</Text>
+                                                        
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </Card>
+                                    )}
+                                    keyExtractor={item => item.id}/>
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                            this.setModalInviteVisible(!this.state.modalInviteVisible);
+                                        }}>
+                                        <Text>Close</Text>
+                                    </TouchableHighlight>
+                            </View>
+                        </View>
+                        
+                    </Modal>
+
                     <View style={styles.content}>
                         <View style={styles.topContent}>
                             <Text style={styles.title}>My Team Profile</Text>
 
                             {this.state.team === constants.STATE_USER_TEAM &&
-                                <Button 
-                                    onPress={() => {
-                                        this.setModalAddMemberVisible(!this.state.modalAddMemberVisible)
-                                    }}
-                                    title="Add Member"
-                                    buttonStyle={[styles.button]}
-                                    borderRadius={4}
-                                />
+                                <View style={styles.topRightContainer}>
+                                    <Button 
+                                        onPress={() => {
+                                            this.setModalAddMemberVisible(!this.state.modalAddMemberVisible)
+                                        }}
+                                        title="Add Member"
+                                        buttonStyle={[styles.button]}
+                                        borderRadius={4}
+                                    />
+                                </View>
                             }
 
                             {this.state.team === constants.STATE_USER_TEAM_NONE &&
-                                <Button 
-                                    onPress={() => {
-                                        this.setModalCreateTeamVisible(!this.state.modalCreateTeamVisible)
-                                    }}
-                                    title="Create Team"
-                                    buttonStyle={[styles.button]}
-                                    borderRadius={4}
-                                />
+                                <View style={styles.topRightContainer}>
+                                    <Button 
+                                        onPress={() => {
+                                            this.getInvites();
+                                            this.setModalInviteVisible(!this.state.modalInviteVisible);
+                                            console.log("invite button 2");
+                                        }}
+                                        title="Invites"
+                                        buttonStyle={[styles.button]}
+                                        borderRadius={4}
+                                    />
+                                    <Button 
+                                        onPress={() => {
+                                            this.setModalCreateTeamVisible(!this.state.modalCreateTeamVisible)
+                                        }}
+                                        title="Create Team"
+                                        buttonStyle={[styles.button]}
+                                        borderRadius={4}
+                                    />
+                                </View>
                             }
                             
                             {/* <ScanQR /> */}
@@ -238,11 +333,14 @@ class TeamProfile extends React.Component {
                                     <ListItem
                                         title={`${item.name}`}
                                         // rightTitle={'right'}
-                                        titleStyle={[styles.liTitle]}
+                                        titleStyle={[styles.liTitleLight]}
                                         hideChevron={true}
                                     />
                                 )}
                                 keyExtractor={item => item.name}
+                                ListEmptyComponent={
+                                    <Text>You are not part of any team!</Text>
+                                }
                             />
                     </View>
                     <NavigationBar />
@@ -251,4 +349,4 @@ class TeamProfile extends React.Component {
         }
     }
 }
-export default connect(null, { createTeam, getTeam, sendInvite })(TeamProfile);
+export default connect(null, { createTeam, getTeam, sendInvite, getInvites, acceptInvite })(TeamProfile);

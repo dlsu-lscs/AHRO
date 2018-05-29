@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import {Text, View, TouchableOpacity, Image, ImageBackground, KeyboardAvoidingView } from 'react-native';
 
 import {Button, Divider} from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -111,7 +111,7 @@ class Welcome extends React.Component {
 
                             <View style={[styles.titleContainer]}>
                                 <Text style={[styles.title]}>University Vision-Mission Week 2018</Text>
-                                <Text style={[styles.subTitle]}>Ascent: Unlocking potential, unleashing ambition</Text>
+                                <Text style={[styles.subTitle]}>AHRO: Aim high, reach out</Text>
                             </View>
                             <Form fields={fields}
                                 showLabel={false}

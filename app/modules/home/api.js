@@ -75,8 +75,11 @@ export function getTeam (callback) {
 export function sendInvite (data, callback) {
 
     var teamId;
+    var sentToId;
+
     helpers.getUserDetailsPromise().then(function(authUser) {
         console.log(authUser['team']);
+        console.log(data);
         console.log(authUser.team);
 
         teamId = authUser.team;
@@ -90,13 +93,21 @@ export function sendInvite (data, callback) {
         console.log('received user object');
         console.log(user);
 
+        sentToId = Object.keys(user)[0];
+
+        return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
+            return snapshot.val();
+        });
+    }).then(function(team) {
+        console.log('received team object');
+        console.log(team);
+
         var updates = {};
-        updates['/users/' + Object.keys(user)[0] + '/invites/' + teamId ] = true;
+        updates['/users/' + sentToId + '/invites/' + teamId ] = team.teamName;
 
         console.log(updates);
 
         return database.ref().update(updates);
-
     }).then(function() {
         console.log("sendInvite success");
         callback(true, null, null);
@@ -107,5 +118,71 @@ export function sendInvite (data, callback) {
     });
 }
 
+// Get invites of user
+export function getInvites (callback) {
+    helpers.getUserDetailsPromise().then(function(user) {
+        if (user) {
+            return database.ref('/users/' + user.uid).child("/invites/").once("value").then(function(snapshot) { 
+                return snapshot.val();
+            });
+        } else {
+            console.error("User cannot be found.");
+            callback(false, null, {message: constants.ERROR_NO_AUTHENTICATED_USER});
+        }
+    }).then(function(invites) {
+        console.log("Success.");
+        console.log(invites);
+        callback(true, invites, null);
+    }, function(error) {
+        console.log("@api.getInvites ERROR");
+        console.log(error);
+        callback(false, null, {message: error});
+    });
+}
 
+export function acceptInvite (data, callback) {
+    console.log("@api acceptInvite");
+    console.log(data);
+
+    var authUser;
+    helpers.getUserDetailsPromise().then(function(user) {
+        if (user) {
+
+            authUser = user;
+            
+            var updates = {};
+            user['team'] = data.id;
+            updates['/users/' + user.uid] = user;
+
+            return database.ref().update(updates);
+        } else {
+            console.error("User cannot be found.");
+            callback(false, null, {message: constants.ERROR_NO_AUTHENTICATED_USER});
+        }
+    }).then(function() {
+        var updates = {};
+
+        teamUser = {
+            fname: authUser.fname,
+            lname: authUser.lname,
+            member: true,
+        };
+
+        updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
+        updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
+
+        return database.ref().update(updates);
+    }).then(function() {
+        console.log("Success.");
+        callback(true, null, null);
+    }, function(error) {
+        console.log(error);
+        callback(false, null, {message: error});
+    });
+}
+
+
+
+
+            
 
