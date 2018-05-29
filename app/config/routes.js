@@ -14,6 +14,7 @@ import VerifyEmail from '../modules/auth/scenes/VerifyEmail';
 
 import Home from '../modules/home/scenes/Home';
 import Scanning from '../modules/home/scenes/Scanning';
+import EnterCode from '../modules/home/scenes/EnterCode';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
 import Identification from '../modules/home/scenes/Identification';
 import ConfirmedScan from '../modules/home/scenes/ConfirmedScan';
@@ -96,9 +97,9 @@ export default class extends React.Component {
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
                         <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" />
                     </Stack>
-                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
-                    <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
-                    
+                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET}/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type={ActionConst.RESET}/>
+                        <Scene key="Identification" component={Identification} title="Answer the quiz" type={ActionConst.RESET}/>
                 </Scene>
             </Router>
         )

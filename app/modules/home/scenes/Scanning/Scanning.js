@@ -49,15 +49,20 @@ class Scanning extends React.Component {
           qrValue: data,
         })
         if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered == null ){
-            if(this.props.rewards[data.data].type === t.POINT_MULTIPLECHOICE){
-                Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
-            }
-            else if(this.props.rewards[data.data].type === t.POINT_IDENTIFICATION ){
-                Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+            if(this.props.rewards[data.data].secret == null ){
+                if(this.props.rewards[data.data].type === t.POINT_MULTIPLECHOICE){
+                    Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else if(this.props.rewards[data.data].type === t.POINT_IDENTIFICATION ){
+                    Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else{
+                    const newReward = {key: data.data, points: this.props.rewards[data.data].points, rewardType: t.SUBMIT_REWARD};
+                    this.props.updatePoints( newReward , this.onPointSubmit);
+                }
             }
             else{
-                const newReward = {key: data.data, points: this.props.rewards[data.data].points, rewardType: t.SUBMIT_REWARD};
-                this.props.updatePoints( newReward , this.onPointSubmit);
+                Actions.EnterCode({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
             }
         }
         else if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered != null ){

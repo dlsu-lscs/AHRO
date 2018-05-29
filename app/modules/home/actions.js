@@ -167,7 +167,8 @@ export function getTimeInterval(nextQuiz,callback,offset,quizes){
     if(nextQuiz != null){
         nowTime = Math.floor(Date.now()/1000)+28800+offset;
         timeLeft = nextQuiz.timeend - nowTime;
-        if(timeLeft > 0){
+        timeHas = nextQuiz.timestart - nowTime;
+        if(timeLeft > 0 && timeHas <= 0){
             hoursLeft = Math.floor(timeLeft/3600); //divide per hour (60secs * 60 mins)
             minsLeft = Math.floor((timeLeft - hoursLeft*3600)/60); //divide per seconds
             secsLeft = (timeLeft - hoursLeft*3600 - minsLeft*60); 

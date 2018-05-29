@@ -1,5 +1,5 @@
 import React from 'react';
-var { Text, View, StyleSheet, Alert, Image } = require('react-native');
+var { Text, View, StyleSheet, Alert, Image, ImageBackground, TouchableOpacity } = require('react-native');
 
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -17,9 +17,10 @@ const { updatePoints } = homeauth;
 class multipleChoice extends React.Component {
     constructor(props){
         super(props);
-        this.state = {answered: false};
+        this.state = {answered: false, option: ""};
         this.onSubmit = this.onSubmit.bind(this);
         this.onPointSubmit = this.onPointSubmit.bind(this);
+        this.changeOption = this.changeOption.bind(this);
     }
 
     onSubmit(answer){
@@ -44,11 +45,23 @@ class multipleChoice extends React.Component {
     onPointSubmit(result, rewardKey){
        Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
     }
+    changeOption(answer){
+        if(this.state.option == answer){
+            this.setState({option: ""});
+        }
+        else{
+            this.setState({option: answer});
+        }
+    }
     render() {
         let thereward  = this.props.reward;
 
         return (
-            <View style={styles.container}>
+            <ImageBackground 
+                source = {require('../../../../assets/images/theme-bg.png')}
+                style={styles.container}>
+                {
+                /*
                 <View style = {styles.topview}>
                     <Text style={styles.title}>{thereward.question}</Text>
                 </View>
@@ -92,7 +105,66 @@ class multipleChoice extends React.Component {
                         </View>
                     </View>
                 </View>
-            </View>
+                */
+                }
+                <View style = {styles.mainView}>
+                    <View style = {styles.topView}>
+                        <Text style = {styles.title}>Question</Text>
+                    </View>
+                    <View style = {styles.midView}>
+                        <View style = {styles.buttonContainer}>
+                            <View style = {styles.buttonView}>
+                                <TouchableOpacity style = {[
+                                    styles.buttonStyle,
+                                    (this.state.option == "a") ? styles.selectedStyle: styles.optionStyle
+                                    ]}
+                                    onPress = {() => this.changeOption("a")}
+                                    >
+                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style = {styles.buttonView}>
+                                <TouchableOpacity style = {[
+                                        styles.buttonStyle,
+                                        (this.state.option == "b") ? styles.selectedStyle: styles.optionStyle
+                                        ]}
+                                        onPress = {() => this.changeOption("b")}
+                                        >
+                                    <Text style = {styles.autoFit} >A: Option A</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style = {styles.buttonView}>
+                                <TouchableOpacity style = {[
+                                        styles.buttonStyle,
+                                        (this.state.option == "c") ? styles.selectedStyle: styles.optionStyle
+                                        ]}
+                                        onPress = {() => this.changeOption("c")}
+                                        >
+                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style = {styles.buttonView}>
+                                <TouchableOpacity style = {[
+                                        styles.buttonStyle,
+                                        (this.state.option == "d") ? styles.selectedStyle: styles.optionStyle
+                                        ]}
+                                        onPress = {() => this.changeOption("d")}
+                                        >
+                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style = {styles.botView}>
+                            <TouchableOpacity style = {styles.submitBotton}>
+                                <Text>
+                                    Submit
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    
+                </View>
+            </ImageBackground>
         );
     }
 }
