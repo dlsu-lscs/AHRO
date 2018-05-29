@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         //backgroundColor: 'rgb(190,200,190)',
-        borderRadius: 10,
+        //borderRadius: 10,
         padding: 10,
         alignItems: 'center',
         justifyContent:"center",
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
         justifyContent:"center",
     },
     botView:{
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
         width: "100%",
         height:"10%",
         
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: 'center',
         justifyContent:"center",
-        borderRadius: 10,
+        //borderRadius: 10,
         padding: 5,
         backgroundColor: color.mainGreen,
     },

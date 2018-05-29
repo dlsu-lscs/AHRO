@@ -1,5 +1,5 @@
 import React from 'react';
-var { View, TouchableOpacity, Text, StyleSheet, Alert } = require('react-native');
+var { View, TouchableOpacity, Text, StyleSheet, Alert, ImageBackground } = require('react-native');
 
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -39,7 +39,9 @@ class Home extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ImageBackground 
+                source = {require('../../../../assets/images/theme-bg.png')}
+                style={styles.container}>
                 <View style={styles.content}>
                     <ScanQR />
                     <Button
@@ -60,7 +62,7 @@ class Home extends React.Component {
                         onPress={this.onLeaderboard}/>
                 </View>
                 <NavigationBar />
-            </View>
+            </ImageBackground>
         );
     }
 }
