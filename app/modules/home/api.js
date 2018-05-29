@@ -2,23 +2,26 @@ import { auth, database, provider, startTime} from "../../config/firebase";
 import axios from 'axios';
 import * as helpers from './helpers';
 
+
+import * as t from './actionTypes';
+
 export function getRewards(callback, errorCB){
-	database.ref('rewards').on('value', (snapshot) => {
+	database.ref('rewards').on('child_added', function(snapshot){
 		try{
-			let rewards = [];
 			rewards = snapshot.val();
-			callback(rewards);
+			const key = snapshot.key;
+			callback(key,rewards);
 		}
-		catch(error){
-			errorCB();
+		catch (error){
+			console.log(error);
 		}
-    })
+	});
+	
 }
 
 export function getQuizes(callback, errorCB){
 	database.ref('quizes').on('child_added', (snapshot) => {
 		try{
-			let quizes = [];
 			quizes = snapshot.val();
 			const key = snapshot.key;
 			callback(key,quizes);
@@ -27,92 +30,107 @@ export function getQuizes(callback, errorCB){
 			errorCB();
 		}
     })
+    
 }
 
-export function getInvitations(callback, errorCB){
-	database.ref('teams/invitations').on('child_added', (snapshot) => {
-		try{
-			let val = snapshot.val();
-			const key = snapshot.key;
-			callback(key,val);
-			//console.log(key);
-			//console.log(val);
-
-		}
-		catch(error){
-			console.log(error);
-			errorCB();
-		}
-    })
-}
-
-export function getTime(callback){
-	loadJSON();
-}
-
-export function getLeaderBoard(){
-	var solos = {}
-	var AllTeams = {}
-	helpers.getAllUserDetailsPromise().then((users) => {
-		Objects.keys(users).map(function(key){
-			if(users[key].team == null){
-				//has no team
-				solos[key] = users[key];
-			}
-		});
-		return helpers.getAllTeamDetailsPromise();
-	}, function(error){
-		console.error(error);
-	}).then(function(teams){
-		AllTeams = teams;
-		//callback;
-	}, function(error){
-		console.error(error);
-	});
-}
-export function updatePoints(reward, hasrewardCB){ //needs callback
-
-	helpers.getUserDetailsPromise().then(function(user){
-		return database.ref("points").orderByChild(reward.key+"/solved").equalTo(true).once('value').then(function(snapshot){
-			return ({pointsval: snapshot.val(), user: user});
-			
-		});
-	}, function(error){
-		//no user
-		console.error(error);
-	}).then(function(data){
-		var solved = false;
-		console.log(data.pointsval);
-		if(data.pointsval != null){
-			Object.keys(data.pointsval).map(function(key){
-				if(data.pointsval[key].user == data.user.uid || data.pointsval[key].team == data.user.team){
-					solved = true;
+export function getPoints(callback){
+	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
+		if(user.team != null){
+			database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
+				try{
+					reward = snapshot.val();
+					const key = snapshot.key;
+					callback(key, reward);
 				}
-			});
+				catch(error){
+					console.log(error);
+				}
+			})
 		}
-		if(!solved){
-			var newPointKey = database.ref('points').push().key;
-			const rewardkey = reward.key;
-			var point = {
-				user: user.uid
-			}
-			point[rewardkey] = {solved: true, points: reward.points};
-			if(user.team != null){
-				point.team = user.team;
-			}
-			return database.ref('points/'+newPointKey).update( { ...point } );
+		else{
+			database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
+				try{
+					reward = snapshot.val();
+					const key = snapshot.key;
+					callback(key, reward);
+				}
+				catch(error){
+					console.log(error);
+				}
+			})
 		}
+		
 	}, function(error){
-		//something went wrong with getting the points
-		console.error(error);
-	}).then(function() {
-		//only if table was updated
+		callback(t.ERROR_TYPE, reward.key);
+		console.log(error);
+	})
+}
 
-	}, function (error){
-		//failed to update
+export function getLeaderBoard(callback){
+	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
+		callback(results[0], results[1]);
+	},function(error){
 		console.error(error);
 	})
+}
+export function updatePoints(reward, callback){ //needs callback
+	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
+		if(user.team == null){
+			return Promise.resolve({data: user.rewards, user:user});
+		}
+		else{
+			return database.ref('teams/'+user.team).once('value').then(function(snapshot){
+				return {data: snapshot.val().rewards, user: user};
+			});
+		}
+	}, function(error){
+		callback(t.ERROR_TYPE, reward.key);
+		console.log(error);
+	})
 
+	var updateDBpromise = getDataPromise.then(function(data){
+		rewards = data.data;
+		user = data.user;
+		
+		if(rewards != null && rewards[reward.key] != null){
+			return Promise.reject(t.DONE_TYPE);
+		}
+		else{
+			const rewardkey = reward.key;
+			var point = {
+				user: data.user.uid,
+				point: reward.points,
+				type: reward.rewardType,
+				task: rewardkey,
+			}
+			var updates = {};
+			if(user.team != null){
+				updates['/teams/'+user.team+'/rewards/'+rewardkey] = point;
+			}
+			else{
+				updates['/users/'+user.uid+'/rewards/'+rewardkey] = point;
+			}
+
+			return database.ref().update( updates );
+		}
+
+	}, function(error){
+		callback(t.ERROR_TYPE, reward.key);
+		console.log(error);
+	});
+	updateDBpromise.then(function(data) {
+		//only if table was updated
+		callback(t.WIN_TYPE, reward.key);
+	}, function (error){
+		//failed to update
+		if(error == t.DONE_TYPE){
+			callback(t.DONE_TYPE, reward.key);
+		}
+		else{
+			callback(t.ERROR_TYPE);
+			console.log(error, reward.key);
+		}
+	})
 }
 
 // Create team then add current authenticated user to the team
@@ -181,4 +199,3 @@ export function getTeam (data, callback) {
 }
 
 // Add user to team
-

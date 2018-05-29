@@ -12,9 +12,10 @@ import { actions as auth, theme } from "../../../auth/index"
 import { actions as homeauth } from "../../index";
 const { updatePoints } = homeauth;
 
+import * as t from "../../actionTypes";
 
 
-class Identification extends React.Component {
+class EnterCode extends React.Component {
     constructor(props){
         super(props);
         this.state = {answered: false, text: ""};
@@ -23,20 +24,25 @@ class Identification extends React.Component {
     }
 
     onSubmit(){
-        //yeahhh idk how to synchronoze this yet xd.. 
-        //so people can press choices alot of times before it redirects
         const answer = this.state.text;
         
-        if(!this.state.answered){
-            this.setState({answered: true});
-            var newReward = {};
-            if(answer == this.props.reward.answer){
-                newReward = {key: this.props.rewardkey, points: this.props.reward.points, rewardType: this.props.rewardType};
+        this.setState({answered: true});
+        var newReward = {};
+        if(answer == this.props.reward.secret){
+            if(this.props.reward.type === t.POINT_MULTIPLECHOICE){
+                Actions.multipleChoice({reward: this.props.reward, rewardkey: this.props.rewardkey, rewardType: this.props.rewardType});
+            }
+            else if(this.props.reward.type === t.POINT_IDENTIFICATION ){
+                Actions.Identification({reward: this.props.reward, rewardkey: this.props.rewardkey, rewardType: this.props.rewardType});
             }
             else{
-                newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType};
+                const newReward = {key: this.props.rewardkey, points: this.props.reward.points, rewardType: this.props.rewardType};
+                this.props.updatePoints( newReward , this.onPointSubmit);
             }
-            this.props.updatePoints(newReward, this.onPointSubmit);
+        }
+        else{
+            //newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType};
+            //Show error
         }
 
    }
@@ -50,11 +56,12 @@ class Identification extends React.Component {
 
         return (
            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+            
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
                 <View style = {styles.topview}>
-                    <Text style={styles.title}>{thereward.question}</Text>
+                    <Text style={styles.title}>Enter Hidden Code:</Text>
                 </View>
 
                 <View style = {styles.bottomview}>
@@ -87,9 +94,5 @@ class Identification extends React.Component {
         );
     }
 }
-const mapStateToProps = state => {
-  return { rewards: state.homeReducer.rewards, user: state.authReducer.user };
-
-};
-export default connect(mapStateToProps, { updatePoints })(Identification);
+export default connect(null, { updatePoints })(EnterCode);
 

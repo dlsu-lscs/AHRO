@@ -11,60 +11,78 @@ const styles = StyleSheet.create({
         width: "100%",
 
     },
-  
-    
-
-    mainbackground:{
-        backgroundColor: '#000000',
-        alignItems:"center",
-        flex: 1,
+    mainView:{
         height: "100%",
         width: "100%",
-
+        padding: 25,
+        paddingTop: 60,
     },
-
-    topview:{
-        flex:2,
+    topView:{
+        height: "40%",
+        width: "100%",
+        alignItems: 'center',
         justifyContent:"center",
-        alignItems:"center",
-        height: "100%",
-        width: "100%",
-        backgroundColor: '#000000',
     },
-
-    bottomview:{
-        flex:1,
-        flexDirection: 'row',
-        height: "100%",
+    midView:{
+        height: "60%",
         width: "100%",
+        backgroundColor: 'rgb(255,255,255)',
+        borderRadius: 5,
+        padding: 10,
     },
-
-    leftview:{
-        flex: 1,
-        height: "100%",
+    buttonContainer:{
         width: "100%",
-
+        height:"90%",
     },
-
-    somethingview:{
-        flex:1,
-        height: "100%",
+    buttonView:{
         width: "100%",
-        alignSelf: 'stretch',
-        margin: 2,
-
+        height: "25%",
+        padding: 5,
     },
-    choices:{
-        height: "100%",
+    buttonStyle:{
         width: "100%",
-        borderColor: '#d6d7da',
-        backgroundColor: '#00d080',
+        height: "100%",
+        //backgroundColor: 'rgb(190,200,190)',
+        borderRadius: 10,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent:"center",
+
+        backgroundColor: 'rgb(220,220,220)',
+    },
+    optionStyle:{
+    },
+    selectedStyle:{
+        //backgroundColor: color.mainGreen,
+        borderWidth: 3,
+        borderColor: color.mainGreen,
+    },
+    autoFit:{
+        fontSize: 16,
+        alignItems: 'center',
+        justifyContent:"center",
+    },
+    botView:{
+        paddingLeft: 10,
+        paddingRight: 10,
+        width: "100%",
+        height:"10%",
+        
+    },
+    submitBotton:{
+        width: "100%",
+        height: "100%",
+        alignItems: 'center',
+        justifyContent:"center",
+        borderRadius: 10,
+        padding: 5,
+        backgroundColor: color.mainGreen,
     },
     title: {
         fontSize:fontSize.large + 5,
         lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
-        color: "#FF553F",
+        color: color.mainGreen,
         letterSpacing: 1,
     },
 });

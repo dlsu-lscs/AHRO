@@ -14,11 +14,13 @@ const { updatePoints } = homeauth;
 
 const { color } = theme;
 
+import * as t from "../../actionTypes";
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
 class Scanning extends React.Component {
     constructor(props){
         super(props);
+        this.onPointSubmit = this.onPointSubmit.bind(this);
         /*
         setInterval(() => {
           this.setState({qrValue: ''});
@@ -46,23 +48,33 @@ class Scanning extends React.Component {
         this.setState({
           qrValue: data,
         })
-        if(this.props.rewards[data.data] != null){
-            if(this.props.rewards[data.data].type === "multiplechoice"){
-                Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data});
-            }
-            else if(this.props.rewards[data.data].type === "Identification" ){
-                Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data});
+        if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered == null ){
+            if(this.props.rewards[data.data].secret == null ){
+                if(this.props.rewards[data.data].type === t.POINT_MULTIPLECHOICE){
+                    Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else if(this.props.rewards[data.data].type === t.POINT_IDENTIFICATION ){
+                    Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else{
+                    const newReward = {key: data.data, points: this.props.rewards[data.data].points, rewardType: t.SUBMIT_REWARD};
+                    this.props.updatePoints( newReward , this.onPointSubmit);
+                }
             }
             else{
-                const newReward = {key: data.data, points: this.props.rewards[data.data].points};
-                this.props.updatePoints( newReward , () => {},() => {},() => {});
+                Actions.EnterCode({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
             }
+        }
+        else if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered != null ){
+            this.onPointSubmit(t.DONE_TYPE, data.data);
         }
 
     };
 
     
-
+    onPointSubmit(result, rewardKey){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    }
 
 
     render() {

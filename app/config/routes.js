@@ -19,11 +19,12 @@ import TeamProfile from '../modules/home/scenes/TeamProfile';
 import multipleChoice from '../modules/home/scenes/multipleChoice';
 import Identification from '../modules/home/scenes/Identification';
 import ConfirmedScan from '../modules/home/scenes/ConfirmedScan';
-
+import EnterCode from '../modules/home/scenes/EnterCode';
+import Leaderboard from '../modules/home/scenes/Leaderboard';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes, getInvitations } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations, getServerTime, getPoints } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -32,12 +33,12 @@ export default class extends React.Component {
         super();
         this.state = {
             isReady: false,
+            timeReady: false,
             rewardsReady: false,
             quizesReady: false,
-            isLoggedIn: false
+            isLoggedIn: false,
+            pointsReady: false,
         }
-        this.readyRewards = this.readyRewards.bind(this);
-        this.readyQuizes = this.readyQuizes.bind(this);
     }
 
     componentDidMount() {
@@ -45,43 +46,35 @@ export default class extends React.Component {
 
         let _this = this;
         store.dispatch(testquery());
+        store.dispatch(getServerTime(() => {
+            _this.setState({timeReady: true});
+        }));
         store.dispatch(checkLoginStatus((isLoggedIn) => {
             _this.setState({isReady: true, isLoggedIn});
-            
+            if(isLoggedIn){
+                console.log("tite.");
+                store.dispatch(getPoints(() => {
+                    this.setState({pointsReady: true});
+                }));
+            }
+            else{
+                this.setState({pointsReady: true});
+            }
         }));
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
             
-        }, () => {}));
+        }));
 
         store.dispatch(getQuizes(() => {
             _this.setState({quizesReady: true});
             
-        }, () => {}));
-
-        store.dispatch(getInvitations(() => {
-            _this.setState({quizesReady: true});
-            
-        }, () => {}));
-        
-        
-    }
-    readyRewards(){
-        store.dispatch(getRewards(() => {
-            _this.setState({rewardsReady: true});
-            
-        }, this.readyRewards));
-    }
-    readyQuizes(){
-        store.dispatch(getQuizes(() => {
-            _this.setState({quizesReady: true});
-            
-        }, this.readyQuizes));
+        }));
     }
 
 
     render() {
-        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady || !this.state.pointsReady)
             return <Splash/>
 
         return (
@@ -105,10 +98,11 @@ export default class extends React.Component {
                         <Scene key="Scanning" component={Scanning} title="Scanning" />
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
                         <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" back={false} hideNavBar/>
+                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" />
                     </Stack>
-                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type = "reset"/>
-                    <Scene key="Identification" component={Identification} title="Answer the quiz" type = "reset"/>
-                    
+                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET}/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type={ActionConst.RESET}/>
+                        <Scene key="Identification" component={Identification} title="Answer the quiz" type={ActionConst.RESET}/>
                 </Scene>
             </Router>
         )
