@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     container:{
         height: "100%",
         width: "100%",
-        backgroundColor: color.black,
+        //backgroundColor: color.black,
         padding: 25,
         flex: 1,
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         margin: 0,
         borderColor: color.white,
         borderWidth: 1,
-        backgroundColor: color.black,
+        //backgroundColor: color.black,
         width: "33%",
     },
     
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
     },
     offButton:{
-        backgroundColor: color.black,
+        //backgroundColor: color.black,
         height: 30,
         margin: 0,
         width: "100%",

@@ -1,5 +1,5 @@
 import React from 'react';
-var { Text, View, StyleSheet, Alert, Image, KeyboardAvoidingView, FlatList,TouchableOpacity } = require('react-native');
+var { Text, View, StyleSheet, Alert, Image, KeyboardAvoidingView, FlatList,TouchableOpacity, ImageBackground } = require('react-native');
 
 import {Button, FormInput} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -49,7 +49,9 @@ class Leaderboard extends React.Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <ImageBackground 
+                source = {require('../../../../assets/images/theme-bg.png')}
+                style={styles.container}>
                 <View style = {styles.topNav}>
                     <View style = {styles.leaderBoardTextView}>
                         <Text 
@@ -148,7 +150,7 @@ class Leaderboard extends React.Component {
                         }
                 </View>
                 <QuizComponent />
-            </View>
+            </ImageBackground>
         );
     }
 }
