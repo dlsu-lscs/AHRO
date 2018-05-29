@@ -101,7 +101,7 @@ class ForgotPassword extends React.Component {
                     <View style={styles.bottomContainer}>
                         <View style={[styles.buttonContainer]}>
                             <View style={[styles.titleContainer]}>
-                                <Text style={[styles.subTitle]}>Please enter your email to receive instructions on resetting your password.</Text>
+                                <Text style={[styles.subTitle]}>Please enter your email to receive instructions for resetting your password.</Text>
                             </View>
                             <Form fields={fields}
                                 onSubmit={this.onSubmit}

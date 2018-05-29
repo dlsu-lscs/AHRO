@@ -5,12 +5,8 @@ import { Font, FontAwesome, AppLoading } from 'expo';
 import Router from './app/config/routes'
 import store from './app/redux/store';
 
-// import FontAwesome  
-// from './node_modules/@expo/vector-icons/fonts/FontAwesome.ttf';
-// import MaterialIcons  
-// from './node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
-// import Ionicons  
-// from './node_modules/@expo/vector-icons/fonts/Ionicons.ttf';
+import MaterialIcons  
+from './node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 
 function cacheFonts(fonts) {
     return fonts.map(font => Font.loadAsync(font));
@@ -38,7 +34,13 @@ export default class App extends Component {
             {FuturaPTHeavy: require('./app/assets/fonts/FuturaPTHeavy.otf')},
             {FuturaPTLight: require('./app/assets/fonts/FuturaPTLight.otf')},
             {FuturaPTMedium: require('./app/assets/fonts/FuturaPTMedium.otf')},
+            
         ]);
+
+        await Font.loadAsync({
+            // FontAwesome,
+            MaterialIcons
+        });
 
         // await Font.loadAsync({
         //     FontAwesome,

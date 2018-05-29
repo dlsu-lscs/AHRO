@@ -2,24 +2,23 @@
 import { StyleSheet } from 'react-native';
 
 import { theme } from "../../index"
-const { windowWidth, fontSize, fontFamily, normalize } = theme;
+const { windowWidth, fontSize, fontFamily, normalize, color } = theme;
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom: 15
+        marginBottom: 15,
     },
 
     inputContainer:{
         width: windowWidth - 80,
-        // width: "100%",
         height: normalize(45),
-        fontSize: fontSize.regular + 2,
+        fontSize: fontSize.regular,
         fontFamily: fontFamily.regular,
         paddingLeft: 20,
         borderRadius: 6,
         borderWidth: 2,
-        borderColor: "#fff",
-        color: "#fff",
+        borderColor: color.white,
+        color: color.light_grey,
     }
 });
 

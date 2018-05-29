@@ -11,19 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 class NavigationBar extends Component {
     constructor(props) {
         super(props);
-        /*
-        const { fields, error } = props;
-
-        this.state = this.createState(fields, error);
-
-        //bind functions
-        this.onChange = this.onChange.bind(this);
-        */
-        // this.onSubmit = this.onSubmit.bind(this);
     }
-    // onSubmit(){
-    //     Actions.Scanning();
-    // }
+    
     render() {
 
         return (
@@ -36,7 +25,7 @@ class NavigationBar extends Component {
                         <Text style={styles.navIconLabel}>Map</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.navIconContainerTest}>
+                <View style={styles.navIconContainer}>
                     <TouchableOpacity style={styles.toIcon} onPress={ () => {
                         // goBack();
                     }}>

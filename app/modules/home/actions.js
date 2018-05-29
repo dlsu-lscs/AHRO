@@ -159,9 +159,39 @@ export function createTeam(data, successCB, errorCB) {
     };
 }
 
-export function getTeam(data, successCB, errorCB) {
+export function getTeam(successCB, errorCB) {
     return (dispatch) => {
-        api.getTeam(data, function (success, data, error) {
+        api.getTeam(function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function sendInvite(data, successCB, errorCB) {
+    console.log("@sendInvite actions");
+    return (dispatch) => {
+        api.sendInvite(data, function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function getInvites(successCB, errorCB) {
+    console.log("@getInvites actions");
+    return (dispatch) => {
+        api.getInvites(function (success, data, error) {
+            if (success) successCB(data);
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function acceptInvite(data, successCB, errorCB) {
+    console.log("@acceptInvite actions");
+    return (dispatch) => {
+        api.acceptInvite(data, function (success, data, error) {
             if (success) successCB(data);
             else if (error) errorCB(error)
         });

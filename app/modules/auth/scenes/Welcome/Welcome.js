@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import {Text, View, TouchableOpacity, Image, ImageBackground, KeyboardAvoidingView } from 'react-native';
 
 import {Button, Divider} from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -103,7 +103,7 @@ class Welcome extends React.Component {
                     style={styles.linearGradient}> */}
                     <View style={styles.logoContainerLeft}>
                         <Image 
-                            source={ require('../../../../assets/images/ahro-logo.png') }
+                            source={ require('../../../../assets/images/ahro-logo-white.png') }
                             style={styles.logo} />
                     </View>
                     <View style={styles.bottomContainer}>
@@ -111,7 +111,7 @@ class Welcome extends React.Component {
 
                             <View style={[styles.titleContainer]}>
                                 <Text style={[styles.title]}>University Vision-Mission Week 2018</Text>
-                                <Text style={[styles.subTitle]}>Ascent: Unlocking potential, unleashing ambition</Text>
+                                <Text style={[styles.subTitle]}>AHRO: Aim high, reach out</Text>
                             </View>
                             <Form fields={fields}
                                 showLabel={false}
