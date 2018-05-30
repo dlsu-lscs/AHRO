@@ -174,3 +174,4 @@ const mapStateToProps = state => {
 };
 export default connect(mapStateToProps, { updatePoints })(multipleChoice);
 
+//
