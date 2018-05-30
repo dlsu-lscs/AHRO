@@ -25,6 +25,7 @@ export function getQuizes(callback) {
 
 export function getPoints(callback){
     return (dispatch) => {
+        dispatch({type: t.RESET_POINTS});
         api.getPoints((newKey, valtype) => {
             dispatch({type: valtype.type, key: newKey});
         });
@@ -33,7 +34,7 @@ export function getPoints(callback){
 }
 export function getLeaderBoard(callback){
     return (dispatch) => {
-        api.getLeaderBoard(function(teams,users){
+        api.getLeaderBoard(function(teams,users, meuser){
             mixedarr = []
             teamsarr = []
             solosarr = []
@@ -79,8 +80,17 @@ export function getLeaderBoard(callback){
                     //usersarr.push({...users[key]});
                     users[key].title = users[key].fname+" "+users[key].lname;
                     if(users[key].team == null){
+                        /*
+                            Below could be faster if checking end and not 
+                            insantiating the object again
+                        */
+                        if(users[key].uid == meuser.uid){
+                            users[key].myTeam = true;
+                            meuser.points = users[key].points;
+                        }
                         solosarr.push({...users[key]});
                         mixedarr.push({...users[key]});
+                        
                     }
                 }
             })
@@ -100,9 +110,13 @@ export function getLeaderBoard(callback){
                 if(teams[key].points == null){
                     teams[key].points = 0;
                 }
+                if(meuser.team != null && meuser.team == key){
+                    teams[key].myTeam = true;
+                    meuser.points = teams[key].points;
+                }
                 teams[key].title = teams[key].teamName
-                teamsarr.push(teams[key]);
-                mixedarr.push(teams[key]);
+                teamsarr.push({...teams[key]});
+                mixedarr.push({...teams[key]});
             })
             
 
@@ -115,16 +129,26 @@ export function getLeaderBoard(callback){
             solosarr.sort(function(a, b){
                 return b.points - a.points;
             });
-            getRank(mixedarr);
-            getRank(teamsarr);
-            getRank(solosarr);
-            results = [solosarr,teamsarr,mixedarr];
+            mixedrank = getRank(mixedarr);
+            teamsrank = getRank(teamsarr);
+            solorank = getRank(solosarr);
+            meuser.allrank = mixedrank;
+            if(meuser.team == null){
+                meuser.secondary = "Individual"
+                meuser.secondaryrank = solorank;
+            }
+            else{
+                meuser.secondary = "Team"
+                meuser.secondaryrank = teamsrank;
+            }
+            results = [solosarr,teamsarr,mixedarr,meuser];
             callback(results);
         })
     }
 }
 
 export function getRank(arr){
+    var ans = 0;
     for(var i = 1; i < arr.length; i++){
         if(i == 1){
             arr[i].rank = 1;
@@ -137,7 +161,11 @@ export function getRank(arr){
                 arr[i].rank = (arr[i-1].rank)+1;
             }
         }
+        if(arr[i].myTeam != null){
+            ans = arr[i].rank;
+        }
     }
+    return ans;
 }
 export function updatePoints(reward, callback){
     return (dispatch) => {
@@ -228,7 +256,7 @@ export function getTimeInterval(nextQuiz,callback,offset,quizes){
             if(hoursLeft <= 9) hoursLeft = "0"+hoursLeft;
             if(minsLeft <= 9) minsLeft = "0"+minsLeft;
             if(secsLeft <= 9) secsLeft = "0"+secsLeft;
-            if(quizes[nextQuiz.key].answered != null) callback(hoursLeft, minsLeft, secsLeft, true, false);
+            if(quizes.answered != null && quizes.answered[nextQuiz.key] != null) callback(hoursLeft, minsLeft, secsLeft, true, false);
             else callback(hoursLeft, minsLeft, secsLeft, true, true);
         }
         else{

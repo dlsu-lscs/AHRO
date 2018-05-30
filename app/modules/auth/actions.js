@@ -4,6 +4,7 @@ import { auth } from "../../config/firebase";
 
 import { AsyncStorage } from 'react-native';
 
+import * as t2 from "../home/actionTypes";
 export function register(data, successCB, errorCB) {
     return (dispatch) => {
         api.register(data, function (success, data, error) {
@@ -15,17 +16,22 @@ export function register(data, successCB, errorCB) {
 
 export function createUser(user, successCB, errorCB) {
     return (dispatch) => {
+        dispatch({type: t2.RESET_POINTS});
         api.createUser(user, function (success, data, error) {
             if (success) {
                 dispatch({type: t.LOGGED_IN, data: user});
                 successCB();
             }else if (error) errorCB(error)
+        },
+        (newKey, valtype) => {
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }
 
 export function login(data, successCB, errorCB, verifyCB) {
     return (dispatch) => {
+        dispatch({type: t2.RESET_POINTS});
         api.login(data, function (success, data, error, verified) {
             if (success) {
                 if(verified){
@@ -36,6 +42,9 @@ export function login(data, successCB, errorCB, verifyCB) {
                     verifyCB(data.user);
                 }
             }else if (error) errorCB(error)
+        },
+        (newKey, valtype) => {
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }

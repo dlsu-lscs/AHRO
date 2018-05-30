@@ -96,3 +96,4 @@ class EnterCode extends React.Component {
 }
 export default connect(null, { updatePoints })(EnterCode);
 
+//lmao

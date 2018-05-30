@@ -1,5 +1,8 @@
 import { auth, database, provider } from "../../config/firebase";
 
+import { listenToUser } from "../home/api";
+
+import { getUserDetailsPromise } from "../home/helpers"
 //Register the user using email and password
 export function register(data, callback) {
     const { email, password } = data;
@@ -18,7 +21,7 @@ export function register(data, callback) {
 
 //Create the user object in realtime database
 //Currently does not check if username already exists
-export function createUser (user, callback) {
+export function createUser (user, callback, listenCB) {
     user.username;
     database.ref('users').orderByChild("username").equalTo(user.username).once('value').then(
         function(snapshot){
@@ -27,7 +30,11 @@ export function createUser (user, callback) {
             if(!exists ){
                 //dont forget to make resend verification in case this chain task fails
                 database.ref('users').child(user.uid).update({ ...user })
-                .then(() => callback(true, null, null))
+                .then(() => {
+                    listenToUser(user, listenCB);
+                    callback(true, null, null)
+                    
+                })
                 .catch((error) => callback(false, null, {message: error}));
             }
             else{
@@ -38,12 +45,12 @@ export function createUser (user, callback) {
 }
 
 //Sign the user in with their email and password
-export function login(data, callback) {
+export function login(data, callback, listenCB) {
     const { email, password } = data;
     auth.signInWithEmailAndPassword(email, password)
         .then(function(user){
             if(user.emailVerified){
-                getUser(user, callback);
+                getUser(user, callback,listenCB);
             }
             else{
                 callback(true,user, null, false);
@@ -53,16 +60,20 @@ export function login(data, callback) {
 }
 
 //Get the user object from the realtime database
-export function getUser(user, callback) {
+export function getUser(user, callback, listenCB) {
     database.ref('users').child(user.uid).once('value')
         .then(function(snapshot) {
 
             const exists = (snapshot.val() !== null);
 
             //if the user exist in the DB, replace the user variable with the returned snapshot
-            if (exists) user = snapshot.val();
-
+            if (exists) {
+                user = snapshot.val();
+                listenToUser(user, listenCB);
+            }
+            
             const data = { exists, user }
+            
             callback(true, data, null, true);
         })
         .catch(error => callback(false, null, error, false));
@@ -77,13 +88,21 @@ export function resetPassword(data, callback) {
 }
 
 export function signOut (callback) {
-    auth.signOut()
+    getUserDetailsPromise().then((user)=> {
+        if(user.team != null){
+            database.ref('teams').child(user.team).child('rewards').off('child_added')
+        }
+        database.ref('users').child(user.uid).child('rewards').off('child_added')
+             
+        auth.signOut()
         .then(() => {
             if (callback) callback(true, null, null)
         })
         .catch((error) => {
             if (callback) callback(false, null, error)
         });
+    })
+    
 }
 
 export function checkVerify(user, callback){
