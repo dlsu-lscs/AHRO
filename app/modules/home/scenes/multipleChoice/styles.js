@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     midView:{
         height: "60%",
         width: "100%",
-        backgroundColor: 'rgb(255,255,255)',
+        //backgroundColor: 'rgb(255,255,255)',
         borderRadius: 5,
         padding: 10,
     },
@@ -47,14 +47,13 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent:"center",
-
         backgroundColor: 'rgb(220,220,220)',
     },
     optionStyle:{
     },
     selectedStyle:{
         //backgroundColor: color.mainGreen,
-        borderWidth: 3,
+        borderRightWidth: 5,
         borderColor: color.mainGreen,
     },
     autoFit:{

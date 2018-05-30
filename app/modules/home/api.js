@@ -52,7 +52,8 @@ export function getPoints(callback){
 			database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
 				try{
 					reward = snapshot.val();
-					const key = snapshot.key;
+                    console.log(reward);
+                    const key = snapshot.key;
 					callback(key, reward);
 				}
 				catch(error){
@@ -222,14 +223,16 @@ export function sendInvite (data, callback) {
             return snapshot.val();
         });
     }).then(function(user) {
-        console.log('received user object');
-        console.log(user);
+        if(user != null ){
+            console.log('received user object');
+            console.log(user);
 
-        sentToId = Object.keys(user)[0];
+            sentToId = Object.keys(user)[0];
 
-        return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
-            return snapshot.val();
-        });
+            return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
+                return snapshot.val();
+            });
+        }
     }).then(function(team) {
         console.log('received team object');
         console.log(team);
@@ -244,7 +247,7 @@ export function sendInvite (data, callback) {
         console.log("sendInvite success");
         callback(true, null, null);
     }, function(error) {
-        console.error("Error in sendInvite.");
+        //console.error("Error in sendInvite.");
         console.log(error);
         callback(false, null, {message: error});
     });
@@ -292,6 +295,21 @@ export function acceptInvite (data, callback) {
             callback(false, null, {message: constants.ERROR_NO_AUTHENTICATED_USER});
         }
     }).then(function() {
+        //Promise to get team's rewards
+        return database.ref("teams").child(data.id).once("value").then(function(snapshot){
+            return snapshot.val();
+        });
+    }).then(function(team){
+        if(authUser.rewards != null && team.rewards != null){
+            Object.keys(user.rewards).map(function(key){
+                if(team.rewards[key] != null && team.rewards[key].point < user.rewards[key].point){
+                    team.rewards[key] = {...user.rewards[key]}
+                }
+            })
+        }
+        else if(authUser.rewards != null && team.rewards == null){
+            team.rewards = {...authUser.reards};
+        }
         var updates = {};
 
         teamUser = {
@@ -299,6 +317,9 @@ export function acceptInvite (data, callback) {
             lname: authUser.lname,
             member: true,
         };
+        if(team.rewards != null && authUser.rewards != null){
+            updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
+        }
 
         updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
         updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
