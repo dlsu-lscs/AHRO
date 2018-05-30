@@ -160,6 +160,21 @@ export function acceptInvite (data, callback) {
             callback(false, null, {message: constants.ERROR_NO_AUTHENTICATED_USER});
         }
     }).then(function() {
+        //Promise to get team's rewards
+        return database.ref("teams").child(data.id).once("value").then(function(snapshot){
+            return snapshot.val();
+        });
+    }).then(function(team){
+        if(authUser.rewards != null && team.rewards != null){
+            Object.keys(authUser.rewards).map(function(key){
+                if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
+                    team.rewards[key] = {...authUser.rewards[key]}
+                }
+            })
+        }
+        else if(authUser.rewards != null && team.rewards == null){
+            team.rewards = {...authUser.rewards};
+        }
         var updates = {};
 
         teamUser = {
