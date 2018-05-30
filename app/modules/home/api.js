@@ -69,8 +69,8 @@ export function listenToUser(user, callback){
 	}
 }
 export function getLeaderBoard(callback){
-	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
-		callback(results[0], results[1]);
+	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise(), helpers.getUserDetailsPromise()]).then(function(results){
+		callback(results[0], results[1], results[2]);
 	},function(error){
 		console.error(error);
 	})
