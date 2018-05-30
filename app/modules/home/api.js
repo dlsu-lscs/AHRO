@@ -47,6 +47,7 @@ export function listenToUser(user, callback){
 			try{
 				reward = snapshot.val();
 				const key = snapshot.key;
+				console.log(reward);
 				callback(key, reward);
 			}
 			catch(error){

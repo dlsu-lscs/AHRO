@@ -25,8 +25,8 @@ export function getQuizes(callback) {
 
 export function getPoints(callback){
     return (dispatch) => {
+        dispatch({type: t.RESET_POINTS});
         api.getPoints((newKey, valtype) => {
-            dispatch({type: t.RESET_POINTS});
             dispatch({type: valtype.type, key: newKey});
         });
         callback();

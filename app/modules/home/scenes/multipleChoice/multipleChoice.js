@@ -109,7 +109,7 @@ class multipleChoice extends React.Component {
                 }
                 <View style = {styles.mainView}>
                     <View style = {styles.topView}>
-                        <Text style = {styles.title}>Question</Text>
+                        <Text style = {styles.title}>{thereward.question}</Text>
                     </View>
                     <View style = {styles.midView}>
                         <View style = {styles.buttonContainer}>
@@ -120,7 +120,7 @@ class multipleChoice extends React.Component {
                                     ]}
                                     onPress = {() => this.changeOption("a")}
                                     >
-                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                    <Text style = {styles.autoFit}>{thereward.a}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
@@ -130,7 +130,7 @@ class multipleChoice extends React.Component {
                                         ]}
                                         onPress = {() => this.changeOption("b")}
                                         >
-                                    <Text style = {styles.autoFit} >A: Option A</Text>
+                                    <Text style = {styles.autoFit} >{thereward.b}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
@@ -140,7 +140,7 @@ class multipleChoice extends React.Component {
                                         ]}
                                         onPress = {() => this.changeOption("c")}
                                         >
-                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                    <Text style = {styles.autoFit}>{thereward.c}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
@@ -150,12 +150,13 @@ class multipleChoice extends React.Component {
                                         ]}
                                         onPress = {() => this.changeOption("d")}
                                         >
-                                    <Text style = {styles.autoFit}>A: Option A</Text>
+                                    <Text style = {styles.autoFit}>{thereward.d}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <View style = {styles.botView}>
-                            <TouchableOpacity style = {styles.submitBotton}>
+                            <TouchableOpacity style = {styles.submitBotton}
+                            onPress = {()=> {this.onSubmit(this.state.option)}}>
                                 <Text>
                                     Submit
                                 </Text>
@@ -174,4 +175,3 @@ const mapStateToProps = state => {
 };
 export default connect(mapStateToProps, { updatePoints })(multipleChoice);
 
-//

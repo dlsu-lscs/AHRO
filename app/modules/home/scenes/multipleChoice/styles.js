@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     midView:{
         height: "60%",
         width: "100%",
-        backgroundColor: 'rgb(255,255,255)',
+        //backgroundColor: 'rgb(255,255,255)',
         borderRadius: 5,
         padding: 10,
     },
@@ -43,18 +43,17 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         //backgroundColor: 'rgb(190,200,190)',
-        borderRadius: 10,
+        //borderRadius: 10,
         padding: 10,
         alignItems: 'center',
         justifyContent:"center",
-
         backgroundColor: 'rgb(220,220,220)',
     },
     optionStyle:{
     },
     selectedStyle:{
         //backgroundColor: color.mainGreen,
-        borderWidth: 3,
+        borderRightWidth: 5,
         borderColor: color.mainGreen,
     },
     autoFit:{
@@ -63,8 +62,8 @@ const styles = StyleSheet.create({
         justifyContent:"center",
     },
     botView:{
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
         width: "100%",
         height:"10%",
         
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: 'center',
         justifyContent:"center",
-        borderRadius: 10,
+        //borderRadius: 10,
         padding: 5,
         backgroundColor: color.mainGreen,
     },
@@ -88,4 +87,3 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
-//

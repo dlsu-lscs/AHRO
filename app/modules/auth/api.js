@@ -2,6 +2,7 @@ import { auth, database, provider } from "../../config/firebase";
 
 import { listenToUser } from "../home/api";
 
+import { getUserDetailsPromise } from "../home/helpers"
 //Register the user using email and password
 export function register(data, callback) {
     const { email, password } = data;
@@ -49,7 +50,7 @@ export function login(data, callback, listenCB) {
     auth.signInWithEmailAndPassword(email, password)
         .then(function(user){
             if(user.emailVerified){
-                getUser(user, callback);
+                getUser(user, callback,listenCB);
             }
             else{
                 callback(true,user, null, false);
@@ -87,13 +88,21 @@ export function resetPassword(data, callback) {
 }
 
 export function signOut (callback) {
-    auth.signOut()
+    getUserDetailsPromise().then((user)=> {
+        if(user.team != null){
+            database.ref('teams').child(user.team).child('rewards').off('child_added')
+        }
+        database.ref('users').child(user.uid).child('rewards').off('child_added')
+             
+        auth.signOut()
         .then(() => {
             if (callback) callback(true, null, null)
         })
         .catch((error) => {
             if (callback) callback(false, null, error)
         });
+    })
+    
 }
 
 export function checkVerify(user, callback){

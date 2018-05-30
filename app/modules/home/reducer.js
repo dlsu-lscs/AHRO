@@ -39,16 +39,25 @@ const authReducer = (state = initialState, action) => {
             staterewards = initialState.rewards;
             statequizes = initialState.quizes;
             staterewards.answered = {};
-            staterewards.answered = {};
+            statequizes.answered = {};
 
             return {...state, rewards: staterewards, quizes: statequizes }
         case t.SUBMIT_REWARD:
             staterewards = initialState.rewards;
+            if(staterewards.answered == null) {
+                staterewards.answered = {};
+            }
             staterewards.answered[action.key] = true;
+            //console.log(staterewards);
             return {...state, rewards: staterewards};
         case t.SUBMIT_QUIZ:
             statequizes = initialState.quizes;
+            if(statequizes.answered == null) {
+                statequizes.answered = {};
+            }
             statequizes.answered[action.key]= true;
+
+            //console.log(statequizes)
             return {...state, quizes: statequizes};
         default:
             return state;
