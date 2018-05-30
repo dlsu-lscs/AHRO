@@ -20,6 +20,10 @@ export function createUser(user, successCB, errorCB) {
                 dispatch({type: t.LOGGED_IN, data: user});
                 successCB();
             }else if (error) errorCB(error)
+        },
+        (newKey, valtype) => {
+            dispatch({type: t.RESET_POINTS});
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }
@@ -36,6 +40,10 @@ export function login(data, successCB, errorCB, verifyCB) {
                     verifyCB(data.user);
                 }
             }else if (error) errorCB(error)
+        },
+        (newKey, valtype) => {
+            dispatch({type: t.RESET_POINTS});
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }

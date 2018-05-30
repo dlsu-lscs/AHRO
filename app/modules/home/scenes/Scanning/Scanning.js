@@ -48,7 +48,7 @@ class Scanning extends React.Component {
         this.setState({
           qrValue: data,
         })
-        if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered == null ){
+        if(this.props.rewards[data.data] != null && (this.props.rewards.answered == null || this.props.rewards.answered[data.data] == null )){
             if(this.props.rewards[data.data].secret == null ){
                 if(this.props.rewards[data.data].type === t.POINT_MULTIPLECHOICE){
                     Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});

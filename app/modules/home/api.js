@@ -34,37 +34,39 @@ export function getQuizes(callback, errorCB){
 
 export function getPoints(callback){
 	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
-		if(user.team != null){
-			database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
-				try{
-					reward = snapshot.val();
-					const key = snapshot.key;
-					callback(key, reward);
-				}
-				catch(error){
-					console.log(error);
-				}
-			})
-		}
-		else{
-			database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
-				try{
-					reward = snapshot.val();
-					const key = snapshot.key;
-					callback(key, reward);
-				}
-				catch(error){
-					console.log(error);
-				}
-			})
-		}
-		
+		listenToUser(user, callback);
 	}, function(error){
 		callback(t.ERROR_TYPE, reward.key);
 		console.log(error);
 	})
 }
 
+export function listenToUser(user, callback){
+	if(user.team != null){
+		database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				callback(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
+	}
+	else{
+		database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				callback(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
+	}
+}
 export function getLeaderBoard(callback){
 	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
 		callback(results[0], results[1]);

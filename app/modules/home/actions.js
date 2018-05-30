@@ -26,6 +26,7 @@ export function getQuizes(callback) {
 export function getPoints(callback){
     return (dispatch) => {
         api.getPoints((newKey, valtype) => {
+            dispatch({type: t.RESET_POINTS});
             dispatch({type: valtype.type, key: newKey});
         });
         callback();
@@ -101,8 +102,8 @@ export function getLeaderBoard(callback){
                     teams[key].points = 0;
                 }
                 teams[key].title = teams[key].teamName
-                teamsarr.push(teams[key]);
-                mixedarr.push(teams[key]);
+                teamsarr.push({...teams[key]});
+                mixedarr.push({...teams[key]});
             })
             
 
@@ -175,7 +176,7 @@ export function getTimeInterval(nextQuiz,callback,offset,quizes){
             if(hoursLeft <= 9) hoursLeft = "0"+hoursLeft;
             if(minsLeft <= 9) minsLeft = "0"+minsLeft;
             if(secsLeft <= 9) secsLeft = "0"+secsLeft;
-            if(quizes[nextQuiz.key].answered != null) callback(hoursLeft, minsLeft, secsLeft, true, false);
+            if(quizes.answered != null && quizes.answered[nextQuiz.key] != null) callback(hoursLeft, minsLeft, secsLeft, true, false);
             else callback(hoursLeft, minsLeft, secsLeft, true, true);
         }
         else{
