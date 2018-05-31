@@ -1,5 +1,28 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "AHRO",
+    "icon": "./app/assets/images/app-icon.png",
+    "version": "1.0.0",
+    "slug": "ahro",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.dlsuuniweek.ahro",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAbOeY0nQzcqNGmw7JfHWFs0A6c_X6L1Lc"
+      }
+    },
+    "android": {
+      "versionCode": 1,
+      "package": "com.dlsuuniweek.ahro",
+      "config": {
+        "googleMaps": { "apiKey": "AIzaSyCsyf9xTR1S3OXCBDnCFaiLG8DyJQEYp6Y" }
+      },
+      "permissions" : [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "INTERNET"
+      ]
+    }
   }
 }

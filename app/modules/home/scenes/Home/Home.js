@@ -4,11 +4,12 @@ var { View, TouchableOpacity, Text, StyleSheet, Alert, ImageBackground } = requi
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
+import {Notifications, Permissions} from "expo";
 
 import styles from "./styles"
 
 import { actions as auth, theme } from "../../../auth/index"
-const { signOut } = auth;
+const { signOut, registerForPushNotificationsAsync } = auth;
 import {actions as homeauth} from "../../index"
 const { color } = theme;
 
@@ -16,12 +17,14 @@ const { color } = theme;
 import ScanQR from "../../components/ScanQR"
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
+
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
     }
+
     onSignOut() {
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }
@@ -35,6 +38,10 @@ class Home extends React.Component {
     }
     onLeaderboard(){
         Actions.Leaderboard();
+    }
+
+    componentDidMount(){
+        registerForPushNotificationsAsync();
     }
 
     render() {
@@ -61,7 +68,7 @@ class Home extends React.Component {
                         textStyle={styles.buttonText}
                         onPress={this.onLeaderboard}/>
                 </View>
-                <NavigationBar />
+                {/*<NavigationBar />*/}
             </ImageBackground>
         );
     }

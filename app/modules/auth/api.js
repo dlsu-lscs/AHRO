@@ -135,3 +135,6 @@ export function testquery(){
     */
 }
 
+export async function registerForPushNotificationsAsync(){
+    await api.registerForPushNotificationsAsync();
+}
