@@ -303,14 +303,14 @@ export function acceptInvite (data, callback) {
         });
     }).then(function(team){
         if(authUser.rewards != null && team.rewards != null){
-            Object.keys(user.rewards).map(function(key){
-                if(team.rewards[key] != null && team.rewards[key].point < user.rewards[key].point){
-                    team.rewards[key] = {...user.rewards[key]}
+            Object.keys(authUser.rewards).map(function(key){
+                if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
+                    team.rewards[key] = {...authUser.rewards[key]}
                 }
             })
         }
         else if(authUser.rewards != null && team.rewards == null){
-            team.rewards = {...authUser.reards};
+            team.rewards = {...authUser.rewards};
         }
         var updates = {};
 
