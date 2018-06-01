@@ -6,7 +6,7 @@ const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
+        flex:1, // child must have defined sizes
         alignItems: 'center',
         justifyContent: 'center',
         // paddingTop: (Platform.OS) === 'ios' ? 0 : 20,
@@ -80,25 +80,43 @@ const styles = StyleSheet.create({
     //===============================
 
     logoContainerLeft:{
-        flex: 3,
-        paddingTop: padding * 3,
-        // backgroundColor: "powderblue",
-        width: windowWidth - 60,
+        flex: 2,
+        // paddingTop: padding * 3,
+        //  backgroundColor: "#4d4",
+        width: windowWidth - 80,
         justifyContent: "center",
-        alignItems: "flex-start",
+        alignItems: 'center',
+        height: 150
+    },
+
+    logoContainerRight:{
+        height: "100%",
+        flex: 1,
+        width: 60,
+        // paddingTop: padding * 3,
+        // backgroundColor: "#d44",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
     },
 
     logoContainer:{
         flex: 3,
         paddingTop: padding * 3,
-        // backgroundColor: "powderblue",
+         // backgroundColor: "#fff",
         width: windowWidth,
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "row"
     },
 
     logo:{
-        width: "55%",
+        width: "80%",
+        resizeMode: "contain",
+    },
+    logoRight:{
+        width: 50,
+        height: 50,
         resizeMode: "contain",
     },
 

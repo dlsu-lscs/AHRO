@@ -2,6 +2,11 @@
   "expo": {
     "name": "AHRO",
     "icon": "./app/assets/images/app-icon.png",
+    "splash": {
+      "image": "./app/assets/images/splash-screen.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#333"
+    },
     "version": "1.0.0",
     "slug": "ahro",
     "sdkVersion": "27.0.0",
@@ -9,7 +14,11 @@
       "bundleIdentifier": "com.dlsuuniweek.ahro",
       "config": {
         "googleMapsApiKey": "AIzaSyAbOeY0nQzcqNGmw7JfHWFs0A6c_X6L1Lc"
-      }
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan QR codes on the event game.",
+        "NSLocationWhenInUseUsageDescription": "This app uses location to help guests and freshmen track the event location"
+      },
     },
     "android": {
       "versionCode": 1,

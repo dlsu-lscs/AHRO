@@ -64,6 +64,17 @@ class TabIcon extends React.Component {
     }
 }
 
+class TabIconInner extends React.Component {
+    render() {
+        let title = this.props.title;
+        return (
+            <View style={styles.navIconContainer}>
+                <Text style={styles.navIconLabel}>{title}</Text>
+            </View>
+        );
+    }
+}
+
 
 
 
@@ -107,12 +118,12 @@ export default class extends React.Component {
         }));
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
-            
+
         }));
 
         store.dispatch(getQuizes(() => {
             _this.setState({quizesReady: true});
-            
+
         }));
     }
 
@@ -157,8 +168,21 @@ export default class extends React.Component {
                             <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" />
 
                             <Scene key='map'
-                                   component={Map}
-                                   title='Map' icon={TabIcon}>
+                                   title='Map' icon={TabIcon}
+                                   tabs
+                                   tabBarStyle={{backgroundColor: '#fff'}}
+                                   activeBackgroundColor = '#ddd'
+                                   tabBarPosition='bottom'
+                                showLabel={false}>
+                                <Scene key='List'
+                                       component={Calendar}
+                                       title='Event List' icon={TabIconInner}
+                                       initial tabBarLabel = "Event List">
+                                </Scene>
+                                <Scene key = 'mapInnerTab' title = "Map"
+                                       component={Map}  icon={TabIconInner} hideNavBar>
+                                </Scene>
+
 
                             </Scene>
                             <Scene key='Notifications'

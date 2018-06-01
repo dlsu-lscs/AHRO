@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
 
     content:{
-        flex: 8,
+        flex: 0,
         //backgroundColor: "powderblue",    
     },
 

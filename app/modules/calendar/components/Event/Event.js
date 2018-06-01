@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, View, TouchableOpacity, ActionSheetIOS } from 'react-native';
+import {Text, View, TouchableOpacity, ActionSheetIOS, TouchableWithoutFeedback} from 'react-native';
 
 import { Icon } from 'react-native-elements'
 import moment from "moment";
@@ -24,6 +24,8 @@ class Event extends React.Component {
         const event = events[index];
         const { message, author, time, color, userId, date, name } = event;
         return (
+            <TouchableWithoutFeedback style={styles.cardImage} onPress={() => Actions.viewEvent({event: event})}>
+
             <View style={[styles.container]}>
                 <View style={[styles.wrapper, {backgroundColor: color, borderColor: color}]}>
                     <View style={[styles.quote]}>
@@ -35,7 +37,7 @@ class Event extends React.Component {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </View></TouchableWithoutFeedback>
         );
     }
 }

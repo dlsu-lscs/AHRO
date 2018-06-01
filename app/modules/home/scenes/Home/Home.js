@@ -50,7 +50,7 @@ class Home extends React.Component {
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
                 <View style={styles.content}>
-                    <ScanQR />
+                    {/*<ScanQR />*/}
                     <Button
                         raised
                         borderRadius={4}
@@ -67,6 +67,16 @@ class Home extends React.Component {
                         buttonStyle={[styles.button]}
                         textStyle={styles.buttonText}
                         onPress={this.onLeaderboard}/>
+                    <Text style={{paddingTop:20, fontSize: 20, color:'#fff'}}>
+                        {`
+ How to play:
+
+    Find and scan QR codes in posters
+    and events
+
+    Have fun!
+                        `}
+                    </Text>
                 </View>
                 {/*<NavigationBar />*/}
             </ImageBackground>

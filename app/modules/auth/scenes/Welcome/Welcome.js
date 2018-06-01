@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import {Text, View, TouchableOpacity, Image, ImageBackground, KeyboardAvoidingView, ScrollView} from 'react-native';
 
 import {Button, Divider} from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -101,10 +101,22 @@ class Welcome extends React.Component {
                 {/* <LinearGradient
                     colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
                     style={styles.linearGradient}> */}
-                    <View style={styles.logoContainerLeft}>
-                        <Image 
-                            source={ require('../../../../assets/images/ahro-logo-white.png') }
-                            style={styles.logo} />
+                    <View style={{flexDirection:'row', justifyContent:"center"}}>
+
+                        <View style={styles.logoContainerLeft}>
+                            <Image
+                                source={ require('../../../../assets/images/ahro-logo-white.png') }
+                                style={styles.logo} />
+                    </View>
+                        <View style = {styles.logoContainerRight}>
+                        <Image style={styles.logoRight}
+                            source={ require('../../../../assets/images/usg-wlogo.png') }
+                        />
+                        <Image style={{width: 55,
+                            height: 55,
+                            resizeMode: "contain"}}
+                            source={ require('../../../../assets/images/lscs-wlogo.png') }
+                        /></View>
                     </View>
                     <View style={styles.bottomContainer}>
                         <View style={[styles.buttonContainer]}>
