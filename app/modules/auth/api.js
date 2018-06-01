@@ -25,6 +25,7 @@ export function createUser (user, callback) {
             const exists = (snapshot.val() !== null);
 
             if(!exists ){
+                //dont forget to make resend verification in case this chain task fails
                 database.ref('users').child(user.uid).update({ ...user })
                 .then(() => callback(true, null, null))
                 .catch((error) => callback(false, null, {message: error}));
@@ -88,3 +89,30 @@ export function signOut (callback) {
 export function checkVerify(user, callback){
     callback(user, user.emailVerified);
 }
+
+export function testquery(){
+    console.log("test");
+    /*
+    database.ref('teams').orderByChild("users/"+"EC5pNaKIEzWjV5TAMvENQw1hcVw1"+"/member").equalTo(true).once('value').then(
+        (snapshot) => {
+            const val = snapshot.val();
+            //console.log(val[Object.keys(val)[0]]);
+            //console.log(Object.keys(val)[0]);
+        }
+    );
+    const newteam = {idk: 'lol'};
+    const pushref = database.ref('teams').push(); //gets new value in db
+    const newKey = pushref.key; //gets key of the push reference
+
+    pushref.set(newteam); //sets the value of push reference in db
+    console.log("added:" +newKey);
+    */
+    /*
+    delete with .update XD
+    const team = { sad:"", xd: "" }
+    team.sad = null;
+    team.xd = null;
+    database.ref('cool').update( { ...team } );
+    */
+}
+

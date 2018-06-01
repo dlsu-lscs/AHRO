@@ -12,10 +12,10 @@ const color = {
     red: "red",
     underlayColor: "#ddd",
     mainGreen: "#00d080",
-
     // custom
     rainbowBlueGreen: "#00f260",
-    rainbowBlueBlue: "#057536"
+    rainbowBlueBlue: "#057536",
+    warning: "#FFC800",
 }
 
 const fontSize = {

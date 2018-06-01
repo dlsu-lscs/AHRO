@@ -11,5 +11,26 @@ export function getUserDetailsPromise () {
     });
 
 }
+export function getAllUserDetailsPromise() {
+	return database.ref('users/').once('value').then(function(snapshot){
+		return snapshot.val();
+	}, function(error){
+		console.error(error);
+	})
+}
 
+export function getAllTeamDetailsPromise(){
+    return database.ref('teams/').once('value').then(function(snapshot){
+        return snapshot.val();
+    }, function(error){
+        console.error(error);
+    })
+}
 
+export function getAllPoints(){
+    return database.ref('points/').once('value').then(function(snapshot){
+            return snapshot.val();
+    }, function(error){
+        console.error(error);
+    })
+}

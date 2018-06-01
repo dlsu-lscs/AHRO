@@ -82,7 +82,10 @@ export function checkLoginStatus(callback) {
                 //get the user object from the Async storage
                 AsyncStorage.getItem('user', (err, user) => {
                     if (user === null) isLoggedIn = false //set the loggedIn value to false
-                    else dispatch({type: t.LOGGED_IN, data: JSON.parse(user)})
+                    else {
+                        dispatch({type: t.LOGGED_IN, data: JSON.parse(user)})
+                        console.log("WOOPS");
+                    }
 
                     callback(isLoggedIn);
                 });
@@ -92,4 +95,10 @@ export function checkLoginStatus(callback) {
             }
         });
     };
+}
+
+export function testquery(){
+    return (dispatch) => {
+        api.testquery();
+    }
 }

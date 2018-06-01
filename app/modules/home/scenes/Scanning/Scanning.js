@@ -9,14 +9,18 @@ import styles from "./styles"
 
 import { actions as auth, theme } from "../../../auth/index"
 
+import { actions as homeauth } from "../../index";
+const { updatePoints } = homeauth;
 
 const { color } = theme;
 
+import * as t from "../../actionTypes";
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
-class Home extends React.Component {
+class Scanning extends React.Component {
     constructor(props){
         super(props);
+        this.onPointSubmit = this.onPointSubmit.bind(this);
         /*
         setInterval(() => {
           this.setState({qrValue: ''});
@@ -26,6 +30,7 @@ class Home extends React.Component {
     state = {
         hasCameraPermission: null,
         qrValue: '',
+        response: 'Scan a QR code'
     };
 
     componentDidMount() {
@@ -39,15 +44,41 @@ class Home extends React.Component {
     };
 
     _handleBarCodeRead = data => {
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
         this.setState({
           qrValue: data,
         })
+        if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered == null ){
+            if(this.props.rewards[data.data].secret == null ){
+                if(this.props.rewards[data.data].type === t.POINT_MULTIPLECHOICE){
+                    Actions.multipleChoice({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else if(this.props.rewards[data.data].type === t.POINT_IDENTIFICATION ){
+                    Actions.Identification({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+                }
+                else{
+                    const newReward = {key: data.data, points: this.props.rewards[data.data].points, rewardType: t.SUBMIT_REWARD};
+                    this.props.updatePoints( newReward , this.onPointSubmit);
+                }
+            }
+            else{
+                Actions.EnterCode({reward: this.props.rewards[data.data], rewardkey: data.data, rewardType: t.SUBMIT_REWARD});
+            }
+        }
+        else if(this.props.rewards[data.data] != null && this.props.rewards[data.data].answered != null ){
+            this.onPointSubmit(t.DONE_TYPE, data.data);
+        }
+
     };
 
+    
+    onPointSubmit(result, rewardKey){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    }
 
 
     render() {
+        let responseText = this.state.qrValue.data ==  null ? this.state.response: this.state.response;
         return (
             <View style={styles.container}>
                 <View style = {styles.mainbackground}>
@@ -59,6 +90,7 @@ class Home extends React.Component {
                             <BarCodeScanner
                               onBarCodeRead={this._handleBarCodeRead}
                               style={styles.barCode}
+                              //torchMode = {"on"}
                               //type = 'front'
                             />
                             <Image 
@@ -71,20 +103,18 @@ class Home extends React.Component {
                         </View>
                     }
                     <View style ={styles.bottomBox}>
-                            {this.state.qrValue.data == null ?
-                                <Text style = {styles.textStyle}> 
-                                    Scan a QR code
-                                </Text>:
-                                <Text style = {styles.textStyle}> 
-                                    {`${this.state.qrValue.data}`}
-                                </Text>
-                                
-                            }
+                            <Text style = {styles.textStyle}> 
+                                {responseText}
+                            </Text>
                     </View>
                 </View>
             </View>
         );
     }
 }
+const mapStateToProps = state => {
+  return { rewards: state.homeReducer.rewards, user: state.authReducer.user };
 
-export default Home;
+};
+export default connect(mapStateToProps, { updatePoints })(Scanning);
+
