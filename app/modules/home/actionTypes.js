@@ -24,6 +24,8 @@ export const WIN_TYPE = "win"; //user just wont the game
 
 export const DONE_TYPE = "done"; //user ALREADY won the game
 
+export const LOSE_TYPE = "fail"; //user submitted the wrong answer
+
 
 //below are the types of tasks//
 export const POINT_MULTIPLECHOICE = "multiplechoice";

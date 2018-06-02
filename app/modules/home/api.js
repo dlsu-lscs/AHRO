@@ -122,7 +122,8 @@ export function updatePoints(reward, callback){ //needs callback
 	});
 	updateDBpromise.then(function(data) {
 		//only if table was updated
-		callback(t.WIN_TYPE, reward.key);
+		if(reward.fail != null) callback(t.LOSE_TYPE, reward.key);
+		else callback(t.WIN_TYPE, reward.key, reward.points);
 	}, function (error){
 		//failed to update
 		if(error == t.DONE_TYPE){

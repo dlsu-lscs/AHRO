@@ -48,11 +48,17 @@ const styles = StyleSheet.create({
     	color: color.white,
     },
 
+    winnerText:{
+        fontSize: 25,
+    },
     backButton: {
     	backgroundColor: color.mainGreen,
     	width: 150,
     	marginTop: 20
 
+    },
+    confTop:{
+        marginTop: 0,
     }
 
 });
