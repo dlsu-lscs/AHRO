@@ -4,7 +4,11 @@ export const GET_REWARDS = "home/GET_REWARDS";
 
 export const GET_QUIZES = "home/GET_QUIZES";
 
+export const GET_CODES = "home/GET_CODES";
+
 export const CHANGE_TIME_OFFSET = "home/CHANGE_TIME_OFFSET";
+
+//^^API FUNCTS^^
 
 export const SUBMIT_REWARD = "home/SUBMIT_REWARD"; //too lazy to comment na
 

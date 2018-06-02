@@ -20,6 +20,7 @@ class Home extends React.Component {
         super(props);
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
+        this.onCode = this.onCode.bind(this);
     }
     onSignOut() {
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
@@ -34,6 +35,9 @@ class Home extends React.Component {
     }
     onLeaderboard(){
         Actions.Leaderboard();
+    }
+    onCode(){
+        Actions.EnterCode();
     }
 
     render() {
@@ -56,6 +60,14 @@ class Home extends React.Component {
                     buttonStyle={[styles.button]}
                     textStyle={styles.buttonText}
                     onPress={this.onLeaderboard}/>
+                <Button
+                    raised
+                    borderRadius={4}
+                    title={'Enter Code'}
+                    containerViewStyle={[styles.containerView]}
+                    buttonStyle={[styles.button]}
+                    textStyle={styles.buttonText}
+                    onPress={this.onCode}/>
             </View>
         );
     }

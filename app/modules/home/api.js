@@ -32,6 +32,20 @@ export function getQuizes(callback, errorCB){
     
 }
 
+export function getCodes(callback, errorCB){
+	database.ref('codes').on('child_added', (snapshot)=>{
+		try{
+			codes = snapshot.val();
+			const key = snapshot.key;
+			callback(key,codes);
+		}
+		catch(error){
+			console.log(error);
+			//errorCB();
+		}
+	})
+}
+
 export function getPoints(callback){
 	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
 		listenToUser(user, callback);

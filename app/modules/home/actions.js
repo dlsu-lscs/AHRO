@@ -17,7 +17,6 @@ export function getQuizes(callback) {
     return (dispatch) => {
     	api.getQuizes((newkey, quizes) => {
     		dispatch({type:t.GET_QUIZES, data: quizes, key: newkey});
-    		callback();
     	});
         callback();
     };
@@ -28,6 +27,15 @@ export function getPoints(callback){
         dispatch({type: t.RESET_POINTS});
         api.getPoints((newKey, valtype) => {
             dispatch({type: valtype.type, key: newKey});
+        });
+        callback();
+    }
+}
+
+export function getCodes(callback){
+    return (dispatch) => {
+        api.getCodes((newKey, codes) => {
+            dispatch({type: t.GET_CODES, data: codes, key: newKey});
         });
         callback();
     }

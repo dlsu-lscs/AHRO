@@ -28,21 +28,34 @@ class EnterCode extends React.Component {
         
         this.setState({answered: true});
         var newReward = {};
-        if(answer == this.props.reward.secret){
-            if(this.props.reward.type === t.POINT_MULTIPLECHOICE){
-                Actions.multipleChoice({reward: this.props.reward, rewardkey: this.props.rewardkey, rewardType: this.props.rewardType});
-            }
-            else if(this.props.reward.type === t.POINT_IDENTIFICATION ){
-                Actions.Identification({reward: this.props.reward, rewardkey: this.props.rewardkey, rewardType: this.props.rewardType});
+        if(this.props.codes[answer] != null){
+            var rkey = this.props.codes[answer].rewardid;
+            if(rkey != null && this.props.rewards[rkey] != null){
+                var lereward = this.props.rewards[rkey];
+                if((this.props.rewards.answered == null || this.props.rewards.answered[rkey]) == null){
+                    if(lereward.type === t.POINT_MULTIPLECHOICE){
+                        Actions.multipleChoice({reward: lereward, rewardkey: rkey, rewardType: t.SUBMIT_REWARD});
+                    }
+                    else if(lereward.type === t.POINT_IDENTIFICATION ){
+                        Actions.Identification({reward: lereward, rewardkey: rkey, rewardType: t.SUBMIT_REWARD});
+                    }
+                    else{
+                        const newReward = {key: rkey, points: lereward.points, rewardType: t.SUBMIT_REWARD};
+                        this.props.updatePoints( newReward , this.onPointSubmit);
+                    }
+                }
+                else{
+                    console.log("ANSWERED")
+                    //already answered
+                }
             }
             else{
-                const newReward = {key: this.props.rewardkey, points: this.props.reward.points, rewardType: this.props.rewardType};
-                this.props.updatePoints( newReward , this.onPointSubmit);
+                console.log(rkey);
             }
         }
         else{
-            //newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType};
-            //Show error
+            console.log("NOPE doesnt exist lol")
+            //no code found
         }
 
    }
@@ -94,6 +107,10 @@ class EnterCode extends React.Component {
         );
     }
 }
-export default connect(null, { updatePoints })(EnterCode);
+const mapStateToProps = state => {
+return { rewards: state.homeReducer.rewards, codes: state.homeReducer.codes};
+
+};
+export default connect(mapStateToProps, { updatePoints })(EnterCode);
 
 //lmao
