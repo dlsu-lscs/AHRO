@@ -28,6 +28,56 @@ import { getRewards, getQuizes, getInvitations, getServerTime, getPoints } from 
 
 import { color, navTitleStyle } from "../styles/theme";
 
+
+
+import Notifications1 from '../modules/notifications/scenes/Notifications/Notifications';
+import Map       from '../modules/map/scenes/Map/Map';
+import Calendar       from '../modules/calendar/scenes/Calendar/Calendar';
+import ViewEvent from '../modules/map/scenes/ViewEvent/ViewEvent';
+import {StatusBar, Text, View} from "react-native";
+//import * as StatusBar from "react-native";
+
+
+import { Ionicons } from '@expo/vector-icons';
+import styles from "../modules/home/components/NavigationBar/styles";
+
+
+//not yet moved to other folder. But is only used by the tab scene here
+class TabIcon extends React.Component {
+    render() {
+        let src = "";
+        switch(this.props.title){
+            case 'Home': src = 'ios-person-outline'; break;
+            case 'Team Profile': src = 'ios-people-outline'; break;
+            case 'Scan': src = 'ios-calendar-outline'; break;
+            case 'Map': src = 'ios-map-outline'; break;
+            case 'Notifications': src = 'ios-notifications-outline'; break;
+        }
+
+        let title = this.props.title;
+        return (
+            <View style={styles.navIconContainer}>
+                <Ionicons name={src} size={36} color="#000" />
+                <Text style={styles.navIconLabel}>{title}</Text>
+            </View>
+        );
+    }
+}
+
+class TabIconInner extends React.Component {
+    render() {
+        let title = this.props.title;
+        return (
+            <View style={styles.navIconContainer}>
+                <Text style={styles.navIconLabel}>{title}</Text>
+            </View>
+        );
+    }
+}
+
+
+
+
 export default class extends React.Component {
     constructor() {
         super();
@@ -41,8 +91,13 @@ export default class extends React.Component {
         }
     }
 
+    // componentWillMount(hidden, animation) {
+    //     StatusBar.setHidden(true, animation);
+    // }
+
     componentDidMount() {
-        
+
+
 
         let _this = this;
         store.dispatch(testquery());
@@ -52,7 +107,7 @@ export default class extends React.Component {
         store.dispatch(checkLoginStatus((isLoggedIn) => {
             _this.setState({isReady: true, isLoggedIn});
             if(isLoggedIn){
-                console.log("tite.");
+                console.log("logged in");
                 store.dispatch(getPoints(() => {
                     this.setState({pointsReady: true});
                 }));
@@ -63,12 +118,12 @@ export default class extends React.Component {
         }));
         store.dispatch(getRewards(() => {
             _this.setState({rewardsReady: true});
-            
+
         }));
 
         store.dispatch(getQuizes(() => {
             _this.setState({quizesReady: true});
-            
+
         }));
     }
 
@@ -93,17 +148,63 @@ export default class extends React.Component {
 
                     </Stack>
 
-                    <Stack key="Main" initial={this.state.isLoggedIn}>
-                        <Scene key="Home" component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
-                        <Scene key="Scanning" component={Scanning} title="Scanning" />
+                    <Stack key="Main" initial={this.state.isLoggedIn}
+
+                    >
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
-                        <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" back={false} hideNavBar/>
-                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" />
+
+                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard"  />
+
+                        <Scene key="MainTabs"
+                               tabs
+                               tabBarStyle={{backgroundColor: '#fff'}}
+                               tabBarPosition='bottom'
+                               showLabel = {false}
+                               activeBackgroundColor = '#ddd' initial>
+                            <Scene key="Home" icon={TabIcon}
+
+                                   component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
+                            <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" icon={TabIcon}/>
+                            <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" />
+
+                            <Scene key='map'
+                                   title='Map' icon={TabIcon}
+                                   tabs
+                                   tabBarStyle={{backgroundColor: '#fff'}}
+                                   activeBackgroundColor = '#ddd'
+                                   tabBarPosition='bottom'
+                                showLabel={false}>
+                                <Scene key='List'
+                                       component={Calendar}
+                                       title='Event List' icon={TabIconInner}
+                                       initial tabBarLabel = "Event List">
+                                </Scene>
+                                <Scene key = 'mapInnerTab' title = "Map"
+                                       component={Map}  icon={TabIconInner} hideNavBar>
+                                </Scene>
+
+
+                            </Scene>
+                            <Scene key='Notifications'
+                                   component={Notifications1}
+
+                                   title='Notifications' icon={TabIcon}>
+
+                            </Scene>
+                        </Scene>
                     </Stack>
                         <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET}/>
-                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type={ActionConst.RESET}/>
-                        <Scene key="Identification" component={Identification} title="Answer the quiz" type={ActionConst.RESET}/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" />
+                        <Scene key="Identification" component={Identification} title="Answer the quiz"/>
+
+
+                    <Scene key = 'viewEvent' title = 'modal' component = {ViewEvent} hideNavBar
+                           direction = "vertical">
+
+                    </Scene>
+
                 </Scene>
+
             </Router>
         )
     }

@@ -36,40 +36,43 @@ export function getQuizes(callback, errorCB){
 
 export function getPoints(callback){
 	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
-		if(user.team != null){
-			database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
-				try{
-					reward = snapshot.val();
-					const key = snapshot.key;
-					callback(key, reward);
-				}
-				catch(error){
-					console.log(error);
-				}
-			})
-		}
-		else{
-			database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
-				try{
-					reward = snapshot.val();
-					const key = snapshot.key;
-					callback(key, reward);
-				}
-				catch(error){
-					console.log(error);
-				}
-			})
-		}
-		
+		listenToUser(user, callback);
 	}, function(error){
 		callback(t.ERROR_TYPE, reward.key);
 		console.log(error);
 	})
 }
 
+export function listenToUser(user, callback){
+	if(user.team != null){
+		database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				console.log(reward);
+				callback(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
+	}
+	else{
+		database.ref('users').child(user.uid).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				callback(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
+	}
+}
 export function getLeaderBoard(callback){
-	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise()]).then(function(results){
-		callback(results[0], results[1]);
+	Promise.all([helpers.getAllTeamDetailsPromise(),helpers.getAllUserDetailsPromise(), helpers.getUserDetailsPromise()]).then(function(results){
+		callback(results[0], results[1], results[2]);
 	},function(error){
 		console.error(error);
 	})
@@ -222,14 +225,16 @@ export function sendInvite (data, callback) {
             return snapshot.val();
         });
     }).then(function(user) {
-        console.log('received user object');
-        console.log(user);
+        if(user != null ){
+            console.log('received user object');
+            console.log(user);
 
-        sentToId = Object.keys(user)[0];
+            sentToId = Object.keys(user)[0];
 
-        return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
-            return snapshot.val();
-        });
+            return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
+                return snapshot.val();
+            });
+        }
     }).then(function(team) {
         console.log('received team object');
         console.log(team);
@@ -244,7 +249,7 @@ export function sendInvite (data, callback) {
         console.log("sendInvite success");
         callback(true, null, null);
     }, function(error) {
-        console.error("Error in sendInvite.");
+        //console.error("Error in sendInvite.");
         console.log(error);
         callback(false, null, {message: error});
     });
@@ -314,6 +319,9 @@ export function acceptInvite (data, callback) {
             lname: authUser.lname,
             member: true,
         };
+        if(team.rewards != null && authUser.rewards != null){
+            updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
+        }
 
         updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
         updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;

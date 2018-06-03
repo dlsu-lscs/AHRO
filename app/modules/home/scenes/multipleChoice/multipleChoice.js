@@ -155,7 +155,8 @@ class multipleChoice extends React.Component {
                             </View>
                         </View>
                         <View style = {styles.botView}>
-                            <TouchableOpacity style = {styles.submitBotton}>
+                            <TouchableOpacity style = {styles.submitBotton}
+                            onPress = {()=> {this.onSubmit(this.state.option)}}>
                                 <Text>
                                     Submit
                                 </Text>

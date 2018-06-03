@@ -19,7 +19,7 @@ class NavigationBar extends Component {
             <View style={styles.bottomNav}>
                 <View style={styles.navIconContainer}>
                     <TouchableOpacity style={styles.toIcon}  onPress={ () => {
-                        Actions.Scanning();
+                        Actions.map();
                     }}>
                         <Ionicons name="ios-map-outline" size={36} color="#000" /> 
                         <Text style={styles.navIconLabel}>Map</Text>
@@ -28,6 +28,7 @@ class NavigationBar extends Component {
                 <View style={styles.navIconContainer}>
                     <TouchableOpacity style={styles.toIcon} onPress={ () => {
                         // goBack();
+                        Actions.Notifications()
                     }}>
                         <Ionicons name="ios-notifications-outline" size={36} color="#000" /> 
                         <Text style={styles.navIconLabel}>Alerts</Text>
@@ -47,12 +48,13 @@ class NavigationBar extends Component {
                         // goBack();
                     }}>
                         <Ionicons name="ios-person-outline" size={36} color="#000" /> 
-                        <Text style={styles.navIconLabel}>Profile</Text>
+                        <Text style={styles.navIconLabel}>---</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.navIconContainer}>
                     <TouchableOpacity style={styles.toIcon} onPress={ () => {
                         // goBack();
+                        Actions.calendar()
                     }}>
                         <Ionicons name="ios-calendar-outline" size={36} color="#000" /> 
                         <Text style={styles.navIconLabel}>Events</Text>

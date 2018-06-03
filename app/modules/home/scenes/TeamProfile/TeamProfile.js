@@ -343,7 +343,7 @@ class TeamProfile extends React.Component {
                                 }
                             />
                     </View>
-                    <NavigationBar />
+                    {/*<NavigationBar />*/}
                 </ImageBackground>
             );
         }

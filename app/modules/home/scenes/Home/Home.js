@@ -4,11 +4,12 @@ var { View, TouchableOpacity, Text, StyleSheet, Alert, ImageBackground } = requi
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
+import {Notifications, Permissions} from "expo";
 
 import styles from "./styles"
 
 import { actions as auth, theme } from "../../../auth/index"
-const { signOut } = auth;
+const { signOut, registerForPushNotificationsAsync } = auth;
 import {actions as homeauth} from "../../index"
 const { color } = theme;
 
@@ -16,12 +17,14 @@ const { color } = theme;
 import ScanQR from "../../components/ScanQR"
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
+
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
     }
+
     onSignOut() {
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }
@@ -37,13 +40,17 @@ class Home extends React.Component {
         Actions.Leaderboard();
     }
 
+    componentDidMount(){
+        registerForPushNotificationsAsync();
+    }
+
     render() {
         return (
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
                 <View style={styles.content}>
-                    <ScanQR />
+                    {/*<ScanQR />*/}
                     <Button
                         raised
                         borderRadius={4}
@@ -60,8 +67,18 @@ class Home extends React.Component {
                         buttonStyle={[styles.button]}
                         textStyle={styles.buttonText}
                         onPress={this.onLeaderboard}/>
+                    <Text style={{paddingTop:20, fontSize: 20, color:'#fff'}}>
+                        {`
+ How to play:
+
+    Find and scan QR codes in posters
+    and events
+
+    Have fun!
+                        `}
+                    </Text>
                 </View>
-                <NavigationBar />
+                {/*<NavigationBar />*/}
             </ImageBackground>
         );
     }

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { actions as auth } from "../../index"
 const { createUser } = auth;
 
+var {ImageBackground } = require('react-native');
 import Form from "../../components/Form"
 
 const fields = [
@@ -98,11 +99,15 @@ class CompleteProfile extends React.Component {
 
     render() {
         return (
+            <ImageBackground 
+                source = {require('../../../../assets/images/theme-bg.png')}
+                style = {{width: "100%", height: "100%"}}>
                 <Form fields={fields}
                       showLabel={false}
                       onSubmit={this.onSubmit}
                       buttonTitle={"CONTINUE"}
                       error={this.state.error}/>
+            </ImageBackground>
         );
     }
 }

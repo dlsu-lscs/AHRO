@@ -28,6 +28,16 @@ class Leaderboard extends React.Component {
             mixed: [],
             isTeam: 3,
             data: [],
+            meuser: {
+                points: 0,
+                fname: "",
+                lname: "",
+                username: "",
+                points: 0,
+                allrank: 0,
+                secondary: "",
+                secondaryrank: 0,
+            }
         }
         
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
@@ -41,7 +51,8 @@ class Leaderboard extends React.Component {
         this.setState({solos: results[0]});
         this.setState({teams: results[1]});
         this.setState({mixed: results[2]});
-        this.setState({data: this.state.mixed});
+        this.setState({meuser: results[3]})
+        this.setState({data: {...this.state.mixed}});
         
     }
     textPress(){
@@ -52,6 +63,13 @@ class Leaderboard extends React.Component {
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
+                <View>
+                    <Text style = {styles.genText}> Points: {this.state.meuser.points} </Text>
+                    <Text style = {styles.genText}> {this.state.meuser.fname} {this.state.meuser.lname}</Text>
+                    <Text style = {styles.genText}> username: {this.state.meuser.username} </Text>
+                    <Text style = {styles.genText}> Overall rank: {this.state.meuser.allrank} </Text>
+                    <Text style = {styles.genText}> {this.state.meuser.secondary} rank: {this.state.meuser.secondaryrank} </Text>
+                </View>
                 <View style = {styles.topNav}>
                     <View style = {styles.leaderBoardTextView}>
                         <Text 
@@ -98,13 +116,13 @@ class Leaderboard extends React.Component {
                                 style = {styles.filterButton}
                                 onPress = {() => {this.setState({ isTeam: 3})}}
                             >
-                                <Text style = {styles.itemText}> Mixed </Text>
+                                <Text style = {styles.itemText}> All </Text>
                             </TouchableOpacity> ):
                             (<TouchableOpacity
                                 style = {styles.offButton}
                                 onPress = {() => {this.setState({ isTeam: 3})}}
                             >
-                                <Text style = {styles.buttonText}> Mixed </Text>
+                                <Text style = {styles.buttonText}> All </Text>
                             </TouchableOpacity>)
                             }
                         </View>

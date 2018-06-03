@@ -12,6 +12,8 @@ export const SUBMIT_QUIZ = "home/SUBMIT_QUIZ"; //change quiz to win in reducer
 
 export const GET_POINTS = "home/GET_POINTS"; //get points from reducer
 
+export const RESET_POINTS = "home/RESET_POINTS"; //Reset points
+
 export const REWARD_TYPE_ACTION = "reward"; //point is a reward
 
 export const QUIZ_TYPE_ACTION = "quiz"; //point is a quiz

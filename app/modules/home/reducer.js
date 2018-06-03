@@ -35,14 +35,29 @@ const authReducer = (state = initialState, action) => {
 
         case t.CHANGE_TIME_OFFSET:
             return {...state, offset: action.data};
-        
+        case t.RESET_POINTS:
+            staterewards = initialState.rewards;
+            statequizes = initialState.quizes;
+            staterewards.answered = {};
+            statequizes.answered = {};
+
+            return {...state, rewards: staterewards, quizes: statequizes }
         case t.SUBMIT_REWARD:
             staterewards = initialState.rewards;
-            staterewards[action.key].answered = true;
+            if(staterewards.answered == null) {
+                staterewards.answered = {};
+            }
+            staterewards.answered[action.key] = true;
+            //console.log(staterewards);
             return {...state, rewards: staterewards};
         case t.SUBMIT_QUIZ:
             statequizes = initialState.quizes;
-            statequizes[action.key].answered = true;
+            if(statequizes.answered == null) {
+                statequizes.answered = {};
+            }
+            statequizes.answered[action.key]= true;
+
+            //console.log(statequizes)
             return {...state, quizes: statequizes};
         default:
             return state;
