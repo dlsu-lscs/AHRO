@@ -63,7 +63,7 @@ export function listenToUser(user, callback){
 			try{
 				reward = snapshot.val();
 				const key = snapshot.key;
-				console.log(reward);
+				//console.log(reward);
 				callback(key, reward);
 			}
 			catch(error){
@@ -153,14 +153,22 @@ export function updatePoints(reward, callback){ //needs callback
 }
 
 // Create team then add current authenticated user to the team
-export function createTeam (data, callback) {
+export function createTeam (data, callback, listenCB) {
 
-    // TODO: Check for unique team name
-    helpers.getUserDetailsPromise().then(function(user) {
-        if (user) {
+	// TODO: Check for unique team name
+	var user;
+	var newTeamKey;
+    helpers.getUserDetailsPromise().then(function(_user) {
+		user = _user;
+		//checks if team exists
+		return database.ref("teams").orderByChild("teamName").equalTo(data.team).once("value").then(function(snaphshot){
+			return snaphshot.val();
+		});
+	}).then(function (teamexist) {
+        if (user && teamexist == null) {
             // Get a key for the new team.
-            var newTeamKey = database.ref().child('teams').push().key;
-            
+			newTeamKey = database.ref().child('teams').push().key;
+			console.log(newTeamKey);
             // Team data
             var teamData = {
                 team: true,
@@ -173,7 +181,13 @@ export function createTeam (data, callback) {
                     },
                 },
             };
-            
+			//merge user points to team
+			if(user.rewards != null){
+				teamData.rewards = {}
+				Object.keys(user.rewards).map(function(key){
+					teamData.rewards[key] = {...user.rewards[key]}
+				})
+			}
             // Update user data with new team
             user['team'] = newTeamKey;
 
@@ -182,14 +196,32 @@ export function createTeam (data, callback) {
             updates['/users/' + user.uid] = user;
 
             return database.ref().update(updates);
-        } else {
-            console.error("User cannot be found.");
+		} 
+		else if(teamexist != null){
+			console.log("team already exists");
+			console.log("UR MOM:" +teamexist);
+			callback(false, null, {message: 'Team name already taken.'});
+		}
+		else {
+			//console.error("User cannot be found.");
             callback(false, null, {message: 'User cannot be found.'});
         }
     }).then(function() {
+		console.log(newTeamKey);
+		database.ref('teams').child(newTeamKey).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				listenCB(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
         console.log("Success.");
         callback(true, null, null);
     }, function(error) {
+		console.log(error);
         console.error("Error in executing get user details promise.");
         callback(false, null, {message: error});
     });
@@ -249,7 +281,10 @@ export function sendInvite (data, callback) {
             return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
                 return snapshot.val();
             });
-        }
+		}
+		else{
+			callback(false, null, {message: "User does not exist"});
+		}
     }).then(function(team) {
         console.log('received team object');
         console.log(team);
@@ -296,7 +331,7 @@ export function acceptInvite (data, callback) {
     console.log("@api acceptInvite");
     console.log(data);
 
-    var authUser;
+	var authUser;
     helpers.getUserDetailsPromise().then(function(user) {
         if (user) {
 
@@ -343,6 +378,17 @@ export function acceptInvite (data, callback) {
 
         return database.ref().update(updates);
     }).then(function() {
+		database.ref('teams').child(data.id).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				console.log(reward);
+				callback(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
         console.log("Success.");
         callback(true, null, null);
     }, function(error) {

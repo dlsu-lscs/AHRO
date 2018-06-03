@@ -108,7 +108,6 @@ export function getLeaderBoard(callback){
                         aPoint = teams[key].rewards[key2].point;
                         if(teams[key].points == null){
                             teams[key].points = aPoint;
-                            console.log("GOT 1");
                         }
                         else{
                             teams[key].points += aPoint;
@@ -140,6 +139,16 @@ export function getLeaderBoard(callback){
             mixedrank = getRank(mixedarr);
             teamsrank = getRank(teamsarr);
             solorank = getRank(solosarr);
+            if(mixedarr.length > 10){
+                mixedarr = mixedarr.slice(0, 11);
+            }
+            if(teamsarr.length > 10){
+                teamsarr = teamsarr.slice(0, 11);
+            }
+            if(solosarr.length > 10){
+                solosarr = solosarr.slice(0, 11);
+            }
+
             meuser.allrank = mixedrank;
             if(meuser.team == null){
                 meuser.secondary = "Individual"
@@ -191,6 +200,8 @@ export function createTeam(data, successCB, errorCB) {
         api.createTeam(data, function (success, data, error) {
             if (success) successCB(data);
             else if (error) errorCB(error)
+        }, function(newKey, valtype){
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }
