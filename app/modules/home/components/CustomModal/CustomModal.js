@@ -84,7 +84,7 @@ class CustomModal extends React.Component {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalFormContainer}>
                         <Text style={styles.modalText}>{ modalText }</Text>
-                        <View styles={styles.modalForm}>
+                        <View style={styles.modalForm}>
                             {
                                 (!isEmpty(this.state.error['general'])) &&
                                 <Text style={styles.errorText}>{this.state.error['general']}</Text>
@@ -107,20 +107,20 @@ class CustomModal extends React.Component {
                                 })
                             }
                         </View>
-                        <View styles={styles.modalLowerContainer}>
-                        <TouchableHighlight
-                            onPress={() => {
-                                this.props.setVisible( !this.props.modalVisible );
-                            }}>
-                            <Text>Hide Modal</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            onPress={() => {
-                                this.onSubmit();
-                                this.props.setVisible( !this.props.modalVisible );
-                            }}>
-                            <Text>Submit</Text>
-                        </TouchableHighlight>
+                        <View style={styles.modalLowerContainer}>
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.props.setVisible( !this.props.modalVisible );
+                                }}>
+                                <Text style={styles.hideModal}>Hide Modal</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.onSubmit();
+                                    this.props.setVisible( !this.props.modalVisible );
+                                }}>
+                                <Text style={styles.submitModal}>Submit</Text>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </View>

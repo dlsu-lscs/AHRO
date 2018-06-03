@@ -1,9 +1,10 @@
 import React from 'react';
-var { Text, View, StyleSheet, Alert, Image, KeyboardAvoidingView, ImageBackground } = require('react-native');
+var { Text, View, TouchableOpacity, StyleSheet, Alert, Image, KeyboardAvoidingView, ImageBackground } = require('react-native');
 
 import {Button, FormInput} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 
 import styles from "./styles"
 
@@ -65,45 +66,97 @@ class EnterCode extends React.Component {
     }
 
     render() {
+        const { state, goBack } = this.props.navigation;        // https://stackoverflow.com/questions/45489343/react-navigation-back-and-goback-not-working
+        const params = state.params || {};  
         let thereward  = this.props.reward;
 
         return (
-           <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-            
+        //    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+           
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
-                <View style = {styles.topview}>
-                    <Text style={styles.title}>Enter Hidden Code:</Text>
+
+                <View style={styles.topContainer}>
+                    <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 40, right: 40}}
+                        onPress={ () => {
+                        goBack();
+                    }}>
+                        <Ionicons name="ios-arrow-back" size={24} color="#fff" /> 
+                    </TouchableOpacity>
                 </View>
 
-                <View style = {styles.bottomview}>
-                        <View style = {styles.submitbutton}>
-                            <FormInput
-                                autoCapitalize='none'
-                                clearButtonMode='while-editing'
-                                underlineColorAndroid={"#fff"}
-                                placeholder={""}
-                                autoFocus={true}
-                                onChangeText={(text) => this.setState({text})}
-                                secureTextEntry={false}
-                                inputStyle={[styles.inputstyle]}
+                <View style={styles.bottomContainer}>
+                    <View style={[styles.buttonContainer]}>
+                        <View style={[styles.titleContainer]}>
+                            <Text style={[styles.title]}>Enter hidden code:</Text>
+                        </View>
+                        <FormInput
+                            autoCapitalize='none'
+                            clearButtonMode='while-editing'
+                            underlineColorAndroid={"#fff"}
+                            placeholder={""}
+                            autoFocus={true}
+                            onChangeText={(text) => this.setState({text})}
+                            secureTextEntry={false}
+                            inputStyle={[styles.inputstyle]}
 
-                                value={this.state.text}
-                            />
-                        </View> 
-                        <View style = {styles.submitbutton}>
-                            <Button 
-                                onPress={() => this.onSubmit()}
-                                title= {"SUBMIT"}
-                                buttonStyle={[styles.submitbutton2]}
-                                borderRadius={4}
-                            />
-                        </View> 
+                            value={this.state.text}
+                        />
+                        <Button 
+                            onPress={() => this.onSubmit()}
+                            title= {"SUBMIT"}
+                            buttonStyle={[styles.submitbutton2]}
+                            borderRadius={4}
+                        />
+                    </View>
+                    <View style={styles.bottom}>
+                        {/* <TouchableOpacity onPress={Actions.Login}>
+                            <Text style={styles.bottomText}>
+                                Already have an account?
+                            </Text>
+                            <Text style={styles.signInText}>
+                                Sign in
+                            </Text>
+                        </TouchableOpacity> */}
+                    </View>
                 </View>
+
+                {/* <View style={styles.bottomContainer}> */}
+                {/* <KeyboardAvoidingView style={styles.container} behavior="padding" enabled> */}
+                    {/* <View style = {styles.topview}>
+                        <Text style={styles.title}>Enter Hidden Code:</Text>
+                    </View>
+
+                    <View style = {styles.bottomview}>
+                            <View style = {styles.submitbutton}>
+                                <FormInput
+                                    autoCapitalize='none'
+                                    clearButtonMode='while-editing'
+                                    underlineColorAndroid={"#fff"}
+                                    placeholder={""}
+                                    autoFocus={true}
+                                    onChangeText={(text) => this.setState({text})}
+                                    secureTextEntry={false}
+                                    inputStyle={[styles.inputstyle]}
+
+                                    value={this.state.text}
+                                />
+                            </View> 
+                            <View style = {styles.submitbutton}>
+                                <Button 
+                                    onPress={() => this.onSubmit()}
+                                    title= {"SUBMIT"}
+                                    buttonStyle={[styles.submitbutton2]}
+                                    borderRadius={4}
+                                />
+                            </View> 
+                    </View> */}
+                    
+                {/* </KeyboardAvoidingView> */}
+                {/* </View> */}
 
             </ImageBackground>
-            </KeyboardAvoidingView>
         );
     }
 }

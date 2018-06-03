@@ -7,28 +7,29 @@ const styles = StyleSheet.create({
     container:{
         marginBottom: 15,
         width: "100%",
-        backgroundColor: "orange",
+        // backgroundColor: "orange",
         // paddingTop: 15,
         flexDirection: "row",
         padding: 0,
+        paddingLeft: 0,
     },
 
-    inputStyles:{
+    inputStyle:{
         // width: windowWidth - 80,
-        // width: "100%",
         fontSize: fontSize.regular,
         fontFamily: fontFamily.regular,
-        color: "#fff",
     }, 
 
     containerStyle:{
-        backgroundColor: "pink",
-        width: windowWidth - 150,
+        // backgroundColor: "pink",
+        marginLeft: 0,
+        // width: windowWidth - 150,
+        width: "100%",
         height: normalize(45),
         paddingLeft: 10,
         borderRadius: 6,
-        borderWidth: 2,
-        borderColor: color.light_grey,
+        borderWidth: 1,
+        borderColor: color.darker_grey,
         margin: 0,
         // flex: 1,
     },

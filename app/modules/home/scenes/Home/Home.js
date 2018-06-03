@@ -137,13 +137,14 @@ class Home extends React.Component {
                         </View>
                     </View>
                     
-                    <View>
+                    <View style={styles.leaderBoardContainer}>
+                    {/* <View> */}
                         <Text 
                             style={styles.leaderBoardText}
                             onPress={this.textPress}>
                             Leaderboard
                         </Text>
-                        <View style = {styles.topNav}>
+                        {/* <View style = {styles.topNav}> */}
                             <View style = {styles.filterView}>
                                 <View style = {styles.buttonView}>
                                     {(this.state.isTeam == 1) ?
@@ -157,7 +158,7 @@ class Home extends React.Component {
                                             style = {styles.offButton}
                                             onPress = {() => {this.setState({ isTeam: 1})}}
                                         >
-                                        <Text style = {styles.buttonText}> Individual </Text>
+                                        <Text style={styles.buttonText}> Individual </Text>
                                         </TouchableOpacity>)
                                     }
                                 </View>
@@ -194,12 +195,13 @@ class Home extends React.Component {
                                     }
                                 </View>
                             </View>
-                        </View>
+                        {/* </View> */}
 
                         <View style = {styles.board} >
                             {(this.state.isTeam == 1) ?
                             <FlatList
-                                contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                            // contentContainerStyle={ {alignItems: 'center',} }    
+                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
                                 data = {this.state.solos}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -212,6 +214,7 @@ class Home extends React.Component {
                             (this.state.isTeam == 2) ?
                             <FlatList
                             contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                            // contentContainerStyle={ {alignItems: 'center',} }    
                                 data = {this.state.teams}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -222,7 +225,9 @@ class Home extends React.Component {
                                 }
                             />:
                             <FlatList
-                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }                                
+                            // contentContainerStyle={ {alignItems: 'center',} }  
+                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                                                          
                                 data = {this.state.mixed}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -235,15 +240,7 @@ class Home extends React.Component {
                             }
                         </View>
                         <QuizComponent />
-                    </View>
-                    <Button
-                        raised
-                        borderRadius={4}
-                        title={'Enter Code'}
-                        containerViewStyle={[styles.containerView]}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onCode}/>
+                    </View>                    
                 </View>
             </ImageBackground>
         );
