@@ -9,7 +9,7 @@ import styles from "./styles"
 import { actions as auth, theme } from "../../../auth/index"
 
 import { actions as homeauth } from "../../index";
-import { FontAwesome } from "@expo/vector-icons"
+import { FontAwesome, MaterialCommunityIcons, Entypo } from "@expo/vector-icons"
 
 import * as t from "../../actionTypes";
 class ConfirmedScan extends React.Component {
@@ -34,15 +34,25 @@ class ConfirmedScan extends React.Component {
                         <FontAwesome name = "check-circle" size={220} color= "#00d080"  />:
                         this.props.result == t.DONE_TYPE ?
                         <FontAwesome name = "check-circle" size={220} color= "#FFC800"  />:
-                        <FontAwesome name = "error" size={220} color= "red" />
+                        this.props.result == t.LOSE_TYPE ?
+                        <Entypo name = "circle-with-cross" size = {220} color = "red" />:
+                        //<FontAwesome name = "error" size={220} color= "red"  />:
+                        <MaterialCommunityIcons name = "emoticon-sad" size={220} color= "red" />
                         }
                     </View>
                 </View>
                 <View style = {styles.content}>
                     {this.props.result == t.WIN_TYPE ?
-                        <Text style = {[styles.generalText, styles.topText]}>Your account has been rewarded! </Text>:
+                        (
+                        <View style = {styles.content}>
+                        <Text style = {[styles.generalText, styles.topText, styles.winnerText]}> +{this.props.rewardPoints} Points</Text>
+                        <Text style = {[styles.generalText, styles.topText, styles.confTop]}>Your account has been rewarded! </Text>
+                        </View>
+                        ):
                      this.props.result == t.DONE_TYPE  ?
                         <Text style = {[styles.generalText, styles.doneText]}>You have already finished this task </Text>:
+                    this.props.result == t.LOSE_TYPE ?
+                        <Text style = {[styles.generalText, styles.errorText]}> Dang! you submitted the wrong answer </Text>:
                         <Text style = {[styles.generalText, styles.errorText]}>There was a technical error </Text>
 
                     }

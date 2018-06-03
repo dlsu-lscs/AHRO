@@ -73,8 +73,8 @@ class Scanning extends React.Component {
     };
 
     
-    onPointSubmit(result, rewardKey){
-       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    onPointSubmit(result, rewardKey, rewardPoints){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey, rewardPoints: rewardPoints});
     }
 
 

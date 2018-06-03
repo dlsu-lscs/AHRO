@@ -50,6 +50,7 @@ class Home extends React.Component {
         
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
         this.textPress = this.textPress.bind(this);
+        this.onCode = this.onCode.bind(this);
     }
 
     onSignOut() {
@@ -65,6 +66,9 @@ class Home extends React.Component {
     }
     onLeaderboard(){
         Actions.Leaderboard();
+    }
+    onCode(){
+        Actions.EnterCode();
     }
 
     componentDidMount(){
@@ -132,14 +136,6 @@ class Home extends React.Component {
                             
                         </View>
                     </View>
-                    
-                    {/* <Button
-                        raised
-                        borderRadius={4}
-                        title={'Leaderboard'}
-                        buttonStyle={[styles.button]}
-                        // textStyle={styles.buttonText}
-                        onPress={this.onLeaderboard}/> */}
                     
                     <View>
                         <Text 
@@ -240,6 +236,14 @@ class Home extends React.Component {
                         </View>
                         <QuizComponent />
                     </View>
+                    <Button
+                        raised
+                        borderRadius={4}
+                        title={'Enter Code'}
+                        containerViewStyle={[styles.containerView]}
+                        buttonStyle={[styles.button]}
+                        textStyle={styles.buttonText}
+                        onPress={this.onCode}/>
                 </View>
             </ImageBackground>
         );
