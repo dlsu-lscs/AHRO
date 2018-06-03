@@ -98,6 +98,8 @@ class Welcome extends React.Component {
             <ImageBackground 
                 source={ require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+                
                 {/* <LinearGradient
                     colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
                     style={styles.linearGradient}> */}
@@ -143,6 +145,7 @@ class Welcome extends React.Component {
                         </View>
                     </View>
                 {/* </LinearGradient> */}
+                </KeyboardAvoidingView>
             </ImageBackground>
         );
     }

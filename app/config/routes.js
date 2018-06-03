@@ -47,17 +47,21 @@ class TabIcon extends React.Component {
     render() {
         let src = "";
         switch(this.props.title){
-            case 'Home': src = 'ios-person-outline'; break;
+            case 'Home': src = 'ios-home-outline'; break;
+            // case 'Home': src = 'ios-person-outline'; break;
             case 'Team Profile': src = 'ios-people-outline'; break;
-            case 'Scan': src = 'ios-calendar-outline'; break;
+            case 'Scan': src = 'ios-qr-scanner-outline'; break;
+            // case 'Scan': src = 'ios-calendar-outline'; break;
             case 'Map': src = 'ios-map-outline'; break;
             case 'Notifications': src = 'ios-notifications-outline'; break;
         }
 
+
         let title = this.props.title;
+        
         return (
             <View style={styles.navIconContainer}>
-                <Ionicons name={src} size={36} color="#000" />
+                <Ionicons name={src} size={30} color="#000" />
                 <Text style={styles.navIconLabel}>{title}</Text>
             </View>
         );
@@ -151,21 +155,19 @@ export default class extends React.Component {
                     <Stack key="Main" initial={this.state.isLoggedIn}
 
                     >
-                        <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" />
+                        <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" hideNavBar />
 
-                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard"  />
+                        <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" hideNavBar />
 
                         <Scene key="MainTabs"
                                tabs
-                               tabBarStyle={{backgroundColor: '#fff'}}
+                               tabBarStyle={{backgroundColor: '#ffffff05', height: 60, }}
                                tabBarPosition='bottom'
                                showLabel = {false}
                                activeBackgroundColor = '#ddd' initial>
-                            <Scene key="Home" icon={TabIcon}
-
-                                   component={Home} title="Home" initial={true} type={ActionConst.REPLACE}/>
-                            <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" icon={TabIcon}/>
-                            <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" />
+                            <Scene key="Home" icon={TabIcon} component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
+                            <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" icon={TabIcon} hideNavBar/>
+                            <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" hideNavBar />
 
                             <Scene key='map'
                                    title='Map' icon={TabIcon}
@@ -173,11 +175,11 @@ export default class extends React.Component {
                                    tabBarStyle={{backgroundColor: '#fff'}}
                                    activeBackgroundColor = '#ddd'
                                    tabBarPosition='bottom'
-                                showLabel={false}>
+                                showLabel={false} hideNavBar>
                                 <Scene key='List'
                                        component={Calendar}
                                        title='Event List' icon={TabIconInner}
-                                       initial tabBarLabel = "Event List">
+                                       initial tabBarLabel = "Event List" hideNavBar>
                                 </Scene>
                                 <Scene key = 'mapInnerTab' title = "Map"
                                        component={Map}  icon={TabIconInner} hideNavBar>
@@ -188,14 +190,14 @@ export default class extends React.Component {
                             <Scene key='Notifications'
                                    component={Notifications1}
 
-                                   title='Notifications' icon={TabIcon}>
+                                   title='Notifications' icon={TabIcon} hideNavBar>
 
                             </Scene>
                         </Scene>
                     </Stack>
-                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET}/>
-                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" />
-                        <Scene key="Identification" component={Identification} title="Answer the quiz"/>
+                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET} hideNavBar/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" hideNavBar />
+                        <Scene key="Identification" component={Identification} title="Answer the quiz" hideNavBar/>
 
 
                     <Scene key = 'viewEvent' title = 'modal' component = {ViewEvent} hideNavBar

@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     logoContainer:{
         flex: 3,
         paddingTop: padding * 3,
-         // backgroundColor: "#fff",
+        //  backgroundColor: "#000",
         width: windowWidth,
         justifyContent: "center",
         alignItems: "center",
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     },
 
     logo:{
-        width: "80%",
+        width: "65%",
         resizeMode: "contain",
     },
     logoRight:{

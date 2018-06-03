@@ -142,10 +142,13 @@ class TeamProfile extends React.Component {
         console.log("@TeamProfile.js : Success GetTeam");
 
         var members = [];
+        var i = 1;
         Object.keys(team.users).forEach(function(key) {
             members.push( {
+                index: i,
                 name: team.users[key].fname + ' ' + team.users[key].lname,
             });
+            i++;
         });
 
         this.setState({members, loading: false, team: constants.STATE_USER_TEAM });
@@ -226,20 +229,6 @@ class TeamProfile extends React.Component {
                                 <Text style={styles.modalTitle}>Invitations</Text>
                                 <FlatList data={this.state.invites}
                                     renderItem={({ item }) => (
-                                        // <ListItem
-                                        //     title={`${item.teamName}`}
-                                        //     titleStyle={[styles.liTitleDark]}
-                                        //     hideChevron={true}
-                                        //     rightElement={
-                                        //         <View>
-                                        //             <Text>To the RIGHT</Text>
-                                        //             {/* <Button title="Accept"
-                                        //                 onPress={() => { console.log( "Tapped accept") }} />
-                                        //             <Button title="Delete"
-                                        //                 onPress={() => { console.log( "Tapped delete") }} /> */}
-                                        //         </View>
-                                        //     }
-                                        // />
                                         <Card
                                             containerStyle={[styles.cardContainer]}
                                             flexDirection="row"
@@ -252,7 +241,6 @@ class TeamProfile extends React.Component {
                                                         console.log("DECLINE");
                                                         
                                                     }}>
-                                                    
                                                         <Text style={[styles.transparentButtonText]}>Decline</Text>
                                                         
                                                     </TouchableOpacity>
@@ -323,15 +311,18 @@ class TeamProfile extends React.Component {
                                     />
                                 </View>
                             }
-                            
-                            {/* <ScanQR /> */}
                         </View>
+                        <View style={[styles.midContent]}>
+                            <Text style={[styles.listTitle]}>Team Members</Text>
                             <FlatList
                                 data={this.state.members}
+                                
                                 // renderItem={this.renderItem}
                                 renderItem={({ item }) => (
                                     <ListItem
-                                        title={`${item.name}`}
+                                        title={`${item.index}.      ${item.name}`}
+                                        containerStyle={[styles.liContainer]}
+                                        // style={{borderBottomWidth: 0}}
                                         // rightTitle={'right'}
                                         titleStyle={[styles.liTitleLight]}
                                         hideChevron={true}
@@ -342,6 +333,23 @@ class TeamProfile extends React.Component {
                                     <Text>You are not part of any team!</Text>
                                 }
                             />
+                        </View>
+                        <View style={[styles.bottomContent]}>
+                            <View style={[styles.scoresContainer]}>
+                                <View style={[styles.rowContainer]}>
+                                    <Text style={[styles.bold, styles.white]}>CODES: </Text>
+                                    <Text style={[styles.white]}>100</Text>
+                                </View>
+                                <View style={[styles.rowContainer]}>
+                                    <Text style={[styles.bold, styles.white]}>QUIZ: </Text>
+                                    <Text style={[styles.white]}>50</Text>
+                                </View>
+                                <View style={[styles.rowContainer]}>
+                                    <Text style={[styles.bold, styles.accent]}>TOTAL POINTS: </Text>
+                                    <Text style={[styles.accent]}>150</Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
                     {/*<NavigationBar />*/}
                 </ImageBackground>

@@ -83,15 +83,20 @@ class ForgotPassword extends React.Component {
             //         buttonTitle={"SUBMIT"}
             //         error={this.state.error}/>
             <ImageBackground 
-                source={ require('../../../../assets/images/compass.jpg')}
-                style={styles.container}
-                blurRadius={1}>
-                <LinearGradient
+                source={ require('../../../../assets/images/theme-bg.png')}
+                style={styles.container}>
+                
+            {/* // <ImageBackground 
+            //     source={ require('../../../../assets/images/compass.jpg')}
+            //     style={styles.container}
+            //     blurRadius={1}> */}
+                {/* <LinearGradient
                     colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
-                    style={styles.linearGradient}>
+                    style={styles.linearGradient}> */}
 
                     <View style={styles.topContainer}>
-                        <TouchableOpacity onPress={ () => {
+                        <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 40, right: 40}}
+                            onPress={ () => {
                             goBack();
                         }}>
                             <Ionicons name="ios-arrow-back" size={24} color="#fff" /> 
@@ -127,7 +132,7 @@ class ForgotPassword extends React.Component {
                             </TouchableOpacity> */}
                         </View>
                     </View>
-                </LinearGradient>
+                {/* </LinearGradient> */}
             </ImageBackground>
         );
     }

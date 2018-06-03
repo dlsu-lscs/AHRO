@@ -31,6 +31,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: 30, 
+    },
+
+    midContent:{
+        paddingLeft: padding * 3,
+    },
+
+    bottomContent:{
+        position: "absolute",
+        bottom: 0,
     },
 
     title:{
@@ -43,10 +53,25 @@ const styles = StyleSheet.create({
         backgroundColor: color.mainGreen,
     },
 
-    liTitleLight:{
-        color: color.white,
+    listTitle:{
         fontSize: fontSize.regular,
         fontFamily: fontFamily.regular,
+        color: color.mainGreen,
+        marginBottom: 10,
+    },
+
+    liContainer:{
+        borderBottomWidth: 0,
+        paddingVertical: 12,
+        paddingLeft: 0,
+        marginLeft: 0,
+    },
+
+    liTitleLight:{
+        color: color.white,
+        fontSize: fontSize.large - 2,
+        fontFamily: fontFamily.regular,
+        marginLeft: 0,
     },
 
     liTitleDark:{
@@ -55,6 +80,35 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
     },
 
+    scoresContainer: {
+        marginBottom: padding * 3,
+    },
+
+    rowContainer: {
+        flexDirection: "row",
+        paddingVertical: 2,
+        alignItems: "center",
+    },
+
+    regular:{
+        fontFamily: fontFamily.regular,
+        fontSize: fontSize.regular,
+    },
+
+    bold:{
+        fontFamily: fontFamily.bold,
+        fontSize: fontSize.regular,
+    },
+
+    white:{
+        color: color.white,
+    },
+
+    accent:{
+        color: color.mainGreen,
+    },
+
+    // MODAL STUFF
     modalContainer:{
         flex: 1,
         justifyContent: "center",
@@ -86,6 +140,7 @@ const styles = StyleSheet.create({
 
     },
 
+    // CARD STUFF
     cardContainer:{
         // flexDirection: "row",
         justifyContent: "space-between",
