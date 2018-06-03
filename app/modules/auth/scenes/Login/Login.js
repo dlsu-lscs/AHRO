@@ -108,8 +108,18 @@ class Login extends React.Component {
                     colors={['rgba(21,87,153,0.7)', 'rgba(21,153,87,0.7)']} 
                     style={styles.linearGradient}> */}
 
-                    <View style={styles.topContainer}>
+                    {/* <View style={styles.topContainer}>
                         <TouchableOpacity onPress={ () => {
+                            goBack();
+                        }}>
+                            <Ionicons name="ios-arrow-back" size={24} color="#fff" /> 
+                            <Text>BOI</Text>
+                        </TouchableOpacity>
+                    </View> */}
+
+                    <View style={styles.topContainer}>
+                        <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 40, right: 40}}
+                            onPress={ () => {
                             goBack();
                         }}>
                             <Ionicons name="ios-arrow-back" size={24} color="#fff" /> 
@@ -143,14 +153,7 @@ class Login extends React.Component {
                                 onPress={Actions.Register}/> */}
                         </View>
                         <View style={styles.bottom}>
-                            {/* <TouchableOpacity onPress={Actions.Login}>
-                                <Text style={styles.bottomText}>
-                                    Already have an account?
-                                </Text>
-                                <Text style={styles.signInText}>
-                                    Sign in
-                                </Text>
-                            </TouchableOpacity> */}
+
                         </View>
                     </View>
                 {/* </LinearGradient> */}

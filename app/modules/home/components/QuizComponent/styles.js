@@ -12,7 +12,10 @@ const styles = StyleSheet.create({
     },
     labelText:{
         color: color.white,
-        fontSize: 13,
+        fontSize: fontSize.small,
+        fontFamily: fontFamily.light,
+        marginLeft: padding,
+        marginTop: 15,
     },
     bottom:{
         width: "100%",
@@ -20,41 +23,45 @@ const styles = StyleSheet.create({
     },
     timerComponent:{
         width: "50%",
+        marginLeft: padding,
         flexDirection: 'row',
-        justifyContent:"center",
-        alignItems:"center",
+        justifyContent:"flex-start",
+        alignItems:"flex-start",
     },
     timerContainer:{
         justifyContent:"center",
         alignItems:"center",
     },
     timeNumber:{
-        fontSize: 30,
+        fontSize: fontSize.title - 2,
+        fontFamily: fontFamily.medium,
         color: color.white,
     },
     timeLabel:{
         fontSize: 20,
+        fontFamily: fontFamily.regular,        
         color: color.white,
     },
     buttonComponent:{
         width: "50%",
+        alignItems:"flex-end",
         justifyContent:"center",
-        alignItems:"center",
     },
     buttonQuiz:{
-        width: "100%",
-        borderRadius: 10,
+        width: "90%",
+        borderRadius: 15,
         borderColor: color.white,
         borderWidth: 2,
         //backgroundColor: color.black,
         justifyContent:"center",
         alignItems:"center",
         padding: 2,
+        marginRight: padding,
         
     },
     disabledQuiz:{
-        width: "100%",
-        borderRadius: 10,
+        width: "90%",
+        borderRadius: 15,
         borderColor: color.white,
         borderWidth: 2,
         //backgroundColor: color.black,
@@ -62,10 +69,11 @@ const styles = StyleSheet.create({
         alignItems:"center",
         padding: 2,
         opacity: 0.5,
-        
+        marginRight: padding,
     },
     quizText:{
         color: color.white,
+        fontFamily: fontFamily.regular,
     }
 });
 

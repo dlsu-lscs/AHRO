@@ -20,7 +20,7 @@ class ConfirmedScan extends React.Component {
     }
 
     onSubmit(){
-        Actions.Leaderboard();
+        Actions.Home();
     }
 
     render() {

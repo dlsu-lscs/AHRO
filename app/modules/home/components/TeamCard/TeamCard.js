@@ -17,22 +17,69 @@ class TeamCard extends Component {
     }
     render() {
         const { rank, points, title } = this.props;
-
-        return (
-            <View style = {styles.cardStyle}>
-                <View style = {styles.rankStyle}> 
-                    <Text style = {styles.genText}>{rank}</Text>
+        if(rank == 'RANK') {
+            return (
+                <View style = {styles.cardStyle}>
+                    <View style = {styles.rankStyle}> 
+                        <Text style = {styles.headerText}>{rank}</Text>
+                    </View>
+                    <View style = {styles.pointStyle}>
+                        <Text style = {styles.headerText}>{points}</Text>
+                    </View>
+                    <View style = {styles.nameStyle}>
+                        <Text style = {styles.headerText}>{title}</Text>
+                    </View>
                 </View>
-                <View style = {styles.pointStyle}>
-                    <Text style = {styles.genText}>{points}</Text>
+            );
+        } else {
+            return (
+                <View style = {styles.cardStyle}>
+                    <View style = {styles.rankStyle}> 
+                        <Text style = {styles.genText}>{rank}</Text>
+                    </View>
+                    <View style = {styles.pointStyle}>
+                        <Text style = {styles.genText}>{points}</Text>
+                    </View>
+                    <View style = {styles.nameStyle}>
+                        <Text style = {styles.genText}
+                        adjustsFontSizeToFit = {true}
+                        numberOfLines={1}>{title}</Text>
+                    </View>
                 </View>
-                <View style = {styles.nameStyle}>
-                    <Text style = {styles.genText}
-                    adjustsFontSizeToFit = {true}
-                    numberOfLines={1}>{title}</Text>
-                </View>
-            </View>
-        );
+            );
+            
+        }
+        // return (
+        //     <View style={styles.container}>
+        //         {(rank == 'RANK') ? 
+        //             <View style = {styles.cardStyle}>
+        //                 <View style = {styles.rankStyle}> 
+        //                     <Text style = {styles.headerText}>{rank}</Text>
+        //                 </View>
+        //                 <View style = {styles.pointStyle}>
+        //                     <Text style = {styles.headerText}>{points}</Text>
+        //                 </View>
+        //                 <View style = {styles.nameStyle}>
+        //                     <Text style = {styles.headerText}>{title}</Text>
+        //                 </View>
+        //             </View>
+        //             :
+        //             <View style = {styles.cardStyle}>
+        //                 <View style = {styles.rankStyle}> 
+        //                     <Text style = {styles.genText}>{rank}</Text>
+        //                 </View>
+        //                 <View style = {styles.pointStyle}>
+        //                     <Text style = {styles.genText}>{points}</Text>
+        //                 </View>
+        //                 <View style = {styles.nameStyle}>
+        //                     <Text style = {styles.genText}
+        //                     adjustsFontSizeToFit = {true}
+        //                     numberOfLines={1}>{title}</Text>
+        //                 </View>
+        //             </View>
+        //         }
+        //     </View>
+        // );
     }
 }
 

@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         alignItems: "center",    
         width: windowWidth / 5,
         height: "100%",    
+        paddingVertical: 10,
     },
 
     navIconContainerTest:{
