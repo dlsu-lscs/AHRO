@@ -34,6 +34,20 @@ export function getQuizes(callback, errorCB){
     
 }
 
+export function getCodes(callback, errorCB){
+	database.ref('codes').on('child_added', (snapshot)=>{
+		try{
+			codes = snapshot.val();
+			const key = snapshot.key;
+			callback(key,codes);
+		}
+		catch(error){
+			console.log(error);
+			//errorCB();
+		}
+	})
+}
+
 export function getPoints(callback){
 	var getDataPromise = helpers.getUserDetailsPromise().then(function(user){
 		listenToUser(user, callback);
@@ -124,7 +138,8 @@ export function updatePoints(reward, callback){ //needs callback
 	});
 	updateDBpromise.then(function(data) {
 		//only if table was updated
-		callback(t.WIN_TYPE, reward.key);
+		if(reward.fail != null) callback(t.LOSE_TYPE, reward.key);
+		else callback(t.WIN_TYPE, reward.key, reward.points);
 	}, function (error){
 		//failed to update
 		if(error == t.DONE_TYPE){

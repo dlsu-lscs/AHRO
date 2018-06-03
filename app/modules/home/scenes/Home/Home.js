@@ -23,6 +23,7 @@ class Home extends React.Component {
         super(props);
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
+        this.onCode = this.onCode.bind(this);
     }
 
     onSignOut() {
@@ -38,6 +39,9 @@ class Home extends React.Component {
     }
     onLeaderboard(){
         Actions.Leaderboard();
+    }
+    onCode(){
+        Actions.EnterCode();
     }
 
     componentDidMount(){
@@ -67,6 +71,14 @@ class Home extends React.Component {
                         buttonStyle={[styles.button]}
                         textStyle={styles.buttonText}
                         onPress={this.onLeaderboard}/>
+                    <Button
+                        raised
+                        borderRadius={4}
+                        title={'Enter Code'}
+                        containerViewStyle={[styles.containerView]}
+                        buttonStyle={[styles.button]}
+                        textStyle={styles.buttonText}
+                        onPress={this.onCode}/>
                     <Text style={{paddingTop:20, fontSize: 20, color:'#fff'}}>
                         {`
  How to play:

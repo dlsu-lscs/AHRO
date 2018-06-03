@@ -33,7 +33,7 @@ class multipleChoice extends React.Component {
                 newReward = {key: this.props.rewardkey, points: this.props.reward.points, rewardType: this.props.rewardType};
             }
             else{
-                newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType};
+                newReward = {key: this.props.rewardkey, points: 0, rewardType: this.props.rewardType, fail: true};
             }
             this.props.updatePoints(newReward, this.onPointSubmit);
         }
@@ -42,8 +42,8 @@ class multipleChoice extends React.Component {
         //Actions.Main();
    }
 
-    onPointSubmit(result, rewardKey){
-       Actions.ConfirmedScan({result: result, rewardKey: rewardKey});
+    onPointSubmit(result, rewardKey, rewardPoints){
+       Actions.ConfirmedScan({result: result, rewardKey: rewardKey, rewardPoints: rewardPoints});
     }
     changeOption(answer){
         if(this.state.option == answer){

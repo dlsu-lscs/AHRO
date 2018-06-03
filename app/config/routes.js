@@ -24,7 +24,7 @@ import Leaderboard from '../modules/home/scenes/Leaderboard';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes, getInvitations, getServerTime, getPoints } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations, getServerTime, getPoints, getCodes } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -86,6 +86,7 @@ export default class extends React.Component {
             timeReady: false,
             rewardsReady: false,
             quizesReady: false,
+            codesReady: false,
             isLoggedIn: false,
             pointsReady: false,
         }
@@ -125,11 +126,15 @@ export default class extends React.Component {
             _this.setState({quizesReady: true});
 
         }));
+        store.dispatch(getCodes(() => {
+            _this.setState({codesReady: true});
+            
+        }));
     }
 
 
     render() {
-        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady || !this.state.pointsReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady || !this.state.pointsReady || !this.state.codesReady)
             return <Splash/>
 
         return (
