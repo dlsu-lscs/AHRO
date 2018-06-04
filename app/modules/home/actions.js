@@ -256,7 +256,8 @@ export function acceptInvite(data, successCB, errorCB) {
 }
 export function getServerTime(callback){
     return (dispatch) =>{
-        var timePromise = fetch("http://www.convert-unix-time.com/api?timestamp=now");
+        //var timePromise = fetch("http://www.convert-unix-time.com/api?timestamp=now");
+        var timePromise = fetch("https://ahroadmin.herokuapp.com/api/timestamp");
         timePromise.then(function(responseJson){
             return responseJson.json();
         }).then((responseTime) => {
