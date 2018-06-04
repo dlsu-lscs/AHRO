@@ -142,6 +142,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    points:{
+        fontFamily: fontFamily.light,
+        fontSize: fontSize.regular,
+        color: color.light_grey,
+        alignSelf: "center",
+        textAlign: "center",
+        marginBottom: 10,
+    },
     title: {
         fontSize:fontSize.larger,
         // lineHeight:fontSize.large + 7,

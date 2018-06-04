@@ -1,20 +1,61 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { theme } from "../../index"
 const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
+import { Ionicons } from '@expo/vector-icons';
 
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        flexDirection: "column",
+    kav: {
         height: "100%",
         width: "100%",
-        justifyContent:"center",
-        alignItems:"center",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    container:{
+        // flex:1,
+        // flexDirection: "column",
+        // height: "100%",
+        // width: "100%",
+        // justifyContent:"center",
+        // alignItems:"center",
+        flex:1,
+        // height: "100%",
+        // width: "100%",
+        alignItems: 'center',
+        // justifyContent: 'center',
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
+        
+    },
+
+    points:{
+        fontFamily: fontFamily.light,
+        fontSize: fontSize.regular,
+        color: color.light_grey,
+        alignSelf: "center",
+        textAlign: "center",
+        marginBottom: 10,
     },
   
+    content:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     
+    topContainer:{
+        marginTop: 12,
+        paddingHorizontal: 12,
+        // flex:1,
+        height: 50,
+        justifyContent:"center",
+        alignItems:"flex-start",
+        // backgroundColor: "#FF553F",
+        width: windowWidth - 60,
+        // backgroundColor: color.red,
+    },
 
     mainbackground:{
         backgroundColor: '#000000',
@@ -26,11 +67,15 @@ const styles = StyleSheet.create({
     },
 
     topview:{
-        justifyContent:"center",
-        alignItems:"center",
-        width: "100%",
-        margin: 15,
-
+        // justifyContent:"center",
+        // alignItems:"center",
+        // width: "100%",
+        // margin: 15,
+        alignItems: 'flex-end',
+        justifyContent:"flex-end",
+        color: color.light_black,
+        marginHorizontal: padding * 3,
+        padding: 10,  
     },
 
     bottomview:{
@@ -66,10 +111,10 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        fontSize:fontSize.large + 5,
-        lineHeight:fontSize.large + 7,
+        fontSize:fontSize.larger,
+        // lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
-        color: color.mainGreen,
+        color: color.white,
         // letterSpacing: 1,
         justifyContent: 'center',
         alignItems: 'center',

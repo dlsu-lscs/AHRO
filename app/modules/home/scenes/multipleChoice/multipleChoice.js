@@ -123,6 +123,7 @@ class multipleChoice extends React.Component {
                         </TouchableOpacity>
                     </View>
                     <View style = {styles.topView}>
+                        <Text style={styles.points}>{thereward.points} POINTS</Text>
                         <Text style = {styles.title}>{thereward.question}</Text>
                     </View>
                     <View style = {styles.midView}>

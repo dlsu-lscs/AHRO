@@ -5,6 +5,14 @@ const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
+    kav: {
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    
     container:{
         flex:1, // child must have defined sizes
         alignItems: 'center',
