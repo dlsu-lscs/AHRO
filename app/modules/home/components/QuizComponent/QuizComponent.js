@@ -103,11 +103,17 @@ class QuizComponent extends Component {
                             </TouchableOpacity>)
                         }
                     </View>
+                    
                 </View>:
-                    <View>
-                        
-                    </View>
+                <View>
+                    
+                </View>
                 }
+                <View style={styles.codeContainer}>
+                    <TouchableOpacity style={styles.buttonQuiz}onPress={() => { Actions.EnterCode(); }}>
+                        <Text style={styles.quizText}>ENTER A CODE</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }

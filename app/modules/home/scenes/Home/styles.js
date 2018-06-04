@@ -12,7 +12,9 @@ const styles = StyleSheet.create({
 
     content:{
         // flex: 0,
+        flex: 1,
         padding: padding,  
+        // height: "100%",
         // backgroundColor: 'powderblue',
     },
 
@@ -94,11 +96,15 @@ const styles = StyleSheet.create({
         margin: 5,
     },
 
+    leaderBoardContainer: {
+        flex: 1,
+    },
+
     leaderBoardText:{
         color: color.white,
         fontSize: fontSize.large,
         fontFamily: fontFamily.regular,
-        marginLeft: padding,
+        marginLeft: padding * 2,
     },
 
     filterView:{
@@ -108,16 +114,19 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end",
         alignSelf: 'flex-end',
         padding: 0,
-        // flex: 1,
+        flex: 0,
+        marginHorizontal: padding * 2,
         // width: "50%",
     },
     buttonView:{
         //width: 100,
+        flex: 1,
         margin: 0,
         borderColor: color.white,
         borderWidth: 1,
         //backgroundColor: color.black,
-        width: "33%",
+        // width: "33%",
+        
     },
     
     filterButton:{
@@ -152,8 +161,9 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
         // width: "100%",
-        marginHorizontal: padding,
-        height: 200,
+        marginHorizontal: padding * 2,
+        flex: 1,
+        // height: 200,
     },
 });
 

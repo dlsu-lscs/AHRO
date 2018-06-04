@@ -9,6 +9,7 @@ const color = {
     white: "#ffffff",
     light_grey: "#eaeaea",
     grey: "#ccc",
+    darker_grey: "#848484",
     red: "red",
     underlayColor: "#ddd",
     mainGreen: "#00d080",

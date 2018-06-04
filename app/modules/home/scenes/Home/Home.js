@@ -53,6 +53,7 @@ class Home extends React.Component {
         
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
         this.textPress = this.textPress.bind(this);
+        this.onCode = this.onCode.bind(this);
     }
 
     onSignOut() {
@@ -138,44 +139,15 @@ class Home extends React.Component {
                             
                         </View>
                     </View>
-                    
-                    {/* <Button
-                        raised
-                        borderRadius={4}
-                        title={'Leaderboard'}
-                        buttonStyle={[styles.button]}
-<<<<<<< HEAD
-                        textStyle={styles.buttonText}
-                        onPress={this.onLeaderboard}/>
-                    <Button
-                        raised
-                        borderRadius={4}
-                        title={'Enter Code'}
-                        containerViewStyle={[styles.containerView]}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onCode}/>
-                    <Text style={{paddingTop:20, fontSize: 20, color:'#fff'}}>
-                        {`
- How to play:
 
-    Find and scan QR codes in posters
-    and events
-
-    Have fun!
-                        `}
-                    </Text>
-=======
-                        // textStyle={styles.buttonText}
-                        onPress={this.onLeaderboard}/> */}
-                    
-                    <View>
+                    <View style={styles.leaderBoardContainer}>
+                    {/* <View> */}
                         <Text 
                             style={styles.leaderBoardText}
                             onPress={this.textPress}>
                             Leaderboard
                         </Text>
-                        <View style = {styles.topNav}>
+                        {/* <View style = {styles.topNav}> */}
                             <View style = {styles.filterView}>
                                 <View style = {styles.buttonView}>
                                     {(this.state.isTeam == 1) ?
@@ -189,7 +161,7 @@ class Home extends React.Component {
                                             style = {styles.offButton}
                                             onPress = {() => {this.setState({ isTeam: 1})}}
                                         >
-                                        <Text style = {styles.buttonText}> Individual </Text>
+                                        <Text style={styles.buttonText}> Individual </Text>
                                         </TouchableOpacity>)
                                     }
                                 </View>
@@ -226,12 +198,13 @@ class Home extends React.Component {
                                     }
                                 </View>
                             </View>
-                        </View>
+                        {/* </View> */}
 
                         <View style = {styles.board} >
                             {(this.state.isTeam == 1) ?
                             <FlatList
-                                contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                            // contentContainerStyle={ {alignItems: 'center',} }    
+                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
                                 data = {this.state.solos}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -244,6 +217,7 @@ class Home extends React.Component {
                             (this.state.isTeam == 2) ?
                             <FlatList
                             contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                            // contentContainerStyle={ {alignItems: 'center',} }    
                                 data = {this.state.teams}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -254,7 +228,9 @@ class Home extends React.Component {
                                 }
                             />:
                             <FlatList
-                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }                                
+                            // contentContainerStyle={ {alignItems: 'center',} }  
+                            contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
+                                                          
                                 data = {this.state.mixed}
                                 renderItem = {({item}) => 
                                     <TeamCard
@@ -267,7 +243,7 @@ class Home extends React.Component {
                             }
                         </View>
                         <QuizComponent />
-                    </View>
+                    </View>                    
                 </View>
             </ImageBackground>
         );

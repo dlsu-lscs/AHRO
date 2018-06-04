@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#00000060",
+        backgroundColor: "#00000070",
     },
 
     modalFormContainer:{
@@ -18,18 +18,19 @@ const styles = StyleSheet.create({
         backgroundColor: color.white,
         paddingVertical: padding * 4,
         paddingHorizontal: padding * 3,
-        backgroundColor: "powderblue",
+        backgroundColor: color.white,
     },
 
     modalForm:{
-        marginTop: 20,
-        backgroundColor: "yellow",
+        // marginTop: 20,
         justifyContent:"flex-start",
         alignItems:"flex-start",
     },
 
     modalLowerContainer:{
-
+        flexDirection: "row",
+        alignItems: "flex-end",
+        alignSelf: "flex-end",
     },
 
     modalButtonContainer:{
@@ -39,12 +40,12 @@ const styles = StyleSheet.create({
     modalText:{
         fontSize: fontSize.regular,
         fontFamily: fontFamily.regular,
+        marginBottom: 15,
     },
 
     errorText:{
         color: color.red,
         width: (windowWidth - 45),
-        marginTop: 20,
     },
 
     containerView:{
@@ -62,6 +63,18 @@ const styles = StyleSheet.create({
     buttonText:{
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.medium,
+    },
+
+    hideModal:{
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+        color: color.darker_grey,
+    },
+
+    submitModal:{
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+        marginLeft: 15,
     },
 });
 

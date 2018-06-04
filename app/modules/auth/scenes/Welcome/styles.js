@@ -121,6 +121,13 @@ const styles = StyleSheet.create({
     },
 
     //===============================
+    completeProfileContainer:{
+        flex: 1,
+        width: windowWidth,
+        justifyContent:"center",
+        alignItems:"center",
+        height: "100%",
+    },
 
     bottomContainer:{
         // backgroundColor:"green",
@@ -209,6 +216,14 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
         color: "#414141",
         paddingHorizontal: padding
+    },
+
+    toContinue:{
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+        marginTop: 15,
+        color:color.mainGreen,
+        letterSpacing: 1,
     }
 });
 

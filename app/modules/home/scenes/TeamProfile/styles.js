@@ -13,8 +13,11 @@ const styles = StyleSheet.create({
     },
 
     topRightContainer:{
-        flexDirection: "row",
+        // flexDirection: "column",
+        justifyContent: "flex-end",
         alignItems: "flex-end",
+        // height: "100%",
+        // backgroundColor: "pink",
     },
 
     content:{
@@ -30,12 +33,13 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 30, 
+        alignItems: "flex-start",
+        marginVertical: 20, 
+        flex: 0,
     },
 
     midContent:{
-        paddingLeft: padding * 3,
+        flex: 1,
     },
 
     bottomContent:{
@@ -49,8 +53,25 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
     },
 
+    
+
+    buttonText:{
+        color: color.white,
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+    },
+    
+
     button:{
-        backgroundColor: color.mainGreen,
+        // backgroundColor: color.mainGreen,
+        // width: "100%",
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 5,
+    },
+
+    buttonComponent:{
+
     },
 
     listTitle:{
@@ -93,6 +114,12 @@ const styles = StyleSheet.create({
     regular:{
         fontFamily: fontFamily.regular,
         fontSize: fontSize.regular,
+    },
+
+    bolder:{
+        fontFamily: fontFamily.bold,
+        fontSize: fontSize.large,
+        marginBottom: 5,
     },
 
     bold:{
@@ -204,7 +231,28 @@ const styles = StyleSheet.create({
 
     toButton:{
         width: "100%",
-    }
+    },
+
+    closeText:{
+        fontFamily: fontFamily.regular,
+        fontSize: fontSize.regular,
+        color: color.darker_grey,
+    },
+
+    transparentTo:{
+        borderRadius: 4,
+        borderWidth: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderColor: color.white,
+        marginBottom: 5,
+    },
+
+    transparentToText:{
+        color: color.white,
+        fontFamily: fontFamily.regular,
+        fontSize: fontSize.large - 4,
+    },
 });
 
 export default styles;
