@@ -18,7 +18,7 @@ class ModalTextInput extends Component {
                     clearButtonMode='while-editing'
                     underlineColorAndroid={"#ffffff00"}
                     placeholder={placeholder}
-                    placeholderTextColor={"#ededed"}
+                    placeholderTextColor={"#848484"}
                     autoFocus={autoFocus}
                     onChangeText={onChangeText}
                     secureTextEntry={secureTextEntry}

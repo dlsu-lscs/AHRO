@@ -155,20 +155,18 @@ export default class extends React.Component {
                        backButtonTintColor={color.black}>
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
+                        {/* <Scene key="Welcome" component={Welcome} title="" hideNavBar/>                         */}
                         <Scene key="Register" component={Register} title="Register" hideNavBar/>
-                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
+                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false} hideNavBar/>
                         <Scene key="Login" component={Login} title="Login" hideNavBar/>
-                        <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false}/>
+                        <Scene key="VerifyEmail" component={VerifyEmail} title = "Verify your Email address" back = {false} hideNavBar/>
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
 
                     </Stack>
 
-                    <Stack key="Main" initial={this.state.isLoggedIn}
-
-                    >
+                    <Stack key="Main" initial={this.state.isLoggedIn}>
                         <Scene key="ConfirmedScan" component={ConfirmedScan} title="ConfirmedScan" hideNavBar />
                         <Scene key="Leaderboard" component={Leaderboard} title="Leaderboard" hideNavBar />
-
                         <Scene key="MainTabs"
                                tabs
                                tabBarStyle={{backgroundColor: '#ffffff05', height: 60, }}
@@ -204,11 +202,9 @@ export default class extends React.Component {
                             </Scene>
                         </Scene>
                     </Stack>
-                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.RESET} hideNavBar/>
-                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" hideNavBar />
-                        <Scene key="Identification" component={Identification} title="Answer the quiz" hideNavBar/>
-
-
+                    <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.PUSH} hideNavBar/>
+                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" hideNavBar />
+                    <Scene key="Identification" component={Identification} title="Answer the quiz" hideNavBar/>
                     <Scene key = 'viewEvent' title = 'modal' component = {ViewEvent} hideNavBar
                            direction = "vertical">
 

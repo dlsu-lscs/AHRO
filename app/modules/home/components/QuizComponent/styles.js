@@ -7,14 +7,15 @@ const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container:{
-        //backgroundColor: color.black,
-
+        // backgroundColor: "pink",
+        // flex: 0,
+        flex: 0,
     },
     labelText:{
         color: color.white,
         fontSize: fontSize.small,
         fontFamily: fontFamily.light,
-        marginLeft: padding,
+        marginLeft: padding * 2,
         marginTop: 15,
     },
     bottom:{
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     },
     timerComponent:{
         width: "50%",
-        marginLeft: padding,
+        marginLeft: padding * 2,
         flexDirection: 'row',
         justifyContent:"flex-start",
         alignItems:"flex-start",
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
         padding: 2,
-        marginRight: padding,
+        marginRight: padding * 2,
         
     },
     disabledQuiz:{
@@ -69,11 +70,21 @@ const styles = StyleSheet.create({
         alignItems:"center",
         padding: 2,
         opacity: 0.5,
-        marginRight: padding,
+        marginRight: padding * 2,
     },
     quizText:{
         color: color.white,
         fontFamily: fontFamily.regular,
+    },
+    codeContainer:{
+        marginTop: 15,
+        paddingTop: 10,
+        borderTopColor: color.white,
+        borderTopWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginHorizontal: padding * 2,
+        marginBottom: 15,
     }
 });
 
