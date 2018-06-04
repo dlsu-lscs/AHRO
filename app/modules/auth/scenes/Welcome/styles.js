@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         // lineHeight: fontSize.regular + 4,
         fontFamily: fontFamily.regular,
         color:color.white,
-        letterSpacing: 1
+        // letterSpacing: 1
     },
 
     subText:{
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
         marginTop: 15,
         color:color.mainGreen,
-        letterSpacing: 1,
+        // letterSpacing: 1,
     }
 });
 

@@ -10,6 +10,8 @@ import { actions as auth, theme } from "../../../auth/index"
 
 import { actions as homeauth } from "../../index";
 import { FontAwesome, MaterialCommunityIcons, Entypo } from "@expo/vector-icons"
+import { Ionicons } from '@expo/vector-icons';
+
 
 import * as t from "../../actionTypes";
 class ConfirmedScan extends React.Component {
@@ -31,13 +33,22 @@ class ConfirmedScan extends React.Component {
                     <View style = {styles.IconImage}>
                         {
                         this.props.result == t.WIN_TYPE ?
-                        <FontAwesome name = "check-circle" size={220} color= "#00d080"  />:
+                        // <FontAwesome name = "check-circle" size={220} color= "#00d080"  />:
+                        <Ionicons name="ios-checkmark-circle" size={220} color="#00d080" />:
+                        
                         this.props.result == t.DONE_TYPE ?
-                        <FontAwesome name = "check-circle" size={220} color= "#FFC800"  />:
+                        // <FontAwesome name = "check-circle" size={220} color= "#FFC800"  />:
+                        <Ionicons name="ios-checkmark-circle" size={220} color="#FFC800" />:
+                        
                         this.props.result == t.LOSE_TYPE ?
-                        <Entypo name = "circle-with-cross" size = {220} color = "red" />:
+                        // <Entypo name = "circle-with-cross" size = {220} color = "red" />:
+                        <Ionicons name="ios-close-circle" size={220} color="red" />:
+                        
+
                         //<FontAwesome name = "error" size={220} color= "red"  />:
-                        <MaterialCommunityIcons name = "emoticon-sad" size={220} color= "red" />
+                        // <MaterialCommunityIcons name = "emoticon-sad" size={220} color= "red" />
+                        <Ionicons name="ios-sad-outline" size={220} color="red" />
+                        
                         }
                     </View>
                 </View>

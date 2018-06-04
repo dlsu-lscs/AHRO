@@ -94,12 +94,13 @@ class EnterCode extends React.Component {
                         <FormInput
                             autoCapitalize='none'
                             clearButtonMode='while-editing'
-                            underlineColorAndroid={"#fff"}
-                            placeholder={""}
-                            autoFocus={true}
+                            // underlineColorAndroid={"#fff"}
+                            underlineColorAndroid={"#ffffff00"}
+                            placeholder={"Hidden Code"}
+                            // autoFocus={true}
                             onChangeText={(text) => this.setState({text})}
                             secureTextEntry={false}
-                            inputStyle={[styles.inputstyle]}
+                            inputStyle={[styles.inputContainer]}
 
                             value={this.state.text}
                         />
@@ -111,12 +112,23 @@ class EnterCode extends React.Component {
                         />
                     </View>
                     <View style={styles.bottom}>
-                        {/* <TouchableOpacity onPress={Actions.Login}>
-                            <Text style={styles.bottomText}>
-                                Already have an account?
-                            </Text>
+                    {/* test multiple choice */}
+                        {/* <TouchableOpacity onPress={ () => {
+                            var mc = {
+                                a: "College of Business",
+                                answer: "c",
+                                b: "College of Liberal Arts",
+                                c: "College of Computer Science",
+                                d: "Gokongwei College of Engineering",
+                                points: 100,
+                                question: "Which college is NOT part of De La Salle University?",
+                                type: "multiplechoice",
+                            };
+                            Actions.multipleChoice({reward: mc, rewardkey: 'kekekkeke', rewardType: t.SUBMIT_REWARD});
+                        }
+                        }>
                             <Text style={styles.signInText}>
-                                Sign in
+                                Test multiple choice
                             </Text>
                         </TouchableOpacity> */}
                     </View>

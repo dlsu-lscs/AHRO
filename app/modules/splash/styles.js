@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
         color: "#FF553F",
-        letterSpacing: 1
+        // letterSpacing: 1
     },
 
     activityIndicatorContainer: {

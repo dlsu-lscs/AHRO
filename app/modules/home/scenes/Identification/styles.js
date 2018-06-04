@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
         color: color.mainGreen,
-        letterSpacing: 1,
+        // letterSpacing: 1,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',

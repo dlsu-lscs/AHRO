@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         alignItems:"flex-start",
         // backgroundColor: "#FF553F",
         width: windowWidth - 60,
+        // backgroundColor: color.red,
     },
 
     bottomContainer:{
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
         // backgroundColor: "powderblue",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        marginBottom: padding + 18,
+        marginBottom: padding,
     },
 
     title:{
@@ -127,6 +128,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
     },
+
+    inputContainer:{
+        // width: windowWidth - 80,
+        width: (windowWidth-90),        
+        height: normalize(45),
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+        paddingLeft: 20,
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: color.white,
+        color: color.light_grey,
+        marginBottom: 20,
+    },
+
     submitbutton:{
         margin: 5,
         alignItems: "center", 

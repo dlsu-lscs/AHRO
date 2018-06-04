@@ -1,5 +1,5 @@
 
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { theme } from "../../index"
 const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
@@ -7,28 +7,42 @@ const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
+        // flex:1,
         backgroundColor: '#000000',
-
+        flex:1,
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
+        justifyContent: "center",
+        alignItems: "center",
     },
     content:{
-    	justifyContent:"center",
-        alignItems:"center",
+    	justifyContent: "center",
+        alignItems: "center",
+        margin: padding * 4,
     },
     topText:{
-    	marginTop: 40,
-    	fontWeight: 'bold',
-    	color: color.mainGreen,
+    	marginTop: 20,
+    	// fontWeight: 'bold',
+        color: color.mainGreen,
+        fontFamily: fontFamily.bold,
+        fontSize: fontSize.large,
+        width: windowWidth - windowWidth / 4,
+        
     },
     doneText:{
-        marginTop: 40,
-        fontWeight: 'bold',
+        marginTop: 20,
+        // fontWeight: 'bold',
         color: color.warning,
+        fontFamily: fontFamily.bold,
+        fontSize: fontSize.large,
+        width: windowWidth - windowWidth / 4,
     },
     errorText:{
-        marginTop: 40,
-        fontWeight: 'bold',
+        marginTop: 20,
+        // fontWeight: 'bold',
         color: color.red,
+        fontFamily: fontFamily.bold,
+        fontSize: fontSize.large,
+        width: windowWidth - windowWidth / 4,
     },
     nextText: {
     	marginTop: 40,
@@ -45,7 +59,10 @@ const styles = StyleSheet.create({
         alignItems:"center",
     },
     generalText:{
-    	color: color.white,
+        color: color.white,
+        fontFamily: fontFamily.regular,
+        fontSize: fontSize.regular,
+        textAlign: "center",
     },
 
     winnerText:{
