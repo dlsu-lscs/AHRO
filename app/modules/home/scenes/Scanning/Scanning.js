@@ -77,8 +77,16 @@ class Scanning extends React.Component {
        Actions.ConfirmedScan({result: result, rewardKey: rewardKey, rewardPoints: rewardPoints});
     }
 
+    componentWillAnimateIn(){
+        console.log("RIPASNFASKLFHAKLSHFALKSASKL");
+    }
 
+    componentWillUnmount() {
+        console.log("URMOM");
+    }
+        
     render() {
+        var routec = (this.props.navigation.state.routeName);
         let responseText = this.state.qrValue.data ==  null ? this.state.response: this.state.response;
         return (
             <View style={styles.container}>
@@ -105,7 +113,7 @@ class Scanning extends React.Component {
                     }
                     <View style ={styles.bottomBox}>
                             <Text style = {styles.textStyle}> 
-                                {responseText}
+                                {Actions.currentScene}
                             </Text>
                     </View>
                 </View>

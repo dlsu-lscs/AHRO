@@ -40,6 +40,13 @@ export function getCodes(callback){
         callback();
     }
 }
+
+export function setCameraState(val){
+    return (dispatch) => {
+        dispatch({data: val});
+    };
+}
+
 export function getLeaderBoard(callback){
     return (dispatch) => {
         api.getLeaderBoard(function(teams,users, meuser){
@@ -161,6 +168,7 @@ export function getLeaderBoard(callback){
             results = [solosarr,teamsarr,mixedarr,meuser];
             callback(results);
         })
+        console.log("EVERYTHING IS DONE");
     }
 }
 
@@ -241,6 +249,8 @@ export function acceptInvite(data, successCB, errorCB) {
         api.acceptInvite(data, function (success, data, error) {
             if (success) successCB(data);
             else if (error) errorCB(error)
+        }, function(newKey, valtype){
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }

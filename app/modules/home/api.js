@@ -165,7 +165,7 @@ export function createTeam (data, callback, listenCB) {
 			return snaphshot.val();
 		});
 	}).then(function (teamexist) {
-        if (user && teamexist == null) {
+        if (user && teamexist == null && user.team == null) {
             // Get a key for the new team.
 			newTeamKey = database.ref().child('teams').push().key;
 			console.log(newTeamKey);
@@ -198,9 +198,12 @@ export function createTeam (data, callback, listenCB) {
             return database.ref().update(updates);
 		} 
 		else if(teamexist != null){
-			console.log("team already exists");
-			console.log("UR MOM:" +teamexist);
+			console.log("team name already exists");
 			callback(false, null, {message: 'Team name already taken.'});
+		}
+		else if(user.team != null){
+			console.log("you already have a team")
+			callback(false, null, {message: 'You already have a team.'});
 		}
 		else {
 			//console.error("User cannot be found.");
@@ -327,7 +330,7 @@ export function getInvites (callback) {
     });
 }
 
-export function acceptInvite (data, callback) {
+export function acceptInvite (data, callback, listenCB) {
     console.log("@api acceptInvite");
     console.log(data);
 
@@ -356,7 +359,10 @@ export function acceptInvite (data, callback) {
             Object.keys(authUser.rewards).map(function(key){
                 if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
                     team.rewards[key] = {...authUser.rewards[key]}
-                }
+				}
+				else if(team.rewards[key] == null){
+					team.rewards[key] = {...authUser.rewards[key]}
+				}
             })
         }
         else if(authUser.rewards != null && team.rewards == null){
@@ -383,7 +389,7 @@ export function acceptInvite (data, callback) {
 				reward = snapshot.val();
 				const key = snapshot.key;
 				console.log(reward);
-				callback(key, reward);
+				listenCB(key, reward);
 			}
 			catch(error){
 				console.log(error);

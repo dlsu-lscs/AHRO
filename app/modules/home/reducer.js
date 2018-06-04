@@ -1,7 +1,7 @@
 import * as t from './actionTypes';
 import { NET_INFO_CHANGED } from 'react-native-redux-listener';
 
-let initialState = { isConnected: false, data: [], rewards:{}, quizes: {}, offset: 0, currQuiz: null, codes: {}};
+let initialState = { isConnected: false, data: [], rewards:{}, quizes: {}, offset: 0, currQuiz: null, codes: {}, cameraOn: false};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -55,6 +55,8 @@ const authReducer = (state = initialState, action) => {
             staterewards.answered[action.key] = true;
             //console.log(staterewards);
             return {...state, rewards: staterewards};
+        case t.CHANGE_CAMERA:
+            return {...state, cameraOn: action.data};
         case t.SUBMIT_QUIZ:
             statequizes = initialState.quizes;
             if(statequizes.answered == null) {

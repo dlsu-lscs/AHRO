@@ -8,6 +8,8 @@ export const GET_CODES = "home/GET_CODES";
 
 export const CHANGE_TIME_OFFSET = "home/CHANGE_TIME_OFFSET";
 
+export const CHANGE_CAMERA = "home/CHANGE_CAMERA";
+
 //^^API FUNCTS^^
 
 export const SUBMIT_REWARD = "home/SUBMIT_REWARD"; //too lazy to comment na
