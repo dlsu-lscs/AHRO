@@ -29,6 +29,9 @@ class Home extends React.Component {
 
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
+{/*<<<<<<< HEAD*/}
+        {/*this.onCode = this.onCode.bind(this);*/}
+{/*=======*/}
 
         this.state = {
             solos: [],
@@ -136,7 +139,7 @@ class Home extends React.Component {
                             
                         </View>
                     </View>
-                    
+
                     <View style={styles.leaderBoardContainer}>
                     {/* <View> */}
                         <Text 
