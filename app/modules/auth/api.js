@@ -6,7 +6,7 @@ import { getUserDetailsPromise } from "../home/helpers"
 //Register the user using email and password
 export function register(data, callback) {
     const { email, password } = data;
-    
+    console.log(email);
     auth.createUserWithEmailAndPassword(email, password)
         .then(function(user){ 
             user.sendEmailVerification().then(function() {
@@ -89,18 +89,20 @@ export function resetPassword(data, callback) {
 
 export function signOut (callback) {
     getUserDetailsPromise().then((user)=> {
-        if(user.team != null){
-            database.ref('teams').child(user.team).child('rewards').off('child_added')
+        if(user != null){
+            if(user.team != null){
+                database.ref('teams').child(user.team).child('rewards').off('child_added')
+            }
+            database.ref('users').child(user.uid).child('rewards').off('child_added')
+                
+            auth.signOut()
+            .then(() => {
+                if (callback) callback(true, null, null)
+            })
+            .catch((error) => {
+                if (callback) callback(false, null, error)
+            });
         }
-        database.ref('users').child(user.uid).child('rewards').off('child_added')
-             
-        auth.signOut()
-        .then(() => {
-            if (callback) callback(true, null, null)
-        })
-        .catch((error) => {
-            if (callback) callback(false, null, error)
-        });
     })
     
 }

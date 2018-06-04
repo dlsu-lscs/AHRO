@@ -29,6 +29,9 @@ class Home extends React.Component {
 
         this.onSignOut = this.onSignOut.bind(this);
         this.onLeaderboard = this.onLeaderboard.bind(this);
+{/*<<<<<<< HEAD*/}
+        {/*this.onCode = this.onCode.bind(this);*/}
+{/*=======*/}
 
         this.state = {
             solos: [],
@@ -136,36 +139,6 @@ class Home extends React.Component {
                             
                         </View>
                     </View>
-                    
-                    {/* <Button
-                        raised
-                        borderRadius={4}
-                        title={'Leaderboard'}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onLeaderboard}/>
-                    <Button
-                        raised
-                        borderRadius={4}
-                        title={'Enter Code'}
-                        containerViewStyle={[styles.containerView]}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onCode}/>
-                    <Text style={{paddingTop:20, fontSize: 20, color:'#fff'}}>
-                        {`
- How to play:
-
-    Find and scan QR codes in posters
-    and events
-
-    Have fun!
-                        `}
-                    </Text>
-                        // textStyle={styles.buttonText}
-                        onPress={this.onLeaderboard}/> */}
-                    
-                    <View>
                     <View style={styles.leaderBoardContainer}>
                     {/* <View> */}
                         <Text 
@@ -269,7 +242,6 @@ class Home extends React.Component {
                             }
                         </View>
                         <QuizComponent />
-                    </View>
                     </View>                    
                 </View>
             </ImageBackground>

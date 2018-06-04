@@ -4,7 +4,8 @@ export function isEmpty(str) {
 }
 
 export function validateEmail(email) {
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    //var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    var filter = /^([a-zA-Z0-9_\.\-])/;
 
     if (filter.test(email)) return true;
 

@@ -39,3 +39,7 @@ export const POINT_MULTIPLECHOICE = "multiplechoice";
 export const POINT_IDENTIFICATION = "Identification";
 
 export const POINT_INSTANT = "instant";
+
+
+//Game levels
+export const MAX_PLAYERS_PER_TEAM = 3;

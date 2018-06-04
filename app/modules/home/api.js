@@ -275,7 +275,7 @@ export function sendInvite (data, callback) {
             return snapshot.val();
         });
     }).then(function(user) {
-        if(user != null ){
+        if(user != null && user.team == null ){
             console.log('received user object');
             console.log(user);
 
@@ -285,19 +285,31 @@ export function sendInvite (data, callback) {
                 return snapshot.val();
             });
 		}
+		else if (user != null && user.team != null){
+			//callback(false, null, {message: "User already belongs to a team"});
+			return Promise.reject("User already belongs to a team");
+		}
 		else{
-			callback(false, null, {message: "User does not exist"});
+			//callback(false, null, {message: "User does not exist"});
+			return Promise.reject("User does not exist");
 		}
     }).then(function(team) {
         console.log('received team object');
         console.log(team);
+		console.log(Object.keys(team.users).length);
+		var teamSize = Object.keys(team.users).length;
+		if(teamSize < t.MAX_PLAYERS_PER_TEAM){
+			var updates = {};
+			updates['/users/' + sentToId + '/invites/' + teamId ] = team.teamName;
 
-        var updates = {};
-        updates['/users/' + sentToId + '/invites/' + teamId ] = team.teamName;
+			console.log(updates);
 
-        console.log(updates);
-
-        return database.ref().update(updates);
+			return database.ref().update(updates);
+		}
+		else{
+			//callback(false, null, {message: "Team size already exceeds the limit"});
+			return Promise.reject("Team size already exceeds the limit");
+		}
     }).then(function() {
         console.log("sendInvite success");
         callback(true, null, null);
@@ -355,6 +367,7 @@ export function acceptInvite (data, callback, listenCB) {
             return snapshot.val();
         });
     }).then(function(team){
+		//CHECK IF TEAM > 3
         if(authUser.rewards != null && team.rewards != null){
             Object.keys(authUser.rewards).map(function(key){
                 if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
