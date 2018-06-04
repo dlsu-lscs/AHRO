@@ -92,7 +92,7 @@ export default class extends React.Component {
         }
 
         //this.camerisOn = this.camerisOn.bind(this);
-        this.cameraisOff = this.cameraisOff.bind(this);
+        //this.cameraisOff = this.cameraisOff.bind(this);
 
     }
 
