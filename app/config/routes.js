@@ -91,7 +91,7 @@ export default class extends React.Component {
             pointsReady: false,
         }
 
-        this.camerisOn = this.camerisOn.bind(this);
+        //this.camerisOn = this.camerisOn.bind(this);
         this.cameraisOff = this.cameraisOff.bind(this);
 
     }
