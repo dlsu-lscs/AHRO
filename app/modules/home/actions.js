@@ -206,7 +206,7 @@ export function getTime(callback){
 export function createTeam(data, successCB, errorCB) {
     return (dispatch) => {
         api.createTeam(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "Team successfully created!");
             else if (error) errorCB(error)
         }, function(newKey, valtype){
             dispatch({type: valtype.type, key: newKey});
@@ -227,7 +227,7 @@ export function sendInvite(data, successCB, errorCB) {
     console.log("@sendInvite actions");
     return (dispatch) => {
         api.sendInvite(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "Invitation successfully sent!");
             else if (error) errorCB(error)
         });
     };
@@ -247,7 +247,7 @@ export function acceptInvite(data, successCB, errorCB) {
     console.log("@acceptInvite actions");
     return (dispatch) => {
         api.acceptInvite(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "You have joined the team!");
             else if (error) errorCB(error)
         }, function(newKey, valtype){
             dispatch({type: valtype.type, key: newKey});
@@ -261,7 +261,7 @@ export function getServerTime(callback){
         timePromise.then(function(responseJson){
             return responseJson.json();
         }).then((responseTime) => {
-            nowTime = Math.floor(Date.now()/1000)+28800; //gets time in utc to ph time
+            nowTime = Math.floor(Date.now())+28800; //gets time in utc to ph time
             serverTime = responseTime.timestamp+28800; //convert utc to ph time
             console.log(serverTime);
             console.log(nowTime);

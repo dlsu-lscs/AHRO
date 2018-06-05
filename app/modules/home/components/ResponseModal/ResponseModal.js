@@ -11,7 +11,7 @@ import styles from "./styles"
 
 import ModalTextInput from "../ModalTextInput"
 
-class CustomModal extends React.Component {
+class ResponseModal extends React.Component {
     constructor(props) {
         super(props);
 
@@ -35,10 +35,13 @@ class CustomModal extends React.Component {
                 }}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalFormContainer}>
-                        <Text style={styles.modalText}>{ modalText }</Text>
+                        <Text style={styles.modalText}
+                        adjustsFontSizeToFit = {true}
+                        numberOfLines={10}>{ modalText }</Text>
                         <View style={styles.modalLowerContainer}>
                             <TouchableHighlight
                                 onPress={() => {
+                                    console.log("POP");
                                     this.props.setVisible( !this.props.modalVisible );
                                 }}>
                                 <Text style={styles.submitModal}>Hide Modal</Text>
@@ -52,11 +55,11 @@ class CustomModal extends React.Component {
     }
 }
 
-CustomModal.propTypes = {
-    modalText: PropTypes.array,
+ResponseModal.propTypes = {
+    modalText: PropTypes.string,
     type: PropTypes.string,
     setVisible: PropTypes.func,
     modalVisible: PropTypes.bool,
 }
 
-export default CustomModal;
+export default ResponseModal;

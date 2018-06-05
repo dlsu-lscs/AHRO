@@ -74,6 +74,7 @@ class TeamProfile extends React.Component {
             modalInviteVisible: false,
             modalResponseVisible: false,
             cannAddMembers: false,
+            responseText: "",
         }
 
         this.getInvites = this.getInvites.bind(this);
@@ -100,7 +101,7 @@ class TeamProfile extends React.Component {
         this.setState({modalAddMemberVisible: visible});
     }
     setModalResponseVisible(visible){
-
+        this.setState({modalResponseVisible: visible})
     }
     setModalInviteVisible(visible) {
         this.setState({modalInviteVisible: visible});
@@ -182,12 +183,20 @@ class TeamProfile extends React.Component {
 02:50:23:     },
 02:50:23:   },
     */
-    onSuccess(team) {
+    onSuccess(team, message) {
+        if(message != null){
+            this.setState({responseText: message});
+            this.setModalResponseVisible(true);
+        }
+        
+        
         console.log("@TeamProfile.js : Success GetTeam");
         console.log(team);
         var members = [];
         var i = 1;
-        var canadd = (Object.keys(team.users).length >= t.MAX_PLAYERS_PER_TEAM);
+        if(team.users){
+            var canadd = (Object.keys(team.users).length >= t.MAX_PLAYERS_PER_TEAM);
+        }
         this.setState({cannAddMembers: canadd});
         Object.keys(team.users).forEach(function(key) {
             members.push( {
@@ -199,13 +208,15 @@ class TeamProfile extends React.Component {
 
         var codes = 0;
         var quizzes = 0;
-        Object.keys(team.rewards).forEach(function(key) {
-            if(team.rewards[key].type.includes("QUIZ")) {
-                quizzes += team.rewards[key].point;
-            } else if(team.rewards[key].type.includes("REWARD")) {
-                codes += team.rewards[key].point;
-            } 
-        });
+        if(team.rewards != null){
+            Object.keys(team.rewards).forEach(function(key) {
+                if(team.rewards[key].type.includes("QUIZ")) {
+                    quizzes += team.rewards[key].point;
+                } else if(team.rewards[key].type.includes("REWARD")) {
+                    codes += team.rewards[key].point;
+                } 
+            });
+        }
 
         this.setState({members, loading: false, team: constants.STATE_USER_TEAM, teamName: team.teamName, codePoints: codes,
             codeQuizzes: quizzes,});
@@ -235,6 +246,12 @@ class TeamProfile extends React.Component {
     }
     
     onError(error) {
+        
+        if(error != null){
+            this.setState({responseText: error.message});
+            this.setModalResponseVisible(true);
+        }
+        
         console.log("@TeamProfile.js : Error");
         console.log(error);
 
@@ -274,7 +291,7 @@ class TeamProfile extends React.Component {
                         error={this.state.error}/>
                     
                     <ResponseModal
-                        modalText={"Enter the username of the user you want to add to your team:"}
+                        modalText={this.state.responseText}
                         modalVisible={this.state.modalResponseVisible}
                         setVisible={this.setModalResponseVisible}
                         type = ""/>

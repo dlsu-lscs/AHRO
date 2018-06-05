@@ -21,16 +21,21 @@ class Scanning extends React.Component {
     constructor(props){
         super(props);
         this.onPointSubmit = this.onPointSubmit.bind(this);
-        /*
         setInterval(() => {
-          this.setState({qrValue: ''});
+            if(this.state.curScene == "" && Actions.currentScene == "_Scanning"){
+                this.setState({curScene: Actions.currentScene});
+            }
+            else if(this.state.curScene == "_Scanning" && Actions.currentScene != "_Scanning"){
+                this.setState({curScene: ""});
+            }
         }, 1000);
-        */
+        
     }
     state = {
         hasCameraPermission: null,
         qrValue: '',
-        response: 'Scan a QR code'
+        response: 'Scan a QR code',
+        curScene: "",
     };
 
     componentDidMount() {
@@ -88,6 +93,7 @@ class Scanning extends React.Component {
     render() {
         var routec = (this.props.navigation.state.routeName);
         let responseText = this.state.qrValue.data ==  null ? this.state.response: this.state.response;
+        //var curScene = Actions.currentScene;
         return (
             <View style={styles.container}>
                 <View style = {styles.mainbackground}>
@@ -96,12 +102,16 @@ class Scanning extends React.Component {
                      this.state.hasCameraPermission === false ?
                         <Text>Camera permission is not granted</Text> :
                         <View style = {styles.topBox}>
+                            {
+                            (this.state.curScene == "_Scanning") ?
                             <BarCodeScanner
                               onBarCodeRead={this._handleBarCodeRead}
                               style={styles.barCode}
                               //torchMode = {"on"}
                               //type = 'front'
-                            />
+                            />:
+                            <View></View>
+                            }
                             <Image 
 
                             source = {require('../../../../assets/images/crosshair.png')} 
@@ -112,8 +122,8 @@ class Scanning extends React.Component {
                         </View>
                     }
                     <View style ={styles.bottomBox}>
-                            <Text style = {styles.textStyle}> 
-                                {Actions.currentScene}
+                            <Text style = {styles.textStyle} onPress = {() => {console.log(this.state.curScene)}}> 
+                                {this.state.response}
                             </Text>
                     </View>
                 </View>

@@ -158,6 +158,7 @@ export function createTeam (data, callback, listenCB) {
 	// TODO: Check for unique team name
 	var user;
 	var newTeamKey;
+	var teamData;
     helpers.getUserDetailsPromise().then(function(_user) {
 		user = _user;
 		//checks if team exists
@@ -170,7 +171,7 @@ export function createTeam (data, callback, listenCB) {
 			newTeamKey = database.ref().child('teams').push().key;
 			console.log(newTeamKey);
             // Team data
-            var teamData = {
+            teamData = {
                 team: true,
                 teamName: data.team,
                 users: {
@@ -222,11 +223,11 @@ export function createTeam (data, callback, listenCB) {
 			}
 		})
         console.log("Success.");
-        callback(true, null, null);
+        callback(true, teamData, null);
     }, function(error) {
 		console.log(error);
         console.error("Error in executing get user details promise.");
-        callback(false, null, {message: error});
+        callback(false, null, {message: "Error in executing get user details promise."});
     });
 }
 
@@ -251,7 +252,7 @@ export function getTeam (callback) {
     }, function(error) {
         console.log("@api.getTeam ERROR");
         console.log(error);
-        callback(false, null, {message: error});
+        //callback(false, null, {message: error});
     });
 }
 
@@ -316,7 +317,7 @@ export function sendInvite (data, callback) {
     }, function(error) {
         //console.error("Error in sendInvite.");
         console.log(error);
-        callback(false, null, {message: error});
+        callback(false, null, {message: error.toString()});
     });
 }
 
@@ -367,35 +368,39 @@ export function acceptInvite (data, callback, listenCB) {
             return snapshot.val();
         });
     }).then(function(team){
-		//CHECK IF TEAM > 3
-        if(authUser.rewards != null && team.rewards != null){
-            Object.keys(authUser.rewards).map(function(key){
-                if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
-                    team.rewards[key] = {...authUser.rewards[key]}
-				}
-				else if(team.rewards[key] == null){
-					team.rewards[key] = {...authUser.rewards[key]}
-				}
-            })
-        }
-        else if(authUser.rewards != null && team.rewards == null){
-            team.rewards = {...authUser.rewards};
-        }
-        var updates = {};
+		if(team.users && Object.keys(team.users).length >= t.MAX_PLAYERS_PER_TEAM ){
+			return Promise.reject("Team already has 3 members");
+		}
+		else{
+			if(authUser.rewards != null && team.rewards != null){
+				Object.keys(authUser.rewards).map(function(key){
+					if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
+						team.rewards[key] = {...authUser.rewards[key]}
+					}
+					else if(team.rewards[key] == null){
+						team.rewards[key] = {...authUser.rewards[key]}
+					}
+				})
+			}
+			else if(authUser.rewards != null && team.rewards == null){
+				team.rewards = {...authUser.rewards};
+			}
+			var updates = {};
 
-        teamUser = {
-            fname: authUser.fname,
-            lname: authUser.lname,
-            member: true,
-        };
-        if(team.rewards != null && authUser.rewards != null){
-            updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
-        }
+			teamUser = {
+				fname: authUser.fname,
+				lname: authUser.lname,
+				member: true,
+			};
+			if(team.rewards != null && authUser.rewards != null){
+				updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
+			}
 
-        updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
-        updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
+			updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
+			updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
 
-        return database.ref().update(updates);
+			return database.ref().update(updates);
+		}
     }).then(function() {
 		database.ref('teams').child(data.id).child('rewards').on('child_added', function(snapshot){
 			try{
@@ -412,7 +417,7 @@ export function acceptInvite (data, callback, listenCB) {
         callback(true, null, null);
     }, function(error) {
         console.log(error);
-        callback(false, null, {message: error});
+        callback(false, null, {message: error.toString});
     });
 }
 

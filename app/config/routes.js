@@ -173,7 +173,7 @@ export default class extends React.Component {
                                tabBarPosition='bottom'
                                showLabel = {false}
                                activeBackgroundColor = '#ddd' initial>
-                            <Scene key="Home" icon={TabIcon} component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
+                            <Scene key="Home" icon={TabIcon} component={Home} title="Home" initial={true} hideNavBar/>
                             <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" icon={TabIcon} hideNavBar/>
                             <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" hideNavBar />
                             <Scene key='map'
@@ -201,10 +201,11 @@ export default class extends React.Component {
 
                             </Scene>
                         </Scene>
+                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.PUSH} hideNavBar/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type={ActionConst.PUSH} hideNavBar />
+                        <Scene key="Identification" component={Identification} title="Answer the quiz" type={ActionConst.PUSH} hideNavBar/>
                     </Stack>
-                    <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.PUSH} hideNavBar/>
-                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" hideNavBar />
-                    <Scene key="Identification" component={Identification} title="Answer the quiz" hideNavBar/>
+                    
                     <Scene key = 'viewEvent' title = 'modal' component = {ViewEvent} hideNavBar
                            direction = "vertical">
 
