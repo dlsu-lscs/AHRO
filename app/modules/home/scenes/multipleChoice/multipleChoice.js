@@ -26,7 +26,7 @@ class multipleChoice extends React.Component {
     onSubmit(answer){
         //yeahhh idk how to synchronoze this yet xd.. 
         //so people can press choices alot of times before it redirects
-        if(!this.state.answered){
+        if(!this.state.answered && answer != ""){
             this.setState({answered: true});
             var newReward = {};
             if(answer == this.props.reward.answer){
