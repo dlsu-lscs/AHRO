@@ -1,5 +1,5 @@
 import React from 'react';
-var { Text, View, StyleSheet, Alert, Image, ImageBackground, TouchableOpacity } = require('react-native');
+var { Text, View, StyleSheet, Alert, Image, ImageBackground, TouchableOpacity, Keyboard } = require('react-native');
 
 import {Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -11,12 +11,17 @@ import { actions as auth, theme } from "../../../auth/index"
 
 import { actions as homeauth } from "../../index";
 const { updatePoints } = homeauth;
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 
 class multipleChoice extends React.Component {
     constructor(props){
         super(props);
+
+        Keyboard.dismiss();
+
         this.state = {answered: false, option: ""};
         this.onSubmit = this.onSubmit.bind(this);
         this.onPointSubmit = this.onPointSubmit.bind(this);
@@ -55,7 +60,8 @@ class multipleChoice extends React.Component {
     }
     render() {
         let thereward  = this.props.reward;
-
+        const { state, goBack } = this.props.navigation;        // https://stackoverflow.com/questions/45489343/react-navigation-back-and-goback-not-working
+        const params = state.params || {};  
         return (
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
@@ -108,7 +114,16 @@ class multipleChoice extends React.Component {
                 */
                 }
                 <View style = {styles.mainView}>
+                    <View style={styles.topContainer}>
+                        <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 40, right: 40}}
+                            onPress={ () => {
+                            goBack();
+                        }}>
+                            <Ionicons name="ios-arrow-back" size={24} color="#fff" /> 
+                        </TouchableOpacity>
+                    </View>
                     <View style = {styles.topView}>
+                        <Text style={styles.points}>{thereward.points} POINTS</Text>
                         <Text style = {styles.title}>{thereward.question}</Text>
                     </View>
                     <View style = {styles.midView}>
@@ -116,52 +131,71 @@ class multipleChoice extends React.Component {
                             <View style = {styles.buttonView}>
                                 <TouchableOpacity style = {[
                                     styles.buttonStyle,
+                                    styles.buttonTop,
                                     (this.state.option == "a") ? styles.selectedStyle: styles.optionStyle
                                     ]}
                                     onPress = {() => this.changeOption("a")}
                                     >
+                                    <Text style={styles.letterChoice}>A</Text>
                                     <Text style = {styles.autoFit}>{thereward.a}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
                                 <TouchableOpacity style = {[
                                         styles.buttonStyle,
+                                        styles.buttonMid,
                                         (this.state.option == "b") ? styles.selectedStyle: styles.optionStyle
                                         ]}
                                         onPress = {() => this.changeOption("b")}
                                         >
+                                    <Text style={styles.letterChoice}>B</Text>
                                     <Text style = {styles.autoFit} >{thereward.b}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
                                 <TouchableOpacity style = {[
                                         styles.buttonStyle,
+                                        styles.buttonMid,                                        
                                         (this.state.option == "c") ? styles.selectedStyle: styles.optionStyle
                                         ]}
                                         onPress = {() => this.changeOption("c")}
                                         >
+                                    <Text style={styles.letterChoice}>C</Text>
                                     <Text style = {styles.autoFit}>{thereward.c}</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style = {styles.buttonView}>
                                 <TouchableOpacity style = {[
                                         styles.buttonStyle,
+                                        styles.buttonBottom,                                        
                                         (this.state.option == "d") ? styles.selectedStyle: styles.optionStyle
                                         ]}
                                         onPress = {() => this.changeOption("d")}
                                         >
+                                    <Text style={styles.letterChoice}>D</Text>                                    
                                     <Text style = {styles.autoFit}>{thereward.d}</Text>
                                 </TouchableOpacity>
                             </View>
+
+                            <View style = {styles.botView}>
+                                <Button 
+                                    // onPress={() => this.onSubmit()}
+                                    onPress = {()=> {this.onSubmit(this.state.option)}}                              
+                                    title= {"SUBMIT"}
+                                    // containerViewStyle={{ marginLeft: 0, marginRight: 0 }}                                    
+                                    buttonStyle={[styles.submitBotton]}
+                                    containerViewStyle={[styles.submitBotton]}
+                                    borderRadius={4}/>
+                                {/* <TouchableOpacity style = {styles.submitBotton}
+                                    onPress = {()=> {this.onSubmit(this.state.option)}}>
+                                    <Text>
+                                        SUBMIT
+                                    </Text>
+                                </TouchableOpacity> */}
+                                
+                            </View>
                         </View>
-                        <View style = {styles.botView}>
-                            <TouchableOpacity style = {styles.submitBotton}
-                            onPress = {()=> {this.onSubmit(this.state.option)}}>
-                                <Text>
-                                    SUBMIT
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                        
                     </View>
                     
                 </View>

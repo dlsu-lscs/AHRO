@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     },
     disabledQuiz:{
         width: "90%",
+        backgroundColor: color.red,
         borderRadius: 15,
         borderColor: color.white,
         borderWidth: 2,

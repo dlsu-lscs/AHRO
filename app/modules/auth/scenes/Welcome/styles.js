@@ -5,6 +5,14 @@ const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
+    kav: {
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    
     container:{
         flex:1, // child must have defined sizes
         alignItems: 'center',
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
         // lineHeight: fontSize.regular + 4,
         fontFamily: fontFamily.regular,
         color:color.white,
-        letterSpacing: 1
+        // letterSpacing: 1
     },
 
     subText:{
@@ -223,7 +231,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
         marginTop: 15,
         color:color.mainGreen,
-        letterSpacing: 1,
+        // letterSpacing: 1,
     }
 });
 

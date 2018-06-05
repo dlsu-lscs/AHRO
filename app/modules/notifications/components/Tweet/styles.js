@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         fontSize: normalize(12),
         lineHeight: normalize(21),
         color: color.white,
-        letterSpacing: .5,
+        // letterSpacing: .5,
         flex:1
     },
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         fontSize: normalize(17),
         lineHeight: normalize(40),
         color: color.white,
-        letterSpacing: .5,
+        // letterSpacing: .5,
         flex:1
     },
 
