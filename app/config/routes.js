@@ -24,7 +24,7 @@ import Leaderboard from '../modules/home/scenes/Leaderboard';
 //Import Store, actions
 import store from '../redux/store'
 import { checkLoginStatus, testquery } from "../modules/auth/actions";
-import { getRewards, getQuizes, getInvitations, getServerTime, getPoints, getCodes } from "../modules/home/actions";
+import { getRewards, getQuizes, getInvitations, getServerTime, getPoints, getCodes, setCameraState } from "../modules/home/actions";
 
 import { color, navTitleStyle } from "../styles/theme";
 
@@ -94,12 +94,15 @@ export default class extends React.Component {
             isLoggedIn: false,
             pointsReady: false,
         }
+
+        //this.camerisOn = this.camerisOn.bind(this);
+        //this.cameraisOff = this.cameraisOff.bind(this);
+
     }
 
     // componentWillMount(hidden, animation) {
     //     StatusBar.setHidden(true, animation);
     // }
-
     componentDidMount() {
 
 
@@ -122,15 +125,18 @@ export default class extends React.Component {
             }
         }));
         store.dispatch(getRewards(() => {
+            console.log("rewards ready");
             _this.setState({rewardsReady: true});
 
         }));
 
         store.dispatch(getQuizes(() => {
+            console.log("quizes ready");
             _this.setState({quizesReady: true});
 
         }));
         store.dispatch(getCodes(() => {
+            console.log("codes ready");
             _this.setState({codesReady: true});
             
         }));
@@ -138,7 +144,7 @@ export default class extends React.Component {
 
 
     render() {
-        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || /* !this.state.timeReady || */ !this.state.pointsReady || !this.state.codesReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady ||  !this.state.pointsReady || !this.state.codesReady)
             return <Splash/>
 
         return (
@@ -167,10 +173,9 @@ export default class extends React.Component {
                                tabBarPosition='bottom'
                                showLabel = {false}
                                activeBackgroundColor = '#ddd' initial>
-                            <Scene key="Home" icon={TabIcon} component={Home} title="Home" initial={true} type={ActionConst.REPLACE} hideNavBar/>
+                            <Scene key="Home" icon={TabIcon} component={Home} title="Home" initial={true} hideNavBar/>
                             <Scene key="TeamProfile" component={TeamProfile} title="Team Profile" icon={TabIcon} hideNavBar/>
                             <Scene icon={TabIcon} key="Scanning" component={Scanning} title="Scan" hideNavBar />
-
                             <Scene key='map'
                                    title='Map' icon={TabIcon}
                                    tabs
@@ -196,10 +201,11 @@ export default class extends React.Component {
 
                             </Scene>
                         </Scene>
+                        <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.PUSH} hideNavBar/>
+                        <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" type={ActionConst.PUSH} hideNavBar />
+                        <Scene key="Identification" component={Identification} title="Answer the quiz" type={ActionConst.PUSH} hideNavBar/>
                     </Stack>
-                    <Scene key="EnterCode" component={EnterCode} title="EnterCode" type={ActionConst.PUSH} hideNavBar/>
-                    <Scene key="multipleChoice" component={multipleChoice} title="Answer the quiz" hideNavBar />
-                    <Scene key="Identification" component={Identification} title="Answer the quiz" hideNavBar/>
+                    
                     <Scene key = 'viewEvent' title = 'modal' component = {ViewEvent} hideNavBar
                            direction = "vertical">
 

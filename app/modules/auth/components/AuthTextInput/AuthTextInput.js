@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { isEmpty } from '../../utils/validate'
@@ -17,6 +17,27 @@ class AuthTextInput extends Component {
                     (showLabel) &&
                     <FormLabel>{this.props.label}</FormLabel>
                 }
+                {
+                (this.props.label != null && this.props.label == "Email Address") ?
+                (
+                    <View style = {styles.viewContainer}>
+                        <FormInput
+                            autoCapitalize='none'
+                            clearButtonMode='while-editing'
+                            underlineColorAndroid={"#ffffff00"}
+                            placeholder={placeholder}
+                            placeholderTextColor={"#ededed"}
+                            autoFocus={autoFocus}
+                            onChangeText={onChangeText}
+                            secureTextEntry={secureTextEntry}
+                            inputStyle={styles.emailContainer}
+                            containerStyle={styles.containerStyle}
+                            value={this.props.value}/>
+                            <View style = {styles.centerme}>
+                                <Text style = {styles.textLabelContainer}>@dlsu.edu.ph</Text>
+                            </View>
+                    </View>
+                ):
                 <FormInput
                     autoCapitalize='none'
                     clearButtonMode='while-editing'
@@ -29,6 +50,7 @@ class AuthTextInput extends Component {
                     inputStyle={styles.inputContainer}
 
                     value={this.props.value}/>
+                }
                 {
                     (!isEmpty(this.props.error)) &&
                     <FormValidationMessage>

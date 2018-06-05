@@ -47,6 +47,7 @@ class Identification extends React.Component {
    }
 
     onPointSubmit(result, rewardKey, rewardPoints){
+       //Actions.replace({sceneKey: "ConfirmedScan", props: {result: result, rewardKey: rewardKey, rewardPoints: rewardPoints}})
        Actions.ConfirmedScan({result: result, rewardKey: rewardKey, rewardPoints: rewardPoints});
     }
 

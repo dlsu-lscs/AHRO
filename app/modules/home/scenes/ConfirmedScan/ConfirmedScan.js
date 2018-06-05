@@ -22,7 +22,11 @@ class ConfirmedScan extends React.Component {
     }
 
     onSubmit(){
-        Actions.Home();
+        //Actions.Home();
+        console.log("BACKKING");
+        //Actions.popTo("Home");
+        Actions.popTo("_Home");
+        //console.log(Actions.currentScene);
     }
 
     render() {
@@ -67,7 +71,7 @@ class ConfirmedScan extends React.Component {
                         <Text style = {[styles.generalText, styles.errorText]}>There was a technical error </Text>
 
                     }
-                    <Text style = {styles.generalText}>Code: {this.props.rewardKey}</Text>
+                    {/*<Text style = {styles.generalText}>Code: {this.props.rewardKey}</Text>z*/}
                     <Text style = {[styles.generalText, styles.nextText]}>Points are automatically added </Text>
                     <Text style = {styles.generalText}> to the Score.</Text>
 

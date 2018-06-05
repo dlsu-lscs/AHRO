@@ -10,12 +10,14 @@ import styles from "./styles"
 import { constants, actions as home } from "../../index"
 const { createTeam, getTeam, sendInvite, getInvites, acceptInvite } = home;
 
+import * as t from "../../actionTypes";
 // import MaterialIcons  
 // from '../../../../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
 
 //Components
 import ScanQR from "../../components/ScanQR"
 import CustomModal from "../../components/CustomModal"
+import ResponseModal from "../../components/ResponseModal"
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 const addMemberFields = [
@@ -70,6 +72,9 @@ class TeamProfile extends React.Component {
             modalCreateTeamVisible: false,
             modalAddMemberVisible: false,
             modalInviteVisible: false,
+            modalResponseVisible: false,
+            cannAddMembers: false,
+            responseText: "",
         }
 
         this.getInvites = this.getInvites.bind(this);
@@ -78,6 +83,7 @@ class TeamProfile extends React.Component {
         this.setModalCreateTeamVisible = this.setModalCreateTeamVisible.bind(this);
         this.setModalAddMemberVisible = this.setModalAddMemberVisible.bind(this);
         this.setModalInviteVisible = this.setModalInviteVisible.bind(this);
+        this.setModalResponseVisible = this.setModalResponseVisible.bind(this);
 
         this.onSubmitModalCreateTeam = this.onSubmitModalCreateTeam.bind(this);
         this.onSubmitModalAddMember = this.onSubmitModalAddMember.bind(this);
@@ -94,7 +100,9 @@ class TeamProfile extends React.Component {
     setModalAddMemberVisible(visible) {
         this.setState({modalAddMemberVisible: visible});
     }
-
+    setModalResponseVisible(visible){
+        this.setState({modalResponseVisible: visible})
+    }
     setModalInviteVisible(visible) {
         this.setState({modalInviteVisible: visible});
     }
@@ -175,11 +183,21 @@ class TeamProfile extends React.Component {
 02:50:23:     },
 02:50:23:   },
     */
-    onSuccess(team) {
+    onSuccess(team, message) {
+        if(message != null){
+            this.setState({responseText: message});
+            this.setModalResponseVisible(true);
+        }
+        
+        
         console.log("@TeamProfile.js : Success GetTeam");
         console.log(team);
         var members = [];
         var i = 1;
+        if(team.users){
+            var canadd = (Object.keys(team.users).length >= t.MAX_PLAYERS_PER_TEAM);
+        }
+        this.setState({cannAddMembers: canadd});
         Object.keys(team.users).forEach(function(key) {
             members.push( {
                 index: i,
@@ -190,13 +208,15 @@ class TeamProfile extends React.Component {
 
         var codes = 0;
         var quizzes = 0;
-        Object.keys(team.rewards).forEach(function(key) {
-            if(team.rewards[key].type.includes("QUIZ")) {
-                quizzes += team.rewards[key].point;
-            } else if(team.rewards[key].type.includes("REWARD")) {
-                codes += team.rewards[key].point;
-            } 
-        });
+        if(team.rewards != null){
+            Object.keys(team.rewards).forEach(function(key) {
+                if(team.rewards[key].type.includes("QUIZ")) {
+                    quizzes += team.rewards[key].point;
+                } else if(team.rewards[key].type.includes("REWARD")) {
+                    codes += team.rewards[key].point;
+                } 
+            });
+        }
 
         this.setState({members, loading: false, team: constants.STATE_USER_TEAM, teamName: team.teamName, codePoints: codes,
             codeQuizzes: quizzes,});
@@ -226,6 +246,12 @@ class TeamProfile extends React.Component {
     }
     
     onError(error) {
+        
+        if(error != null){
+            this.setState({responseText: error.message});
+            this.setModalResponseVisible(true);
+        }
+        
         console.log("@TeamProfile.js : Error");
         console.log(error);
 
@@ -263,6 +289,14 @@ class TeamProfile extends React.Component {
                         modalVisible={this.state.modalAddMemberVisible}
                         setVisible={this.setModalAddMemberVisible}
                         error={this.state.error}/>
+                    
+                    <ResponseModal
+                        modalText={this.state.responseText}
+                        modalVisible={this.state.modalResponseVisible}
+                        setVisible={this.setModalResponseVisible}
+                        type = ""/>
+
+                    {/* Response modal */}
 
                     {/* View invites modal */}
                     <Modal
@@ -354,13 +388,17 @@ class TeamProfile extends React.Component {
                                         // containerStyle={[styles.button]}                                        
                                         borderRadius={4}
                                     /> */}
+                                    {!(this.state.cannAddMembers) ?
                                     <TouchableOpacity 
                                         onPress={() => {
                                             this.setModalAddMemberVisible(!this.state.modalAddMemberVisible)
                                         }}
                                         style={styles.transparentTo}>
                                        <Text style={styles.transparentToText}>Add Member</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity>:
+                                    <View>
+                                    </View>
+                                    }
                                 </View>
                             }
 

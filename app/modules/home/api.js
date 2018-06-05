@@ -63,7 +63,7 @@ export function listenToUser(user, callback){
 			try{
 				reward = snapshot.val();
 				const key = snapshot.key;
-				console.log(reward);
+				//console.log(reward);
 				callback(key, reward);
 			}
 			catch(error){
@@ -153,16 +153,25 @@ export function updatePoints(reward, callback){ //needs callback
 }
 
 // Create team then add current authenticated user to the team
-export function createTeam (data, callback) {
+export function createTeam (data, callback, listenCB) {
 
-    // TODO: Check for unique team name
-    helpers.getUserDetailsPromise().then(function(user) {
-        if (user) {
+	// TODO: Check for unique team name
+	var user;
+	var newTeamKey;
+	var teamData;
+    helpers.getUserDetailsPromise().then(function(_user) {
+		user = _user;
+		//checks if team exists
+		return database.ref("teams").orderByChild("teamName").equalTo(data.team).once("value").then(function(snaphshot){
+			return snaphshot.val();
+		});
+	}).then(function (teamexist) {
+        if (user && teamexist == null && user.team == null) {
             // Get a key for the new team.
-            var newTeamKey = database.ref().child('teams').push().key;
-            
+			newTeamKey = database.ref().child('teams').push().key;
+			console.log(newTeamKey);
             // Team data
-            var teamData = {
+            teamData = {
                 team: true,
                 teamName: data.team,
                 users: {
@@ -173,7 +182,13 @@ export function createTeam (data, callback) {
                     },
                 },
             };
-            
+			//merge user points to team
+			if(user.rewards != null){
+				teamData.rewards = {}
+				Object.keys(user.rewards).map(function(key){
+					teamData.rewards[key] = {...user.rewards[key]}
+				})
+			}
             // Update user data with new team
             user['team'] = newTeamKey;
 
@@ -182,16 +197,37 @@ export function createTeam (data, callback) {
             updates['/users/' + user.uid] = user;
 
             return database.ref().update(updates);
-        } else {
-            console.error("User cannot be found.");
+		} 
+		else if(teamexist != null){
+			console.log("team name already exists");
+			callback(false, null, {message: 'Team name already taken.'});
+		}
+		else if(user.team != null){
+			console.log("you already have a team")
+			callback(false, null, {message: 'You already have a team.'});
+		}
+		else {
+			//console.error("User cannot be found.");
             callback(false, null, {message: 'User cannot be found.'});
         }
     }).then(function() {
+		console.log(newTeamKey);
+		database.ref('teams').child(newTeamKey).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				listenCB(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
         console.log("Success.");
-        callback(true, null, null);
+        callback(true, teamData, null);
     }, function(error) {
+		console.log(error);
         console.error("Error in executing get user details promise.");
-        callback(false, null, {message: error});
+        callback(false, null, {message: "Error in executing get user details promise."});
     });
 }
 
@@ -216,7 +252,7 @@ export function getTeam (callback) {
     }, function(error) {
         console.log("@api.getTeam ERROR");
         console.log(error);
-        callback(false, null, {message: error});
+        //callback(false, null, {message: error});
     });
 }
 
@@ -240,7 +276,7 @@ export function sendInvite (data, callback) {
             return snapshot.val();
         });
     }).then(function(user) {
-        if(user != null ){
+        if(user != null && user.team == null ){
             console.log('received user object');
             console.log(user);
 
@@ -249,24 +285,39 @@ export function sendInvite (data, callback) {
             return database.ref().child("/teams/" + teamId).once("value").then(function(snapshot) { 
                 return snapshot.val();
             });
-        }
+		}
+		else if (user != null && user.team != null){
+			//callback(false, null, {message: "User already belongs to a team"});
+			return Promise.reject("User already belongs to a team");
+		}
+		else{
+			//callback(false, null, {message: "User does not exist"});
+			return Promise.reject("User does not exist");
+		}
     }).then(function(team) {
         console.log('received team object');
         console.log(team);
+		console.log(Object.keys(team.users).length);
+		var teamSize = Object.keys(team.users).length;
+		if(teamSize < t.MAX_PLAYERS_PER_TEAM){
+			var updates = {};
+			updates['/users/' + sentToId + '/invites/' + teamId ] = team.teamName;
 
-        var updates = {};
-        updates['/users/' + sentToId + '/invites/' + teamId ] = team.teamName;
+			console.log(updates);
 
-        console.log(updates);
-
-        return database.ref().update(updates);
+			return database.ref().update(updates);
+		}
+		else{
+			//callback(false, null, {message: "Team size already exceeds the limit"});
+			return Promise.reject("Team size already exceeds the limit");
+		}
     }).then(function() {
         console.log("sendInvite success");
         callback(true, null, null);
     }, function(error) {
         //console.error("Error in sendInvite.");
         console.log(error);
-        callback(false, null, {message: error});
+        callback(false, null, {message: error.toString()});
     });
 }
 
@@ -292,11 +343,11 @@ export function getInvites (callback) {
     });
 }
 
-export function acceptInvite (data, callback) {
+export function acceptInvite (data, callback, listenCB) {
     console.log("@api acceptInvite");
     console.log(data);
 
-    var authUser;
+	var authUser;
     helpers.getUserDetailsPromise().then(function(user) {
         if (user) {
 
@@ -317,37 +368,56 @@ export function acceptInvite (data, callback) {
             return snapshot.val();
         });
     }).then(function(team){
-        if(authUser.rewards != null && team.rewards != null){
-            Object.keys(authUser.rewards).map(function(key){
-                if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
-                    team.rewards[key] = {...authUser.rewards[key]}
-                }
-            })
-        }
-        else if(authUser.rewards != null && team.rewards == null){
-            team.rewards = {...authUser.rewards};
-        }
-        var updates = {};
+		if(team.users && Object.keys(team.users).length >= t.MAX_PLAYERS_PER_TEAM ){
+			return Promise.reject("Team already has 3 members");
+		}
+		else{
+			if(authUser.rewards != null && team.rewards != null){
+				Object.keys(authUser.rewards).map(function(key){
+					if(team.rewards[key] != null && team.rewards[key].point < authUser.rewards[key].point){
+						team.rewards[key] = {...authUser.rewards[key]}
+					}
+					else if(team.rewards[key] == null){
+						team.rewards[key] = {...authUser.rewards[key]}
+					}
+				})
+			}
+			else if(authUser.rewards != null && team.rewards == null){
+				team.rewards = {...authUser.rewards};
+			}
+			var updates = {};
 
-        teamUser = {
-            fname: authUser.fname,
-            lname: authUser.lname,
-            member: true,
-        };
-        if(team.rewards != null && authUser.rewards != null){
-            updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
-        }
+			teamUser = {
+				fname: authUser.fname,
+				lname: authUser.lname,
+				member: true,
+			};
+			if(team.rewards != null && authUser.rewards != null){
+				updates['/teams/'+ data.id + '/rewards/'] = team.rewards;
+			}
 
-        updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
-        updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
+			updates['/users/' + authUser.uid + '/invites/' + data.id] = null;
+			updates['/teams/' + data.id + '/users/' + authUser.uid] = teamUser;
 
-        return database.ref().update(updates);
+			return database.ref().update(updates);
+		}
     }).then(function() {
+		database.ref('teams').child(data.id).child('rewards').on('child_added', function(snapshot){
+			try{
+				reward = snapshot.val();
+				const key = snapshot.key;
+				console.log(reward);
+				listenCB(key, reward);
+			}
+			catch(error){
+				console.log(error);
+			}
+		})
         console.log("Success.");
         callback(true, null, null);
     }, function(error) {
         console.log(error);
-        callback(false, null, {message: error});
+        callback(false, null, {message: error.toString});
     });
 }
 

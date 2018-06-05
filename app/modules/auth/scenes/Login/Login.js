@@ -65,7 +65,7 @@ class Login extends React.Component {
 
     onSubmit(data) {
         this.setState({error: error}); //clear out error messages
-
+        data.email = data.email+"@dlsu.edu.ph";
         this.props.login(data, this.onSuccess, this.onError, this.needVerify)
     }
 

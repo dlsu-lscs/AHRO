@@ -40,6 +40,13 @@ export function getCodes(callback){
         callback();
     }
 }
+
+export function setCameraState(val){
+    return (dispatch) => {
+        dispatch({data: val});
+    };
+}
+
 export function getLeaderBoard(callback){
     return (dispatch) => {
         api.getLeaderBoard(function(teams,users, meuser){
@@ -108,7 +115,6 @@ export function getLeaderBoard(callback){
                         aPoint = teams[key].rewards[key2].point;
                         if(teams[key].points == null){
                             teams[key].points = aPoint;
-                            console.log("GOT 1");
                         }
                         else{
                             teams[key].points += aPoint;
@@ -140,6 +146,16 @@ export function getLeaderBoard(callback){
             mixedrank = getRank(mixedarr);
             teamsrank = getRank(teamsarr);
             solorank = getRank(solosarr);
+            if(mixedarr.length > 10){
+                mixedarr = mixedarr.slice(0, 11);
+            }
+            if(teamsarr.length > 10){
+                teamsarr = teamsarr.slice(0, 11);
+            }
+            if(solosarr.length > 10){
+                solosarr = solosarr.slice(0, 11);
+            }
+
             meuser.allrank = mixedrank;
             if(meuser.team == null){
                 meuser.secondary = "Individual"
@@ -152,6 +168,7 @@ export function getLeaderBoard(callback){
             results = [solosarr,teamsarr,mixedarr,meuser];
             callback(results);
         })
+        console.log("EVERYTHING IS DONE");
     }
 }
 
@@ -189,8 +206,10 @@ export function getTime(callback){
 export function createTeam(data, successCB, errorCB) {
     return (dispatch) => {
         api.createTeam(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "Team successfully created!");
             else if (error) errorCB(error)
+        }, function(newKey, valtype){
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }
@@ -208,7 +227,7 @@ export function sendInvite(data, successCB, errorCB) {
     console.log("@sendInvite actions");
     return (dispatch) => {
         api.sendInvite(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "Invitation successfully sent!");
             else if (error) errorCB(error)
         });
     };
@@ -228,18 +247,21 @@ export function acceptInvite(data, successCB, errorCB) {
     console.log("@acceptInvite actions");
     return (dispatch) => {
         api.acceptInvite(data, function (success, data, error) {
-            if (success) successCB(data);
+            if (success) successCB(data, "You have joined the team!");
             else if (error) errorCB(error)
+        }, function(newKey, valtype){
+            dispatch({type: valtype.type, key: newKey});
         });
     };
 }
 export function getServerTime(callback){
     return (dispatch) =>{
-        var timePromise = fetch("http://www.convert-unix-time.com/api?timestamp=now");
+        //var timePromise = fetch("http://www.convert-unix-time.com/api?timestamp=now");
+        var timePromise = fetch("https://ahroadmin.herokuapp.com/api/timestamp");
         timePromise.then(function(responseJson){
             return responseJson.json();
         }).then((responseTime) => {
-            nowTime = Math.floor(Date.now()/1000)+28800; //gets time in utc to ph time
+            nowTime = Math.floor(Date.now())+28800; //gets time in utc to ph time
             serverTime = responseTime.timestamp+28800; //convert utc to ph time
             console.log(serverTime);
             console.log(nowTime);

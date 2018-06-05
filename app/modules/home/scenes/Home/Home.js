@@ -139,7 +139,6 @@ class Home extends React.Component {
                             
                         </View>
                     </View>
-
                     <View style={styles.leaderBoardContainer}>
                     {/* <View> */}
                         <Text 

@@ -8,6 +8,8 @@ export const GET_CODES = "home/GET_CODES";
 
 export const CHANGE_TIME_OFFSET = "home/CHANGE_TIME_OFFSET";
 
+export const CHANGE_CAMERA = "home/CHANGE_CAMERA";
+
 //^^API FUNCTS^^
 
 export const SUBMIT_REWARD = "home/SUBMIT_REWARD"; //too lazy to comment na
@@ -37,3 +39,7 @@ export const POINT_MULTIPLECHOICE = "multiplechoice";
 export const POINT_IDENTIFICATION = "Identification";
 
 export const POINT_INSTANT = "instant";
+
+
+//Game levels
+export const MAX_PLAYERS_PER_TEAM = 3;
