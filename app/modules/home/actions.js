@@ -47,6 +47,14 @@ export function setCameraState(val){
     };
 }
 
+export function getLeaderBoard2(callback){
+    return(dispatch) =>{
+        api.getLeaderBoard((newKey, data, type)=> {
+            dispatch({key: newKey, data: data, type: type});
+        });
+    }
+}
+
 export function getLeaderBoard(callback){
     return (dispatch) => {
         api.getLeaderBoard(function(teams,users, meuser){
@@ -262,7 +270,7 @@ export function getServerTime(callback){
             return responseJson.json();
         }).then((responseTime) => {
             nowTime = Math.floor(Date.now())+28800; //gets time in utc to ph time
-            serverTime = responseTime.timestamp+28800; //convert utc to ph time
+            serverTime = responseTime.timestamp; //convert utc to ph time
             console.log(serverTime);
             console.log(nowTime);
             var offset = serverTime - nowTime;

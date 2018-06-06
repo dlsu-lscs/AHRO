@@ -1,7 +1,18 @@
 import * as t from './actionTypes';
 import { NET_INFO_CHANGED } from 'react-native-redux-listener';
 
-let initialState = { isConnected: false, data: [], rewards:{}, quizes: {}, offset: 0, currQuiz: null, codes: {}, cameraOn: false};
+let initialState = { isConnected: false, 
+                    data: [], 
+                    rewards:{}, 
+                    quizes: {}, 
+                    offset: 0, 
+                    currQuiz: null, 
+                    codes: {}, 
+                    cameraOn: false, 
+                    individuals: [],
+                    teams: [],
+                    all: [],
+                    };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -66,6 +77,29 @@ const authReducer = (state = initialState, action) => {
 
             //console.log(statequizes)
             return {...state, quizes: statequizes};
+        case t.UPDATE_LEADERBOARD:
+            var stateleaderboard;
+            if(actions.type == t.SOLO_TYPE){
+                stateleaderboard = initialState.individuals;
+            }
+            else{
+                stateleaderboard = initialState.teams
+            }
+            if(action.key != 0){
+                if(stateleaderboard[action.key-1].points > action.data.points){
+                    action.data.rank = stateleaderboard[action.key-1].rank + 1;
+                }
+                else{
+                    action.data.rank = stateleaderboard[action.key-1].rank;
+                }
+            }
+            else{
+                action.data.rank == 1;
+            }
+            stateleaderboard[action.key] = action.data;
+            
+            console.log(action.data);
+            return {...state};
         default:
             return state;
     }

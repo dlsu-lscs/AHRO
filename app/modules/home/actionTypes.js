@@ -10,6 +10,8 @@ export const CHANGE_TIME_OFFSET = "home/CHANGE_TIME_OFFSET";
 
 export const CHANGE_CAMERA = "home/CHANGE_CAMERA";
 
+export const UPDATE_LEADERBOARD = "home/UPDATE_LEADERBOARD";
+
 //^^API FUNCTS^^
 
 export const SUBMIT_REWARD = "home/SUBMIT_REWARD"; //too lazy to comment na
@@ -43,3 +45,6 @@ export const POINT_INSTANT = "instant";
 
 //Game levels
 export const MAX_PLAYERS_PER_TEAM = 3;
+
+export const TEAM_TYPE = "team";
+export const SOLO_TYPE = "solo";

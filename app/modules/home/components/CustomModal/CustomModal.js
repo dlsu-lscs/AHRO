@@ -112,7 +112,7 @@ class CustomModal extends React.Component {
                                 onPress={() => {
                                     this.props.setVisible( !this.props.modalVisible );
                                 }}>
-                                <Text style={styles.hideModal}>Hide Modal</Text>
+                                <Text style={styles.hideModal}>Close</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                                 onPress={() => {

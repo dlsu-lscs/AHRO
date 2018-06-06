@@ -247,7 +247,7 @@ class TeamProfile extends React.Component {
     
     onError(error) {
         
-        if(error != null){
+        if(error != null && error['message'] != null && error['message'] != constants.ERROR_USER_NO_TEAM){
             this.setState({responseText: error.message});
             this.setModalResponseVisible(true);
         }
