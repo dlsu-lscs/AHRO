@@ -30,10 +30,10 @@ const authReducer = (state = initialState, action) => {
             return {...state, rewards: staterewards};
 
         case t.GET_QUIZES:
-            statequizes = initialState.quizes;
+            statequizes = state.quizes;
             statequizes[action.key] = action.data;
             statequizes[action.key].key = action.key;
-            statecurQuiz = initialState.currQuiz;
+            statecurQuiz = state.currQuiz;
 
             if(statecurQuiz == null){
                 statecurQuiz = {...action.data};
@@ -77,29 +77,6 @@ const authReducer = (state = initialState, action) => {
 
             //console.log(statequizes)
             return {...state, quizes: statequizes};
-        case t.UPDATE_LEADERBOARD:
-            var stateleaderboard;
-            if(actions.type == t.SOLO_TYPE){
-                stateleaderboard = initialState.individuals;
-            }
-            else{
-                stateleaderboard = initialState.teams
-            }
-            if(action.key != 0){
-                if(stateleaderboard[action.key-1].points > action.data.points){
-                    action.data.rank = stateleaderboard[action.key-1].rank + 1;
-                }
-                else{
-                    action.data.rank = stateleaderboard[action.key-1].rank;
-                }
-            }
-            else{
-                action.data.rank == 1;
-            }
-            stateleaderboard[action.key] = action.data;
-            
-            console.log(action.data);
-            return {...state};
         default:
             return state;
     }

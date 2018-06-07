@@ -13,7 +13,7 @@ class QuizComponent extends Component {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
         this.syncTime = this.syncTime.bind(this);
-        var nextQuiz = props.quiz;
+        var nextQuiz = this.props.quiz;
         this.state = {
             quiz: nextQuiz,
             canAnswer: false, //is within timerange
@@ -24,6 +24,7 @@ class QuizComponent extends Component {
         }
         
         this.timer = setInterval(() => {
+            nextQuiz = this.props.quiz;
             getTimeInterval(nextQuiz,this.syncTime,props.offset,props.quizes);
         }, 1000);
         

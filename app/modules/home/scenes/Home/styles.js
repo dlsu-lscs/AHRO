@@ -4,12 +4,29 @@ const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
 const resizeMode = 'contain';
 
+var { Dimensions } = require('react-native')
+
+
+const {width, height} = Dimensions.get("window");
+
 const styles = StyleSheet.create({
     container:{
         flex:1,
         paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
     },
+    loader:{
+        width: "300%", 
+        height: "300%",
+        position: 'absolute', 
+        backgroundColor: "rgba(0,0,0,0.5)",
+    },
 
+    activityIndicator: {
+        position: 'absolute',
+        top: height * 2 / 3,
+        left: width / 2 - 13,
+    },
+    
     content:{
         // flex: 0,
         flex: 1,
@@ -98,6 +115,15 @@ const styles = StyleSheet.create({
 
     leaderBoardContainer: {
         flex: 1,
+        
+    },
+    leaderContainer:{
+        flexDirection: 'row',
+    },
+    refreshStyle: {
+        marginLeft: 5,
+        justifyContent:"center",
+        alignItems:"center",
     },
 
     leaderBoardText:{

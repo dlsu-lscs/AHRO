@@ -10,7 +10,6 @@ export const CHANGE_TIME_OFFSET = "home/CHANGE_TIME_OFFSET";
 
 export const CHANGE_CAMERA = "home/CHANGE_CAMERA";
 
-export const UPDATE_LEADERBOARD = "home/UPDATE_LEADERBOARD";
 
 //^^API FUNCTS^^
 

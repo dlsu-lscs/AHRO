@@ -57,20 +57,6 @@ export function getPoints(callback){
 	})
 }
 
-export function getLeaderBoard2(callback){
-	for (i = 0; i < 10; i++){
-		database.ref('leaderboards/solo/data/'+i).on("value", function(snaphshot){
-			data = snaphshot.val();
-			callback(i, data,t.SOLO_TYPE);
-		})
-	}
-	for (i = 0; i < 10; i++){
-		database.ref('leaderboards/team/data/'+i).on("value", function(snaphshot){
-			data = snaphshot.val();
-			callback(i, data,t.TEAM_TYPE);
-		})
-	}
-}
 export function listenToUser(user, callback){
 	if(user.team != null){
 		database.ref('teams').child(user.team).child('rewards').on('child_added', function(snapshot){

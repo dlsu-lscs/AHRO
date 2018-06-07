@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     leaderBoardTextView:{
         flex: 1,
         width: "50%",
+        flexDirection: "row",
     },
     leaderBoardText:{
         color: color.white,
