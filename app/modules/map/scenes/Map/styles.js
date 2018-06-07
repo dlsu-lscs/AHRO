@@ -39,7 +39,11 @@ const styles = StyleSheet.create({
 
 
 
-
+    EmptyListContainer : {
+        justifyContent: 'center',
+        flex:1,
+        alignItems: "center"
+    },
 
 
     MainContainer :{

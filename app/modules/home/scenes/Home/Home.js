@@ -54,6 +54,14 @@ class Home extends React.Component {
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
         this.textPress = this.textPress.bind(this);
         this.onCode = this.onCode.bind(this);
+
+        this.state.registered = false;
+        if(!this.state.registered){
+            registerForPushNotificationsAsync().then((data)=>{
+                console.log(data)
+            });
+            this.state.registered = true
+        }
     }
 
     onSignOut() {
