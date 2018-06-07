@@ -47,6 +47,7 @@ export function setCameraState(val){
     };
 }
 
+
 export function getLeaderBoard(callback){
     return (dispatch) => {
         api.getLeaderBoard(function(teams,users, meuser){
@@ -261,8 +262,8 @@ export function getServerTime(callback){
         timePromise.then(function(responseJson){
             return responseJson.json();
         }).then((responseTime) => {
-            nowTime = Math.floor(Date.now())+28800; //gets time in utc to ph time
-            serverTime = responseTime.timestamp+28800; //convert utc to ph time
+            nowTime = Math.floor(Date.now()/1000); //gets time in utc to ph time
+            serverTime = Math.floor(responseTime.timestamp/1000); //convert utc to ph time
             console.log(serverTime);
             console.log(nowTime);
             var offset = serverTime - nowTime;
@@ -276,7 +277,7 @@ export function getServerTime(callback){
 
 export function getTimeInterval(nextQuiz,callback,offset,quizes){
     if(nextQuiz != null){
-        nowTime = Math.floor(Date.now()/1000)+28800+offset;
+        nowTime = Math.floor(Date.now()/1000)+offset;
         timeLeft = nextQuiz.timeend - nowTime;
         timeHas = nextQuiz.timestart - nowTime;
         if(timeLeft > 0 && timeHas <= 0){

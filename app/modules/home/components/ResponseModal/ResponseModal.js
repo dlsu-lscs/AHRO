@@ -44,7 +44,7 @@ class ResponseModal extends React.Component {
                                     console.log("POP");
                                     this.props.setVisible( !this.props.modalVisible );
                                 }}>
-                                <Text style={styles.submitModal}>Hide Modal</Text>
+                                <Text style={styles.submitModal}>Close</Text>
                             </TouchableHighlight>
                         </View>
                     </View>

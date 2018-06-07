@@ -18,7 +18,7 @@ import moment from 'moment'
 import TeamCard from "../../components/TeamCard"
 
 import QuizComponent from "../../components/QuizComponent"
-
+import { FontAwesome } from "@expo/vector-icons"
 class Leaderboard extends React.Component {
     constructor(props){
         super(props);
@@ -42,11 +42,15 @@ class Leaderboard extends React.Component {
         
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
         this.textPress = this.textPress.bind(this);
+        this.refreshLeaderboard = this.refreshLeaderboard.bind(this);
     }
     componentDidMount() {
         this.props.getLeaderBoard(this.gotLeaderBoard);
     }
 
+    refreshLeaderboard(){
+        this.props.getLeaderBoard(this.gotLeaderBoard);
+    }
     gotLeaderBoard(results){
         this.setState({solos: results[0]});
         this.setState({teams: results[1]});
@@ -76,6 +80,8 @@ class Leaderboard extends React.Component {
                             style = {styles.leaderBoardText}
                             onPress = {this.textPress}
                         >Leaderboard</Text>
+                        <Text>RIP</Text>
+                        <FontAwesome name="refresh" size={23} color="#00d080" />
                     </View>
                     <View style = {styles.filterView}>
                         <View style = {styles.ButtonView}>

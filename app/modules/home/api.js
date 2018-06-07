@@ -247,6 +247,7 @@ export function getTeam (callback) {
             console.log("Success.");
             callback(true, team, null);
         } else {
+			console.log("NO TEMA HAHA");
             callback(false, null, {message: constants.ERROR_USER_NO_TEAM});
         }
     }, function(error) {

@@ -1,5 +1,5 @@
 import React from 'react';
-var { View, Image, TouchableOpacity, Text, StyleSheet, Alert, ImageBackground, KeyboardAvoidingView, FlatList, TouchableOpacity } = require('react-native');
+var { View, Image, TouchableOpacity, Text, StyleSheet, Alert, ImageBackground, KeyboardAvoidingView, FlatList, TouchableOpacity,ScrollView, ActivityIndicator } = require('react-native');
 
 import {Button, FormInput} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
@@ -21,6 +21,7 @@ import moment from 'moment'
 import TeamCard from "../../components/TeamCard"
 import QuizComponent from "../../components/QuizComponent"
 
+import { FontAwesome } from "@expo/vector-icons"
 
 
 class Home extends React.Component {
@@ -48,13 +49,13 @@ class Home extends React.Component {
                 allrank: 0,
                 secondary: "",
                 secondaryrank: 0,
+                loading: true,
             }
         }
         
         this.gotLeaderBoard = this.gotLeaderBoard.bind(this);
         this.textPress = this.textPress.bind(this);
         this.onCode = this.onCode.bind(this);
-
         this.state.registered = false;
         if(!this.state.registered){
             registerForPushNotificationsAsync().then((data)=>{
@@ -62,6 +63,7 @@ class Home extends React.Component {
             });
             this.state.registered = true
         }
+        this.refreshLeaderboard = this.refreshLeaderboard.bind(this);
     }
 
     onSignOut() {
@@ -86,6 +88,10 @@ class Home extends React.Component {
         registerForPushNotificationsAsync();
         this.props.getLeaderBoard(this.gotLeaderBoard);
     }
+    refreshLeaderboard(){
+        this.setState({loading: true});
+        this.props.getLeaderBoard(this.gotLeaderBoard);
+    }
 
     gotLeaderBoard(results){
         this.setState({solos: results[0]});
@@ -93,6 +99,7 @@ class Home extends React.Component {
         this.setState({mixed: results[2]});
         this.setState({meuser: results[3]})
         this.setState({data: {...this.state.mixed}});
+        this.setState({loading: false});
     }
 
     textPress(){
@@ -104,6 +111,8 @@ class Home extends React.Component {
             <ImageBackground 
                 source = {require('../../../../assets/images/theme-bg.png')}
                 style={styles.container}>
+
+
                 <View style={styles.content}>
                     <View style={styles.topContainer}>
                         <View style={styles.leftContainer}>
@@ -149,11 +158,16 @@ class Home extends React.Component {
                     </View>
                     <View style={styles.leaderBoardContainer}>
                     {/* <View> */}
-                        <Text 
-                            style={styles.leaderBoardText}
-                            onPress={this.textPress}>
-                            Leaderboard
-                        </Text>
+                        <View style = {styles.leaderContainer}>
+                            <Text 
+                                style={styles.leaderBoardText}
+                                onPress={this.textPress}>
+                                Leaderboard
+                            </Text>
+                            <TouchableOpacity style ={styles.refreshStyle} onPress = {this.refreshLeaderboard} >
+                                <FontAwesome name="refresh" size={18} color="#00d080" />
+                            </TouchableOpacity>
+                        </View>
                         {/* <View style = {styles.topNav}> */}
                             <View style = {styles.filterView}>
                                 <View style = {styles.buttonView}>
@@ -252,6 +266,15 @@ class Home extends React.Component {
                         <QuizComponent />
                     </View>                    
                 </View>
+                {this.state.loading ?
+                <View style={styles.loader}>
+                    <ActivityIndicator style={styles.activityIndicator}
+                                       animating={true}
+                                       size="large" color="#17cba6"/>
+                </View>:
+                <View>
+                </View>
+                }
             </ImageBackground>
         );
     }
