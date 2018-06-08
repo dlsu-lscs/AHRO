@@ -277,7 +277,6 @@ export function getServerTime(callback){
 
 export function getTimeInterval(nextQuiz,callback,offset,quizes){
     if(nextQuiz != null){
-        console.log(nextQuiz);
         nowTime = Math.floor(Date.now()/1000)+offset;
         timeLeft = nextQuiz.timeend - nowTime;
         timeHas = nextQuiz.timestart - nowTime;
