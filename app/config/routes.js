@@ -144,7 +144,7 @@ export default class extends React.Component {
 
 
     render() {
-        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady || !this.state.timeReady ||  !this.state.pointsReady || !this.state.codesReady)
+        if (!this.state.isReady || !this.state.rewardsReady || !this.state.quizesReady ||/* !this.state.timeReady ||*/  !this.state.pointsReady || !this.state.codesReady)
             return <Splash/>
 
         return (

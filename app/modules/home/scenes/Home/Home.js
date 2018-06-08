@@ -144,11 +144,13 @@ class Home extends React.Component {
                             </View>
                             <View style={styles.pointContainer}>
                                 <Text style={[styles.pointLabel]}>{this.state.meuser.secondary} Rank: </Text>
-                                <Text style={[styles.points]}>{this.state.meuser.secondaryrank}</Text>
+                                {/*<Text style={[styles.points]}>{this.state.meuser.secondaryrank}</Text>*/}
+                                <Text style={[styles.points]}>Hidden</Text>
                             </View>
                             <View style={styles.pointContainer}>
                                 <Text style={[styles.pointLabel, styles.pointEmphasis]}>OVERALL RANK: </Text>
-                                <Text style={[styles.points, styles.pointEmphasis]}>{this.state.meuser.allrank}</Text>
+                                {/*<Text style={[styles.points, styles.pointEmphasis]}>{this.state.meuser.allrank}</Text>*/}
+                                <Text style={[styles.points, styles.pointEmphasis]}>Hidden</Text>
                             </View>
 
                             {/* <Text style={[styles.genText]}>{this.state.meuser.secondary} Rank: {this.state.meuser.secondaryrank}</Text> */}
@@ -222,7 +224,8 @@ class Home extends React.Component {
                         {/* </View> */}
 
                         <View style = {styles.board} >
-                            {(this.state.isTeam == 1) ?
+                            {/*
+                            (this.state.isTeam == 1) ?
                             <FlatList
                             // contentContainerStyle={ {alignItems: 'center',} }    
                             contentContainerStyle={ {width: '100%', alignItems: 'center',} }    
@@ -261,7 +264,11 @@ class Home extends React.Component {
                                     />
                                 }
                             />
-                            }
+                            */}
+                            <Text style = {styles.check}>Find QR codes from pubs and EXECOM IDs</Text>
+                            <Text style = {styles.check}>7:00 p.m. - Scorebored is hidden for suspense</Text>
+                            <Text style = {styles.check}>8:15 p.m. - Evaluating of winners</Text>
+                            <Text style = {styles.check}>8:40 p.m. - Announcement of winners</Text>
                         </View>
                         <QuizComponent />
                     </View>                    

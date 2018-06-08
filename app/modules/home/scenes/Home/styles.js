@@ -191,6 +191,10 @@ const styles = StyleSheet.create({
         flex: 1,
         // height: 200,
     },
+    check: {
+        color: color.mainGreen,
+        
+    }
 });
 
 export default styles;

@@ -276,7 +276,7 @@ class TeamProfile extends React.Component {
 
                     {/* Create team modal */}
                     <CustomModal fields={createTeamFields}
-                        modalText={"Enter the name of your new team below:"}
+                        modalText={"Enter the name of your new team below\n take note that you can't leave a team once you're in one"}
                         onSubmit={this.onSubmitModalCreateTeam}
                         modalVisible={this.state.modalCreateTeamVisible}
                         setVisible={this.setModalCreateTeamVisible}
@@ -284,7 +284,7 @@ class TeamProfile extends React.Component {
 
                     {/* Add member modal */}
                     <CustomModal fields={addMemberFields}
-                        modalText={"Enter the username of the user you want to add to your team:"}
+                        modalText={"Enter the username of the user you want to add to your team\n take note that you can't leave a team once you're in one"}
                         onSubmit={this.onSubmitModalAddMember}
                         modalVisible={this.state.modalAddMemberVisible}
                         setVisible={this.setModalAddMemberVisible}
