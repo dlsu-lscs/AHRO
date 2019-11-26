@@ -1,22 +1,46 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { theme } from "../../index"
 const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
+    kav: {
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    
     container:{
-        flex:1,
-        backgroundColor: color.white
+        flex:1, // child must have defined sizes
+        alignItems: 'center',
+        justifyContent: 'center',
+        // paddingTop: (Platform.OS) === 'ios' ? 0 : 20,
+        // paddingTop: (Platform.OS) === 'ios' ? 20 : 0,
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
+    },
+
+    linearGradient:{
+        flex: 1,
+        paddingTop: (Platform.OS) === 'ios' ? 0 : 24,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
 
     topContainer:{
-        flex:1,
-        paddingHorizontal:15,
-        paddingBottom: padding * 2,
+        marginTop: 12,
+        paddingHorizontal: 12,
+        // flex:1,
+        height: 50,
         justifyContent:"center",
-        alignItems:"center",
-        backgroundColor: "#FF553F",
+        alignItems:"flex-start",
+        // backgroundColor: "#FF553F",
+        width: windowWidth - 60,
     },
 
     image:{
@@ -27,12 +51,31 @@ const styles = StyleSheet.create({
         resizeMode
     },
 
+    titleContainer:{
+        width: "100%",
+        paddingHorizontal: 12,
+        // backgroundColor: "powderblue",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        marginBottom: padding + 18,
+    },
+
     title:{
-        fontSize: fontSize.large + 2,
-        lineHeight: fontSize.large + 4,
-        fontFamily: fontFamily.bold,
+        // fontSize: fontSize.large + 2,
+        fontSize: fontSize.larger,
+        lineHeight: fontSize.larger + 5,
+        fontFamily: fontFamily.heavy,
         color:color.white,
-        letterSpacing: 1
+        marginBottom: 5,
+    },
+
+    subTitle:{
+        // fontSize: fontSize.large + 2,
+        fontSize: fontSize.regular,
+        // lineHeight: fontSize.regular + 4,
+        fontFamily: fontFamily.regular,
+        color:color.white,
+        // letterSpacing: 1
     },
 
     subText:{
@@ -44,25 +87,82 @@ const styles = StyleSheet.create({
 
     //===============================
 
+    logoContainerLeft:{
+        flex: 2,
+        // paddingTop: padding * 3,
+        //  backgroundColor: "#4d4",
+        width: windowWidth - 80,
+        justifyContent: "center",
+        alignItems: 'center',
+        height: 150
+    },
+
+    logoContainerRight:{
+        height: "100%",
+        flex: 1,
+        width: 60,
+        // paddingTop: padding * 3,
+        // backgroundColor: "#d44",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
+    },
+
+    logoContainer:{
+        flex: 3,
+        paddingTop: padding * 3,
+        //  backgroundColor: "#000",
+        width: windowWidth,
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
+    },
+
+    logo:{
+        width: "65%",
+        resizeMode: "contain",
+    },
+    logoRight:{
+        width: 50,
+        height: 50,
+        resizeMode: "contain",
+    },
+
+    //===============================
+    completeProfileContainer:{
+        flex: 1,
+        width: windowWidth,
+        justifyContent:"center",
+        alignItems:"center",
+        height: "100%",
+    },
+
     bottomContainer:{
-        backgroundColor:"white",
-        paddingVertical: padding * 3,
-        shadowColor: "#000000",
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 1,
-            width: 0
-        }
+        // backgroundColor:"green",
+        flex: 10,
+        paddingVertical: padding,
+        width: windowWidth,
+        // paddingHorizontal: padding * 3,
+        // shadowColor: "#000000",
+        // shadowOpacity: 0.8,
+        // shadowRadius: 2,
+        // shadowOffset: {
+        //     height: 1,
+        //     width: 0
+        // },
+        justifyContent: "flex-start",
+        alignItems: "center",
     },
 
     buttonContainer:{
+        // backgroundColor: "pink",
+        width: windowWidth - 60,
         justifyContent:"center",
         alignItems:"center"
     },
 
     containerView:{
-        width: windowWidth - 40
+        // width: windowWidth - 40
     },
 
     socialButton:{
@@ -78,28 +178,29 @@ const styles = StyleSheet.create({
     },
 
     buttonText:{
-        fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.medium
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular
     },
 
     bottom:{
         flexDirection: "row",
         justifyContent:"center",
         alignItems:"center",
-        marginTop: padding * 2
+        marginTop: padding * 2,
     },
 
     bottomText:{
         fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
+        fontFamily: fontFamily.regular,
         marginRight: 5,
-        color: "#414141"
+        color: "#fff",
+        textDecorationLine: "underline",
     },
 
     signInText:{
         fontSize: fontSize.regular,
         color: "#FF553F",
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.regular
     },
 
     orContainer:{
@@ -120,9 +221,17 @@ const styles = StyleSheet.create({
     orText:{
         backgroundColor: color.white,
         fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
+        fontFamily: fontFamily.regular,
         color: "#414141",
         paddingHorizontal: padding
+    },
+
+    toContinue:{
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.regular,
+        marginTop: 15,
+        color:color.mainGreen,
+        // letterSpacing: 1,
     }
 });
 

@@ -1,20 +1,20 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import {View, Text, ActivityIndicator, Image, ImageBackground} from 'react-native';
 
 import styles from './styles'
 
 export default class extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    <Image style={styles.image} source={{uri: ""}}/>
-                    <Text style={styles.title}>Quotes</Text>
+            <ImageBackground style={styles.container}
+                             source={ require('../../assets/images/splash-screen.png') }
+            >
+                <View style={{flex:1}}>
+                    <ActivityIndicator style={styles.activityIndicator}
+                                       animating={true}
+                                       size="large" color="#17cba6"/>
                 </View>
-                <View style={styles.activityIndicatorContainer}>
-                    <ActivityIndicator animating={true}/>
-                </View>
-            </View>
+            </ImageBackground>
         );
     }
 }

@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import { actions as auth } from "../../index"
 const { createUser } = auth;
 
+import {Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
+
+// var {ImageBackground } = require('react-native');
 import Form from "../../components/Form"
+import styles from "../Welcome/styles"
+
 
 const fields = [
     {
@@ -16,12 +21,43 @@ const fields = [
         secureTextEntry: false,
         value: "",
         type: "text"
-    }
+    },
+    {
+        key: 'fname',
+        label: "First Name",
+        placeholder: "First Name",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+    {
+        key: 'lname',
+        label: "Last Name",
+        placeholder: "Last Name",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+    {
+        key: 'idnumber',
+        label: "I.D. number",
+        placeholder: "I.D. number",
+        autoFocus: false,
+        secureTextEntry: false,
+        value: "",
+        type: "text"
+    },
+
 ];
 
 const error = {
     general: "",
-    username: ""
+    username: "",
+    fname: "",
+    lname: "",
+    idnumber: ""
 }
 
 class CompleteProfile extends React.Component {
@@ -42,7 +78,7 @@ class CompleteProfile extends React.Component {
         //attach user id
         const { user } = this.props;
         data['uid'] = user.uid;
-
+        
         this.props.createUser(data, this.onSuccess, this.onError)
     }
 
@@ -67,11 +103,34 @@ class CompleteProfile extends React.Component {
 
     render() {
         return (
-                <Form fields={fields}
-                      showLabel={false}
-                      onSubmit={this.onSubmit}
-                      buttonTitle={"CONTINUE"}
-                      error={this.state.error}/>
+            <ImageBackground 
+                source = {require('../../../../assets/images/theme-bg.png')}
+                style = {{width: "100%", height: "100%", flex: 1, justifyContent: "center", alignItems: "center", }}>
+                <View style={styles.completeProfileContainer}>
+                    <View style={[styles.buttonContainer]}>
+                        <View style={[styles.titleContainer]}>
+                            <Text style={[styles.title]}>Complete Profile</Text>
+                            <Text style={[styles.subTitle]}>You're now only one step away from completing your registration! Please fill in the details below.</Text>
+                        </View>
+                        <Form fields={fields}
+                            showLabel={false}
+                            onSubmit={this.onSubmit}
+                            buttonTitle={"CONTINUE"}
+                            error={this.state.error}/>
+                        {/* <Button
+                            raised
+                            borderRadius={4}
+                            title={'SIGN UP WITH E-MAIL'}
+                            containerViewStyle={[styles.containerView]}
+                            buttonStyle={[styles.button]}
+                            textStyle={styles.buttonText}
+                            onPress={Actions.Register}/> */}
+                    </View>
+                    <View style={styles.bottom}>
+
+                    </View>
+                </View>
+            </ImageBackground>
         );
     }
 }

@@ -2,13 +2,19 @@ import { StyleSheet } from 'react-native';
 
 import { color, fontFamily, padding, fontSize } from "../../styles/theme"
 
+
+var { Dimensions } = require('react-native')
+
+
+const {width, height} = Dimensions.get("window");
+
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
         backgroundColor: color.white
     },
 
@@ -32,23 +38,26 @@ const styles = StyleSheet.create({
         lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
         color: "#FF553F",
-        letterSpacing: 1
+        // letterSpacing: 1
     },
 
     activityIndicatorContainer: {
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        bottom: 16,
-        height: 50
+
     },
 
     activityIndicator: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 80
-    }
+        position: 'absolute',
+        top: height * 2 / 3,
+        left: width / 2 - 13,
+    },
+    
+    logo:{
+        width: "55%",
+        resizeMode: "contain",
+    },
 });
 
 

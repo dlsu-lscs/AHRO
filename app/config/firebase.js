@@ -15,8 +15,11 @@ var config = {
 
 firebase.initializeApp(config);
 
+ const Firebase = require('firebase');
+
 // This code creates an instance of the Firebase SDK and configures it with your config. Now you can import it anywhere in your codebase and it’s always this singleton.
 //     When you see firebase from now on, assume that it’s imported from here.
 
 export const database = firebase.database();
+export const startTime = Firebase.database.ServerValue.TIMESTAMP;
 export const auth = firebase.auth();
